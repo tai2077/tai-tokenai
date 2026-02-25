@@ -1,9 +1,12 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- 
-    Pixel Art Taiji Logo 
-    Theme: Cyberpunk / Retro Gaming
-    Colors: #00FF41 (Neon Green), #FFD700 (Gold), #0A0A0C (Deep Black)
+    Taiji Logo - Cyberpunk/Web3 Style
+    Core: Clear Classic Taiji (☯️) with S-curve and Dots
+    Colors: #0A0A0C (Background), #00FF41 (Neon Green), #FFD700 (Gold accent)
   -->
+
+  <!-- Background Base (Deep Black) -->
+  <rect width="64" height="64" fill="#0A0A0C" />
 
   <!-- Outer Glow Filter -->
   <defs>
@@ -14,98 +17,46 @@
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
+    
+    <!-- Pattern to give a subtle pixel grid overlay to maintaining the retro feel -->
+    <pattern id="pixel-grid" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="none" />
+      <path d="M 4 0 L 0 0 0 4" fill="none" stroke="#00FF41" stroke-width="0.3" stroke-opacity="0.2"/>
+    </pattern>
   </defs>
 
-  <!-- Base Black Background to provide contrast for glow in dark theme -->
-  <rect width="64" height="64" fill="#0A0A0C" />
-
   <g filter="url(#neon-glow)">
-    <!-- Outer Pixel Circle Boundary (Neon Green) -->
-    <!-- Top & Bottom Flats -->
-    <rect x="22" y="4" width="20" height="2" fill="#00FF41" />
-    <rect x="22" y="58" width="20" height="2" fill="#00FF41" />
+    <!-- Outer Neon Ring -->
+    <circle cx="32" cy="32" r="28" fill="none" stroke="#00FF41" stroke-width="2" />
     
-    <!-- Left & Right Flats -->
-    <rect x="4" y="22" width="2" height="20" fill="#00FF41" />
-    <rect x="58" y="22" width="2" height="20" fill="#00FF41" />
-
-    <!-- Top Left Curve -->
-    <rect x="14" y="6" width="8" height="2" fill="#00FF41" />
-    <rect x="10" y="8" width="4" height="2" fill="#00FF41" />
-    <rect x="8" y="10" width="2" height="4" fill="#00FF41" />
-    <rect x="6" y="14" width="2" height="8" fill="#00FF41" />
-
-    <!-- Top Right Curve -->
-    <rect x="42" y="6" width="8" height="2" fill="#00FF41" />
-    <rect x="50" y="8" width="4" height="2" fill="#00FF41" />
-    <rect x="54" y="10" width="2" height="4" fill="#00FF41" />
-    <rect x="56" y="14" width="2" height="8" fill="#00FF41" />
-
-    <!-- Bottom Left Curve -->
-    <rect x="14" y="56" width="8" height="2" fill="#00FF41" />
-    <rect x="10" y="54" width="4" height="2" fill="#00FF41" />
-    <rect x="8" y="50" width="2" height="4" fill="#00FF41" />
-    <rect x="6" y="42" width="2" height="8" fill="#00FF41" />
-
-    <!-- Bottom Right Curve -->
-    <rect x="42" y="56" width="8" height="2" fill="#00FF41" />
-    <rect x="50" y="54" width="4" height="2" fill="#00FF41" />
-    <rect x="54" y="50" width="2" height="4" fill="#00FF41" />
-    <rect x="56" y="42" width="2" height="8" fill="#00FF41" />
-
-
-    <!-- Ying Yang Inner Sections -->
-    <!-- Top Semi-Circle (Filled #00FF41) -->
-    <path d="M 32 6 
-             A 26 26 0 0 1 58 32
-             L 32 32 Z" fill="#00FF41" />
-    <!-- Bottom Semi-Circle (Black inside green boundary is implied, we add solid black to wipe the path) -->
-    <path d="M 6 32 
-             A 26 26 0 0 0 32 58
-             L 32 32 Z" fill="#0A0A0C" />
-    <!-- Left Top Quadrant (Solid Green) -->
-    <path d="M 6 32
-             A 26 26 0 0 1 32 6
-             L 32 32 Z" fill="#00FF41" />
-    <!-- Right Bottom Quadrant (Solid Black) -->
-    <path d="M 32 32
-             A 26 26 0 0 1 58 32
-             A 26 26 0 0 1 32 58 Z" fill="#0A0A0C" />
-
-    <!-- Pixel Art Taiji Core (Pixel 'S' curve implied by squares blocks) -->
-    <!-- The Taiji divider is not a smooth S but a pixelated staircase -->
-    <!-- Clear horizontal midline to make room for the inner heads -->
-    <rect x="6" y="32" width="52" height="26" fill="#0A0A0C" />
-    <rect x="6" y="6" width="52" height="26" fill="#00FF41" />
+    <!-- Left Half (Green Body) -->
+    <path d="M 32 4 A 28 28 0 0 0 32 60 Z" fill="#00FF41" />
     
-    <!-- Top inner head (Black background pushing into Green) -->
-    <rect x="22" y="16" width="16" height="16" fill="#0A0A0C" />
-    <rect x="20" y="18" width="2" height="12" fill="#0A0A0C" />
-    <rect x="38" y="18" width="2" height="12" fill="#0A0A0C" />
-    <rect x="24" y="14" width="12" height="2" fill="#0A0A0C" />
-    <rect x="24" y="32" width="12" height="2" fill="#0A0A0C" />
+    <!-- Right Half (Black Body) -->
+    <!-- It's actually empty/transparent showing the #0A0A0C background, but we'll fill it explicitly -->
+    <path d="M 32 4 A 28 28 0 0 1 32 60 Z" fill="#0A0A0C" />
 
-    <!-- Top inner eye (Gold) -->
-    <rect x="26" y="20" width="8" height="8" fill="#FFD700" />
-    <rect x="24" y="22" width="2" height="4" fill="#FFD700" />
-    <rect x="34" y="22" width="2" height="4" fill="#FFD700" />
+    <!-- Classic Taiji 'S' Curve via two perfect semi-circles -->
+    <!-- Top Semi-Circle (Black pushing into Green left half) -->
+    <circle cx="32" cy="18" r="14" fill="#0A0A0C" />
+    
+    <!-- Bottom Semi-Circle (Green pushing into Black right half) -->
+    <circle cx="32" cy="46" r="14" fill="#00FF41" />
 
-    <!-- Bottom inner head (Green background pushing into Black) -->
-    <rect x="26" y="32" width="16" height="16" fill="#00FF41" />
-    <rect x="24" y="34" width="2" height="12" fill="#00FF41" />
-    <rect x="42" y="34" width="2" height="12" fill="#00FF41" />
-    <rect x="28" y="30" width="12" height="2" fill="#00FF41" />
-    <rect x="28" y="48" width="12" height="2" fill="#00FF41" />
-
-    <!-- Bottom inner eye (Deep Black) inside Green head -->
-    <rect x="30" y="36" width="8" height="8" fill="#0A0A0C" />
-    <rect x="28" y="38" width="2" height="4" fill="#0A0A0C" />
-    <rect x="38" y="38" width="2" height="4" fill="#0A0A0C" />
-
+    <!-- Taiji 'Fish Eyes' (Dots) -->
+    <!-- Top Dot (Inside Black Semi-Circle) -> Gold Accent -->
+    <circle cx="32" cy="18" r="4" fill="#FFD700" />
+    
+    <!-- Bottom Dot (Inside Green Semi-Circle) -> Deep Black -->
+    <circle cx="32" cy="46" r="4" fill="#0A0A0C" />
+    
+    <!-- Inner Accent for the Bottom Dot (Tiny Gold Pixel/Square) -->
+    <rect x="31" y="45" width="2" height="2" fill="#FFD700" />
+    
+    <!-- Inner Accent for the Top Dot (Tiny Green Pixel/Square) -->
+    <rect x="31" y="17" width="2" height="2" fill="#00FF41" />
   </g>
 
-  <!-- Accent Pixels (Gold Glitch Effects) -->
-  <rect x="12" y="12" width="2" height="2" fill="#FFD700" />
-  <rect x="52" y="48" width="4" height="2" fill="#FFD700" />
-  <rect x="46" y="14" width="2" height="4" fill="#FFD700" />
+  <!-- Apply subtle pixel grid overlay just on the green half to keep the web3/retro vibe -->
+  <path d="M 32 4 A 28 28 0 0 0 32 60 Z" fill="url(#pixel-grid)" opacity="0.8" />
 </svg>
