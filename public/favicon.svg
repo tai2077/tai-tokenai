@@ -1,62 +1,53 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- 
-    Taiji Logo - Cyberpunk/Web3 Style
-    Core: Clear Classic Taiji (☯️) with S-curve and Dots
-    Colors: #0A0A0C (Background), #00FF41 (Neon Green), #FFD700 (Gold accent)
+    Taiji Logo - Ultimate Cyberpunk/Web3 Style
+    Core: Pure Taiji (☯️)
+    Colors: #0A0A0C (Deep Black), #00FF41 (Neon Green) only. No distractions.
   -->
 
-  <!-- Background Base (Deep Black) -->
-  <rect width="64" height="64" fill="#0A0A0C" />
-
-  <!-- Outer Glow Filter -->
   <defs>
-    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
+    <!-- Strong Neon Glow matching the website's CSS .glow-text profile -->
+    <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur1" />
+      <feGaussianBlur stdDeviation="6" result="blur2" />
       <feMerge>
-        <feMergeNode in="blur" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
-    
-    <!-- Pattern to give a subtle pixel grid overlay to maintaining the retro feel -->
-    <pattern id="pixel-grid" width="4" height="4" patternUnits="userSpaceOnUse">
-      <rect width="4" height="4" fill="none" />
-      <path d="M 4 0 L 0 0 0 4" fill="none" stroke="#00FF41" stroke-width="0.3" stroke-opacity="0.2"/>
-    </pattern>
   </defs>
 
+  <!-- Base Black Background -->
+  <rect width="64" height="64" rx="12" fill="#0A0A0C" />
+
   <g filter="url(#neon-glow)">
-    <!-- Outer Neon Ring -->
-    <circle cx="32" cy="32" r="28" fill="none" stroke="#00FF41" stroke-width="2" />
+    <!-- Outer Solid Neon Ring (Frame) -->
+    <!-- Creating a pure glowing perimeter -->
+    <circle cx="32" cy="32" r="24" fill="none" stroke="#00FF41" stroke-width="3" />
     
-    <!-- Left Half (Green Body) -->
-    <path d="M 32 4 A 28 28 0 0 0 32 60 Z" fill="#00FF41" />
+    <!-- === Core Taiji Structure === -->
     
-    <!-- Right Half (Black Body) -->
-    <!-- It's actually empty/transparent showing the #0A0A0C background, but we'll fill it explicitly -->
-    <path d="M 32 4 A 28 28 0 0 1 32 60 Z" fill="#0A0A0C" />
+    <!-- Left Half (Solid Green Body) -->
+    <path d="M 32 8 A 24 24 0 0 0 32 56 Z" fill="#00FF41" />
+    
+    <!-- Right Half (Solid Black Body - letting background through, but explicitly defining it) -->
+    <path d="M 32 8 A 24 24 0 0 1 32 56 Z" fill="#0A0A0C" />
 
-    <!-- Classic Taiji 'S' Curve via two perfect semi-circles -->
-    <!-- Top Semi-Circle (Black pushing into Green left half) -->
-    <circle cx="32" cy="18" r="14" fill="#0A0A0C" />
+    <!-- Top Semi-Circle to carve the Black 'S' curve pushing into Green -->
+    <circle cx="32" cy="20" r="12" fill="#0A0A0C" />
     
-    <!-- Bottom Semi-Circle (Green pushing into Black right half) -->
-    <circle cx="32" cy="46" r="14" fill="#00FF41" />
+    <!-- Bottom Semi-Circle to carve the Green 'S' curve pushing into Black -->
+    <circle cx="32" cy="44" r="12" fill="#00FF41" />
 
-    <!-- Taiji 'Fish Eyes' (Dots) -->
-    <!-- Top Dot (Inside Black Semi-Circle) -> Gold Accent -->
-    <circle cx="32" cy="18" r="4" fill="#FFD700" />
+    <!-- === The Fish Eyes (Contrasting Dots) === -->
     
-    <!-- Bottom Dot (Inside Green Semi-Circle) -> Deep Black -->
-    <circle cx="32" cy="46" r="4" fill="#0A0A0C" />
+    <!-- Top Dot (Neon Green dot inside the Black head) -->
+    <!-- Used square shape to introduce a subtle pixel-art vibe within the curves -->
+    <rect x="29" y="17" width="6" height="6" fill="#00FF41" />
     
-    <!-- Inner Accent for the Bottom Dot (Tiny Gold Pixel/Square) -->
-    <rect x="31" y="45" width="2" height="2" fill="#FFD700" />
+    <!-- Bottom Dot (Deep Black dot inside the Green head) -->
+    <rect x="29" y="41" width="6" height="6" fill="#0A0A0C" />
     
-    <!-- Inner Accent for the Top Dot (Tiny Green Pixel/Square) -->
-    <rect x="31" y="17" width="2" height="2" fill="#00FF41" />
   </g>
-
-  <!-- Apply subtle pixel grid overlay just on the green half to keep the web3/retro vibe -->
-  <path d="M 32 4 A 28 28 0 0 0 32 60 Z" fill="url(#pixel-grid)" opacity="0.8" />
 </svg>
