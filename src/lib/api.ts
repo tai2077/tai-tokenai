@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://api.tai.tii.mom';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://api.tai.lat';
 
 const api = axios.create({
     baseURL: API_BASE,
@@ -67,6 +67,47 @@ export const c2cApi = {
     getOrders: () => api.get('/api/c2c/orders'),
     createOrder: (data: any) => api.post('/api/c2c/order/create', data),
     matchOrder: (orderId: string) => api.post('/api/c2c/order/match', { orderId })
+};
+
+/**
+ * Fallback Wrapper
+ * Tries the actual API call, if it fails, logs the error and returns the provided mock data.
+ */
+export async function withMockFallback<T>(
+    requestPromise: Promise<T>,
+    mockData: T,
+    endpointName: string
+): Promise<T> {
+    try {
+        const result = await requestPromise;
+        console.log(`[API SUCCESS] ${endpointName}`);
+        return result;
+    } catch (e) {
+        console.warn(`[API FAILED] ${endpointName} -> Fallback to Mock. Error:`, e);
+        return mockData;
+    }
+}
+
+// -------------------------------------------------------------
+// Core Endpoints (Task 6)
+// -------------------------------------------------------------
+
+export const coreApi = {
+    getPrice: () => withMockFallback<any>(
+        api.get('/price'),
+        { tai: 1.45, btc: 64230, eth: 3450 },
+        'GET /price'
+    ),
+    getAddresses: () => withMockFallback<any>(
+        api.get('/addresses'),
+        { router: "EQD5_xxxxxxxxxxxxxxx", staking: "EQD6_yyyyyyyyyyyyyyy" },
+        'GET /addresses'
+    ),
+    getStakingInfo: () => withMockFallback<any>(
+        api.get('/staking/info'),
+        { totalStaked: 1000000, apy: "15%" },
+        'GET /staking/info'
+    ),
 };
 
 export default api;
