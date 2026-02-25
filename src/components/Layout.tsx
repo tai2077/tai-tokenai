@@ -3,7 +3,16 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Terminal, Rocket, LineChart, User, Bot, Globe } from "lucide-react";
+import {
+  Terminal,
+  Rocket,
+  LineChart,
+  User,
+  Bot,
+  Globe,
+  Wifi,
+  WifiOff,
+} from "lucide-react";
 import ToastContainer from "./Toast";
 import WalletButton from "./WalletButton";
 import { useTranslation } from "react-i18next";
@@ -15,10 +24,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { t, i18n } = useTranslation();
   const globalData = useStore((state) => state.globalData);
   const fetchGlobalData = useStore((state) => state.fetchGlobalData);
+  const [isOnline, setIsOnline] = React.useState(true);
 
   React.useEffect(() => {
-    fetchGlobalData();
+    void fetchGlobalData();
+    const ticker = window.setInterval(() => {
+      void fetchGlobalData();
+    }, 30000);
+    return () => window.clearInterval(ticker);
   }, [fetchGlobalData]);
+
+  React.useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    setIsOnline(typeof navigator !== "undefined" ? navigator.onLine : true);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   const toggleLanguage = () => {
     const nextLanguage = i18n.language === "zh" ? "en" : "zh";
@@ -28,25 +56,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { path: "/market", label: t("nav.market"), icon: <LineChart className="w-5 h-5" /> },
-    { path: "/ops-center", label: t("nav.dashboard"), icon: <Terminal className="w-5 h-5" /> },
+    { path: "/ops", label: t("nav.dashboard"), icon: <Terminal className="w-5 h-5" /> },
     { path: "/launch", label: t("nav.launch"), icon: <Rocket className="w-5 h-5" /> },
     { path: "/trade", label: t("nav.trade"), icon: <Bot className="w-5 h-5" /> },
     { path: "/profile", label: t("nav.profile"), icon: <User className="w-5 h-5" /> },
   ];
 
+  const canonicalPathname = pathname === "/ops-center" ? "/ops" : pathname;
+
   return (
-    <div className="min-h-screen bg-[#0a0a0c] bg-grid-pattern text-[#00FF41] font-vt crt relative selection:bg-[#00FF41] selection:text-black pb-20">
+    <div className="min-h-screen bg-[color:var(--color-bg)] bg-grid-pattern text-[color:var(--color-text-primary)] font-vt crt relative selection:bg-[#00FF41] selection:text-black pb-20">
       <ToastContainer />
       {/* Top Bar / Ticker */}
-      <div className="h-10 border-b border-[#333] flex items-center px-4 bg-[#111] sticky top-0 z-50 justify-between gap-4">
+      <div className="h-12 border-b border-[color:var(--color-border)] flex items-center px-4 bg-[color:var(--color-surface)]/95 backdrop-blur sticky top-0 z-50 justify-between gap-4">
         <div className="relative overflow-hidden whitespace-nowrap flex-1 h-full flex items-center">
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#111] to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[color:var(--color-surface)] to-transparent z-10 pointer-events-none"></div>
 
-          <div className="animate-marquee flex gap-12 text-xl inline-block px-4">
-            <span>SYS.STATUS: ONLINE</span>
-            <span className="hidden sm:inline">
-              BTC: ${formatNumber(globalData.prices?.btc ?? 64230)} <span className="text-[#00FF41]">+5.2%</span>
+          <div className="flex gap-8 text-sm md:text-base inline-flex px-4 overflow-x-auto no-scrollbar">
+            <span className="flex items-center gap-2">
+              {isOnline ? <Wifi className="w-4 h-4 text-[#00FF41]" /> : <WifiOff className="w-4 h-4 text-red-500" />}
+              SYS.STATUS: {isOnline ? "ONLINE" : "OFFLINE"}
             </span>
+            <span className="hidden sm:inline">BTC: ${formatNumber(globalData.prices?.btc ?? 64230)} <span className="text-[#00FF41]">+5.2%</span></span>
             <span className="hidden sm:inline">
               ETH: ${formatNumber(globalData.prices?.eth ?? 3450)} <span className="text-[#00FF41]">+2.1%</span>
             </span>
@@ -56,7 +87,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <span className="hidden md:inline">AGENT_NETWORK: 1,337 ACTIVE</span>
           </div>
 
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#111] to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[color:var(--color-surface)] to-transparent z-10 pointer-events-none"></div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -75,9 +106,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="p-4 pt-safe pb-safe max-w-[1920px] mx-auto">{children}</main>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-[#111] border-t border-[#333] z-50 flex justify-around items-center px-2 pb-safe pt-2">
+      <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-[color:var(--color-surface)]/95 backdrop-blur border-t border-[color:var(--color-border)] z-50 flex justify-around items-center px-2 pb-safe pt-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
+          const isActive =
+            canonicalPathname === item.path ||
+            (item.path !== "/" && canonicalPathname.startsWith(item.path));
           return (
             <Link
               key={item.path}

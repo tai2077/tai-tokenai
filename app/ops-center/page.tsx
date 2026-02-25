@@ -1,5 +1,5 @@
-import Dashboard from "../../src/pages/Dashboard";
+import { redirect } from "next/navigation";
 
 export default function OpsCenterPage() {
-  return <Dashboard />;
+  redirect("/ops");
 }

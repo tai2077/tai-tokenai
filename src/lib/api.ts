@@ -23,6 +23,15 @@ const ALLOW_MOCK_FALLBACK =
   import.meta.env.DEV && import.meta.env.VITE_ALLOW_MOCK === 'true';
 const CSRF_HEADER = 'X-CSRF-Token';
 const CSRF_COOKIE_KEYS = ['tai_csrf', 'csrf_token', 'XSRF-TOKEN'] as const;
+const DEFAULT_GET_TTL_MS = 30000;
+
+interface CacheEntry {
+  expiresAt: number;
+  value: unknown;
+}
+
+const requestCache = new Map<string, CacheEntry>();
+const inFlightRequests = new Map<string, Promise<unknown>>();
 
 interface ApiEnvelope<T> {
   data?: T;
@@ -122,6 +131,48 @@ const requestData = async <T>(
   return unwrapPayload<T>(response.data);
 };
 
+const requestWithCache = async <T>(
+  cacheKey: string,
+  request: () => Promise<T>,
+  ttlMs = DEFAULT_GET_TTL_MS,
+): Promise<T> => {
+  const now = Date.now();
+  const cached = requestCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) {
+    return cached.value as T;
+  }
+
+  const inFlight = inFlightRequests.get(cacheKey);
+  if (inFlight) {
+    return inFlight as Promise<T>;
+  }
+
+  const promise = request()
+    .then((result) => {
+      requestCache.set(cacheKey, { value: result, expiresAt: Date.now() + ttlMs });
+      return result;
+    })
+    .finally(() => {
+      inFlightRequests.delete(cacheKey);
+    });
+
+  inFlightRequests.set(cacheKey, promise);
+  return promise;
+};
+
+export const clearApiCache = (prefix?: string): void => {
+  if (!prefix) {
+    requestCache.clear();
+    return;
+  }
+
+  for (const key of requestCache.keys()) {
+    if (key.startsWith(prefix)) {
+      requestCache.delete(key);
+    }
+  }
+};
+
 export async function withMockFallback<T>(
   request: () => Promise<T>,
   mockData: T,
@@ -185,33 +236,53 @@ export const c2cApi = {
 
 export const coreApi = {
   getPrice: () =>
-    withMockFallback<CorePrices>(
-      () => requestData(api.get<CorePrices>('/price')),
-      { tai: 1.45, btc: 64230, eth: 3450 },
-      'GET /price',
+    requestWithCache(
+      'core:price',
+      () =>
+        withMockFallback<CorePrices>(
+          () => requestData(api.get<CorePrices>('/price')),
+          { tai: 1.45, btc: 64230, eth: 3450 },
+          'GET /price',
+        ),
+      15000,
     ),
   getAddresses: () =>
-    withMockFallback<CoreAddresses>(
-      () => requestData(api.get<CoreAddresses>('/addresses')),
-      { router: 'EQD5_xxxxxxxxxxxxxxx', staking: 'EQD6_yyyyyyyyyyyyyyy' },
-      'GET /addresses',
+    requestWithCache(
+      'core:addresses',
+      () =>
+        withMockFallback<CoreAddresses>(
+          () => requestData(api.get<CoreAddresses>('/addresses')),
+          { router: 'EQD5_xxxxxxxxxxxxxxx', staking: 'EQD6_yyyyyyyyyyyyyyy' },
+          'GET /addresses',
+        ),
+      10 * 60 * 1000,
     ),
   getStakingInfo: () =>
-    withMockFallback<StakingInfo>(
-      () => requestData(api.get<StakingInfo>('/staking/info')),
-      { totalStaked: 1000000, apy: '15%' },
-      'GET /staking/info',
+    requestWithCache(
+      'core:staking',
+      () =>
+        withMockFallback<StakingInfo>(
+          () => requestData(api.get<StakingInfo>('/staking/info')),
+          { totalStaked: 1000000, apy: '15%' },
+          'GET /staking/info',
+        ),
+      60000,
     ),
   getVestingStatus: () =>
-    withMockFallback<VestingStatus>(
-      () => requestData(api.get<VestingStatus>('/vesting/status')),
-      {
-        totalVested: 500000,
-        claimed: 100000,
-        locked: 400000,
-        nextUnlock: '2026-06-01',
-      },
-      'GET /vesting/status',
+    requestWithCache(
+      'core:vesting',
+      () =>
+        withMockFallback<VestingStatus>(
+          () => requestData(api.get<VestingStatus>('/vesting/status')),
+          {
+            totalVested: 500000,
+            claimed: 100000,
+            locked: 400000,
+            nextUnlock: '2026-06-01',
+          },
+          'GET /vesting/status',
+        ),
+      60000,
     ),
 };
 
