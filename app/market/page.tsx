@@ -1,5 +1,3 @@
-"use client";
-
 import Market from "../../src/pages/Market";
 
 export default function MarketPage() {

@@ -1,5 +1,3 @@
-"use client";
-
 import Ops from "../../src/pages/Ops";
 
 export default function OpsPage() {
