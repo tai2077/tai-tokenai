@@ -22,12 +22,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-[#00FF41] font-vt crt relative selection:bg-[#00FF41] selection:text-black pb-20">
+    <div className="min-h-screen bg-[#0a0a0c] bg-grid-pattern text-[#00FF41] font-vt crt relative selection:bg-[#00FF41] selection:text-black pb-20">
       <ToastContainer />
       {/* Top Bar / Ticker */}
       <div className="h-10 border-b border-[#333] flex items-center px-4 bg-[#111] sticky top-0 z-50 justify-between gap-4">
-        <div className="overflow-hidden whitespace-nowrap flex-1">
-          <div className="animate-marquee flex gap-12 text-xl inline-block">
+        <div className="relative overflow-hidden whitespace-nowrap flex-1 h-full flex items-center">
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#111] to-transparent z-10 pointer-events-none"></div>
+
+          <div className="animate-marquee flex gap-12 text-xl inline-block px-4">
             <span>SYS.STATUS: ONLINE</span>
             <span>
               BTC: $64,230 <span className="text-[#00FF41]">+5.2%</span>
@@ -40,6 +42,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </span>
             <span>AGENT_NETWORK: 1,337 ACTIVE</span>
           </div>
+
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#111] to-transparent z-10 pointer-events-none"></div>
         </div>
 
         <div className="flex items-center gap-2">

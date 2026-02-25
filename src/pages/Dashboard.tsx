@@ -47,7 +47,7 @@ export default function Dashboard() {
         />
 
         {/* HP Bar (Total Assets) */}
-        <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">
+        <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">
           <div className="flex justify-between text-sm mb-2">
             <span className="font-pixel text-[10px]">TOTAL ASSETS (HP)</span>
             <span className="text-[#FFD700]">
@@ -91,18 +91,18 @@ export default function Dashboard() {
             <Rocket className="w-6 h-6" />
             <span>发币</span>
           </Link>
-          <button className="bg-[#111] border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
+          <button className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
             <DollarSign className="w-6 h-6" />
             <span>投资</span>
           </button>
-          <button className="bg-[#111] border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
+          <button className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
             <ArrowDownToLine className="w-6 h-6" />
             <span>提现</span>
           </button>
         </div>
 
         {/* AI Legion Status */}
-        <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors">
+        <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors">
           <div className="flex justify-between items-center mb-4">
             <h2 className="font-pixel text-[10px] text-[#FFD700] flex items-center gap-2">
               <Activity className="w-4 h-4" /> AI 军团状态
@@ -132,7 +132,7 @@ export default function Dashboard() {
         </div>
 
         {/* Live Feed */}
-        <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors flex-1 min-h-[200px]">
+        <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors flex-1 min-h-[200px]">
           <h2 className="font-pixel text-[10px] text-[#FFD700] mb-4">
             实时动态 (LIVE FEED)
           </h2>

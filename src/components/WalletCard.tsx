@@ -45,7 +45,7 @@ export const WalletCard = React.memo(({
         : "未连接";
 
     return (
-        <div className="border border-[#333] bg-[#111] p-4 font-vt relative group">
+        <div className="border border-[#333] bg-[#111]/80 backdrop-blur-md p-4 font-vt relative group">
             <div className="absolute inset-0 border border-[#00FF41] opacity-0 group-hover:opacity-20 transition-opacity pointer-events-none" />
             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#00FF41] opacity-50" />
             <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#00FF41] opacity-50" />

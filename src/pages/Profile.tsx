@@ -116,7 +116,7 @@ export default function Profile() {
       </div>
 
       {/* Header Info */}
-      <div className="bg-[#111] border border-[#333] rounded-lg p-6 hover:border-[#00FF41] transition-colors glow-box flex flex-col md:flex-row items-center gap-6">
+      <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-6 hover:border-[#00FF41] transition-colors glow-box flex flex-col md:flex-row items-center gap-6">
         <div className="w-24 h-24 border-2 border-[#00FF41] bg-black p-1 shrink-0 relative">
           <img
             src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Player1&backgroundColor=000000"
@@ -163,7 +163,7 @@ export default function Profile() {
         {/* Left Column: Holdings & Created Tokens */}
         <div className="flex flex-col gap-6">
           {/* Holdings */}
-          <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">
+          <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">
             <h3 className="font-pixel text-[10px] text-[#FFD700] mb-4 flex items-center gap-2">
               <Coins className="w-4 h-4" /> 我的持仓 (HOLDINGS)
             </h3>
@@ -197,7 +197,7 @@ export default function Profile() {
           </div>
 
           {/* Created Tokens */}
-          <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">
+          <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">
             <h3 className="font-pixel text-[10px] text-[#FFD700] mb-4 flex items-center gap-2">
               <Zap className="w-4 h-4" /> 我创建的代币 (CREATED)
             </h3>
@@ -233,7 +233,7 @@ export default function Profile() {
         </div>
 
         {/* Right Column: Achievements */}
-        <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box flex flex-col">
+        <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box flex flex-col">
           <h3 className="font-pixel text-[10px] text-[#FFD700] mb-4 flex items-center gap-2">
             <Trophy className="w-4 h-4" /> 成就徽章墙 (ACHIEVEMENTS)
           </h3>

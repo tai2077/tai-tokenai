@@ -1,10 +1,12 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { AnimatePresence } from "framer-motion";
 import { manifestUrl } from "./lib/tonconnect";
 import Layout from "./components/Layout";
 import { Skeleton } from "./components/Skeleton";
 import { SplashScreen } from "./components/SplashScreen";
+import { PageTransition } from "./components/PageTransition";
 
 // Lazy load pages
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -38,23 +40,33 @@ export default function App() {
               <Skeleton height="60px" />
             </div>
           }>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/launch" element={<Launch />} />
-              <Route path="/ops" element={<Ops />} />
-              <Route path="/market" element={<Market />} />
-              <Route path="/token/:address" element={<TokenDetail />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/deposit" element={<Deposit />} />
-              <Route path="/withdraw" element={<Withdraw />} />
-              <Route path="/c2c" element={<C2C />} />
-              <Route path="/c2c/order/:id" element={<C2COrderDetail />} />
-              <Route path="/auto-withdraw" element={<AutoWithdraw />} />
-              <Route path="/trade" element={<Trade />} />
-            </Routes>
+            <AnimatedRoutes />
           </Suspense>
         </Layout>
       </Router>
     </TonConnectUIProvider>
+  );
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Dashboard /></PageTransition>} />
+        <Route path="/launch" element={<PageTransition><Launch /></PageTransition>} />
+        <Route path="/ops" element={<PageTransition><Ops /></PageTransition>} />
+        <Route path="/market" element={<PageTransition><Market /></PageTransition>} />
+        <Route path="/token/:address" element={<PageTransition><TokenDetail /></PageTransition>} />
+        <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
+        <Route path="/deposit" element={<PageTransition><Deposit /></PageTransition>} />
+        <Route path="/withdraw" element={<PageTransition><Withdraw /></PageTransition>} />
+        <Route path="/c2c" element={<PageTransition><C2C /></PageTransition>} />
+        <Route path="/c2c/order/:id" element={<PageTransition><C2COrderDetail /></PageTransition>} />
+        <Route path="/auto-withdraw" element={<PageTransition><AutoWithdraw /></PageTransition>} />
+        <Route path="/trade" element={<PageTransition><Trade /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
   );
 }
