@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const Trade = dynamic(() => import("../../src/pages/Trade"), {
-  loading: () => <RouteFallback label="Loading trade module..." />,
-});
+import Trade from "../../src/pages/Trade";
 
 export default function TradePage() {
   return <Trade />;

@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const AutoWithdraw = dynamic(() => import("../../src/pages/AutoWithdraw"), {
-  loading: () => <RouteFallback label="Loading auto-withdraw settings..." />,
-});
+import AutoWithdraw from "../../src/pages/AutoWithdraw";
 
 export default function AutoWithdrawPage() {
   return <AutoWithdraw />;

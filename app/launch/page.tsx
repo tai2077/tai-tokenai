@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const Launch = dynamic(() => import("../../src/pages/Launch"), {
-  loading: () => <RouteFallback label="Loading launch terminal..." />,
-});
+import Launch from "../../src/pages/Launch";
 
 export default function LaunchPage() {
   return <Launch />;

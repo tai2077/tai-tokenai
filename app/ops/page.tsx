@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const Ops = dynamic(() => import("../../src/pages/Ops"), {
-  loading: () => <RouteFallback label="Loading ops center..." />,
-});
+import Ops from "../../src/pages/Ops";
 
 export default function OpsPage() {
   return <Ops />;

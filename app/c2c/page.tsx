@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const C2C = dynamic(() => import("../../src/pages/C2C"), {
-  loading: () => <RouteFallback label="Loading C2C market..." />,
-});
+import C2C from "../../src/pages/C2C";
 
 export default function C2CPage() {
   return <C2C />;

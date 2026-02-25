@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const Withdraw = dynamic(() => import("../../src/pages/Withdraw"), {
-  loading: () => <RouteFallback label="Loading withdraw flow..." />,
-});
+import Withdraw from "../../src/pages/Withdraw";
 
 export default function WithdrawPage() {
   return <Withdraw />;

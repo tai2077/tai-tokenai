@@ -1,9 +1,6 @@
-import dynamic from "next/dynamic";
-import { RouteFallback } from "../../src/components/RouteFallback";
+"use client";
 
-const Deposit = dynamic(() => import("../../src/pages/Deposit"), {
-  loading: () => <RouteFallback label="Loading deposit flow..." />,
-});
+import Deposit from "../../src/pages/Deposit";
 
 export default function DepositPage() {
   return <Deposit />;
