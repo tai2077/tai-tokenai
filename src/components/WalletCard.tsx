@@ -1,6 +1,7 @@
 import React from "react";
 import { Copy } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { copyText } from "../lib/clipboard";
 
 interface Action {
     label: string;
@@ -33,10 +34,10 @@ export const WalletCard = React.memo(({
 }: WalletCardProps) => {
     const addToast = useStore((state) => state.addToast);
 
-    const handleCopy = () => {
+    const handleCopy = async () => {
         if (address) {
-            navigator.clipboard.writeText(address);
-            addToast("地址已复制", "success");
+            const copied = await copyText(address);
+            addToast(copied ? "地址已复制" : "复制失败，请手动复制", copied ? "success" : "error");
         }
     };
 
@@ -69,6 +70,7 @@ export const WalletCard = React.memo(({
                         {address && (
                             <button
                                 onClick={handleCopy}
+                                aria-label="复制钱包地址"
                                 className="text-gray-500 hover:text-[#00FF41] transition-colors"
                                 title="复制"
                             >
@@ -99,7 +101,7 @@ export const WalletCard = React.memo(({
             <div className="grid grid-cols-2 gap-2 mt-4">
                 {actions.map((action, i) => (
                     <button
-                        key={i}
+                        key={`${action.label}-${i}`}
                         onClick={action.onClick}
                         className={`py-2 px-2 text-center font-pixel text-[8px] sm:text-[10px] border transition-colors ${action.primary
                             ? "border-[#00FF41] text-[#00FF41] hover:bg-[#00FF41] hover:text-black glow-box"

@@ -19,9 +19,9 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             { text: 'SYS.READY.', delay: 1800 },
         ];
 
-        sequences.forEach(({ text, delay }) => {
-            setTimeout(() => setLoadingText(text), delay);
-        });
+        const textTimeouts = sequences.map(({ text, delay }) =>
+            window.setTimeout(() => setLoadingText(text), delay)
+        );
 
         // 进度条动画
         const interval = setInterval(() => {
@@ -42,6 +42,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         return () => {
             clearInterval(interval);
             clearTimeout(completeTimer);
+            textTimeouts.forEach((id) => clearTimeout(id));
         };
     }, [onComplete]);
 

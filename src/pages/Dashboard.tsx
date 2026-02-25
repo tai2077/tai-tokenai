@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Rocket,
   DollarSign,
@@ -16,12 +16,12 @@ import { PageHeader } from "../components/PageHeader";
 import { X } from "lucide-react";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [revenue, setRevenue] = useState(1234.56);
   const { totalAssets, maxAssets, aiAgents, liveFeed } = useStore();
 
   const [loading, setLoading] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [flashRevenue, setFlashRevenue] = useState(false);
 
   useEffect(() => {
     const isDone = localStorage.getItem("tai_onboarding_done");
@@ -44,8 +44,6 @@ export default function Dashboard() {
   useEffect(() => {
     const timer = setInterval(() => {
       setRevenue((prev) => prev + Math.random() * 2);
-      setFlashRevenue(true);
-      setTimeout(() => setFlashRevenue(false), 1000);
     }, 3000);
     return () => clearInterval(timer);
   }, []);
@@ -132,11 +130,11 @@ export default function Dashboard() {
             <Rocket className="w-6 h-6" />
             <span>发币</span>
           </Link>
-          <button className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
+          <button onClick={() => navigate("/trade")} className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
             <DollarSign className="w-6 h-6" />
             <span>投资</span>
           </button>
-          <button className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
+          <button onClick={() => navigate("/withdraw")} className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
             <ArrowDownToLine className="w-6 h-6" />
             <span>提现</span>
           </button>

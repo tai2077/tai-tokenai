@@ -16,7 +16,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [fetchGlobalData]);
 
   const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh");
+    const nextLanguage = i18n.language === "zh" ? "en" : "zh";
+    i18n.changeLanguage(nextLanguage);
+    window.localStorage.setItem("tai_lang", nextLanguage);
   };
 
   const navItems = [

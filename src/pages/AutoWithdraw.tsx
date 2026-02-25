@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Settings, ToggleRight, ToggleLeft } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
+import { useTelegramBackButton } from "../hooks/useTelegramBackButton";
 
 export default function AutoWithdraw() {
     const navigate = useNavigate();
     const addToast = useStore((state) => state.addToast);
+    const handleBack = useCallback(() => navigate(-1), [navigate]);
 
     const [enabled, setEnabled] = useState(false);
     const [threshold, setThreshold] = useState("1000");
     const [minSellAmount, setMinSellAmount] = useState("500");
     const [method, setMethod] = useState("alipay");
     const [account, setAccount] = useState("");
+
+    useTelegramBackButton(handleBack);
 
     const handleSave = () => {
         if (enabled && (!threshold || !minSellAmount || !account)) {
@@ -21,13 +25,13 @@ export default function AutoWithdraw() {
         }
         // Update API or Store settings here
         addToast("自动提现设置已保存", "success");
-        navigate(-1);
+        handleBack();
     };
 
     return (
         <div className="max-w-md mx-auto flex flex-col gap-6 pb-20 font-vt">
             <button
-                onClick={() => navigate(-1)}
+                onClick={handleBack}
                 className="flex items-center gap-2 text-gray-400 hover:text-[#00FF41] transition-colors self-start"
             >
                 <ArrowLeft className="w-4 h-4" /> 返回

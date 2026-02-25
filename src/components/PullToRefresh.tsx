@@ -21,18 +21,22 @@ export default function PullToRefresh({
     const handleTouchStart = (e: React.TouchEvent) => {
         // Only allow pull to refresh when at the top of the container
         if (window.scrollY > 0) return;
-        startY.current = e.touches[0].clientY;
+        const firstTouch = e.touches[0];
+        if (!firstTouch) return;
+        startY.current = firstTouch.clientY;
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
         if (window.scrollY > 0 || refreshing) return;
-        const currentY = e.touches[0].clientY;
+        const firstTouch = e.touches[0];
+        if (!firstTouch) return;
+        const currentY = firstTouch.clientY;
         const diff = currentY - startY.current;
 
         if (diff > 0) {
-            e.stopPropagation(); // 阻止默认的下拉动作，主要对某些浏览器有限制作用
+            e.preventDefault();
             setPulling(true);
-            const height = Math.min(diff, maxPull);
+            const height = Math.min(diff * 0.5, maxPull);
             setPullHeight(height);
         }
     };
@@ -61,6 +65,7 @@ export default function PullToRefresh({
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchEnd}
             style={{ overflow: "hidden" }}
         >
             <div
@@ -83,7 +88,7 @@ export default function PullToRefresh({
             </div>
             <div
                 className="transition-transform duration-300 ease-out"
-                style={{ transform: `translateY(${pulling ? 0 : 0}px)` }}
+                style={{ transform: `translateY(${pullHeight}px)` }}
             >
                 {children}
             </div>

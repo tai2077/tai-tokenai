@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -39,7 +39,7 @@ export default function TokenDetail() {
       <div className="flex flex-col items-center justify-center h-64 gap-4">
         <p className="text-red-500 font-pixel">TOKEN NOT FOUND</p>
         <button
-          onClick={() => navigate("/market")}
+          onClick={() => navigate("/")}
           className="text-[#00FF41] underline font-pixel text-[10px]"
         >
           RETURN TO MARKET
@@ -79,13 +79,23 @@ export default function TokenDetail() {
     { address: "0x9E0...1F2", amount: "42,000", percentage: "4.2%" },
   ];
 
+  const mockCandles = useMemo(
+    () =>
+      Array.from({ length: 40 }, (_, index) => ({
+        id: `${token.id}-${index}`,
+        isUp: Math.random() > 0.4,
+        height: Math.random() * 60 + 20,
+      })),
+    [token.id],
+  );
+
   return (
     <div className="flex flex-col gap-6 pb-20">
       {/* Header */}
       <PageHeader
         icon={
           <div className="flex items-center gap-4">
-            <Link to="/market" className="text-gray-500 hover:text-[#FFD700] transition-colors">
+            <Link to="/" className="text-gray-500 hover:text-[#FFD700] transition-colors">
               <ArrowLeft className="w-6 h-6" />
             </Link>
             <div className="w-10 h-10 bg-black border border-[#333] rounded flex items-center justify-center font-pixel text-[6px] text-[#FFD700]">LOGO</div>
@@ -142,24 +152,20 @@ export default function TokenDetail() {
             </h3>
             <div className="flex-1 border border-[#333] bg-black relative overflow-hidden flex items-end p-4 gap-1">
               {/* Mock Candlesticks */}
-              {Array.from({ length: 40 }).map((_, i) => {
-                const isUp = Math.random() > 0.4;
-                const height = Math.random() * 60 + 20;
-                return (
+              {mockCandles.map((candle) => (
+                <div
+                  key={candle.id}
+                  className="flex-1 flex flex-col justify-end items-center group relative"
+                >
                   <div
-                    key={i}
-                    className="flex-1 flex flex-col justify-end items-center group relative"
-                  >
-                    <div
-                      className={`w-[1px] h-full absolute top-0 bottom-0 ${isUp ? "bg-[#00FF41]/30" : "bg-red-500/30"}`}
-                    ></div>
-                    <div
-                      className={`w-full max-w-[8px] z-10 ${isUp ? "bg-[#00FF41]" : "bg-red-500"}`}
-                      style={{ height: `${height}%` }}
-                    ></div>
-                  </div>
-                );
-              })}
+                    className={`w-[1px] h-full absolute top-0 bottom-0 ${candle.isUp ? "bg-[#00FF41]/30" : "bg-red-500/30"}`}
+                  ></div>
+                  <div
+                    className={`w-full max-w-[8px] z-10 ${candle.isUp ? "bg-[#00FF41]" : "bg-red-500"}`}
+                    style={{ height: `${candle.height}%` }}
+                  ></div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -197,7 +203,7 @@ export default function TokenDetail() {
                     余额:{" "}
                     {tradeType === "BUY"
                       ? `${Number(balances.USDT || 0).toLocaleString()} USDT`
-                      : `${Number(tokenBalance || 0).toLocaleString()} ${token.symbol}`}
+                      : `${tokenBalance.toLocaleString()} ${token.symbol}`}
                   </span>
                 </label>
                 <div className="relative">
@@ -226,8 +232,8 @@ export default function TokenDetail() {
                   <span>
                     余额:{" "}
                     {tradeType === "BUY"
-                      ? `${Number(tokenBalance || 0).toLocaleString()} ${token.symbol}`
-                      : `${Number(balances.USDT || 0).toLocaleString()} USDT`}
+                      ? `${tokenBalance.toLocaleString()} ${token.symbol}`
+                      : `${balances.USDT.toLocaleString()} USDT`}
                   </span>
                 </label>
                 <div className="relative">
@@ -269,9 +275,9 @@ export default function TokenDetail() {
                 <span className="w-1/3 text-center">AMOUNT</span>
                 <span className="w-1/3 text-right">%</span>
               </div>
-              {mockHolders.map((h, i) => (
+              {mockHolders.map((h) => (
                 <div
-                  key={i}
+                  key={h.address}
                   className="flex justify-between text-xs sm:text-sm items-center"
                 >
                   <span className="text-[#00FF41] w-1/3 truncate pr-2">{h.address}</span>

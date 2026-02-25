@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTonConnectUI, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
 import { useStore } from "../store/useStore";
+import { copyText } from "../lib/clipboard";
+import { useTranslation } from "react-i18next";
 
 export default function WalletButton() {
     const [tonConnectUI] = useTonConnectUI();
     const wallet = useTonWallet();
     const address = useTonAddress();
+    const { t } = useTranslation();
     const setMainWallet = useStore((state) => state.setMainWallet);
     const addToast = useStore((state) => state.addToast);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,10 +42,10 @@ export default function WalletButton() {
         addToast("钱包已断开连接", "info");
     };
 
-    const copyAddress = () => {
+    const copyAddress = async () => {
         if (address) {
-            navigator.clipboard.writeText(address);
-            addToast("地址已复制", "success");
+            const copied = await copyText(address);
+            addToast(copied ? "地址已复制" : "复制失败，请手动复制", copied ? "success" : "error");
         }
         setDropdownOpen(false);
     };
@@ -53,7 +56,7 @@ export default function WalletButton() {
                 onClick={handleConnect}
                 className="px-3 py-1.5 bg-transparent border border-[#00FF41] text-[#00FF41] font-pixel text-[10px] hover:bg-[#00FF41] hover:text-black transition-colors whitespace-nowrap"
             >
-                连接钱包
+                {t("layout.connect")}
             </button>
         );
     }
@@ -74,12 +77,14 @@ export default function WalletButton() {
                 <div className="absolute top-full right-0 mt-1 w-32 bg-[#111] border border-[#333] py-1 z-50 shadow-lg shadow-black/50">
                     <button
                         onClick={copyAddress}
+                        aria-label="复制地址"
                         className="w-full text-left px-3 py-2 text-[10px] font-pixel text-gray-300 hover:text-[#00FF41] hover:bg-[#222] transition-colors"
                     >
                         复制地址
                     </button>
                     <button
                         onClick={handleDisconnect}
+                        aria-label="断开钱包连接"
                         className="w-full text-left px-3 py-2 text-[10px] font-pixel text-[#ff4444] hover:bg-[#222] transition-colors"
                     >
                         断开连接

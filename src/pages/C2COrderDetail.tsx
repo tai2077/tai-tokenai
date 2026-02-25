@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, Copy, AlertTriangle } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
+import { copyText } from "../lib/clipboard";
+import { useTelegramBackButton } from "../hooks/useTelegramBackButton";
 
 export default function C2COrderDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
     const addToast = useStore((state) => state.addToast);
+    const handleBack = useCallback(() => navigate(-1), [navigate]);
+
+    useTelegramBackButton(handleBack);
 
     const mockOrder = {
         id: id || "1",
@@ -20,9 +25,9 @@ export default function C2COrderDetail() {
         },
     };
 
-    const handleCopy = (text: string) => {
-        navigator.clipboard.writeText(text);
-        addToast("已复制到剪贴板", "success");
+    const handleCopy = async (text: string) => {
+        const copied = await copyText(text);
+        addToast(copied ? "已复制到剪贴板" : "复制失败，请手动复制", copied ? "success" : "error");
     };
 
     const handlePaid = () => {
@@ -33,7 +38,7 @@ export default function C2COrderDetail() {
     return (
         <div className="max-w-md mx-auto flex flex-col gap-6 pb-20">
             <PageHeader
-                icon={<button onClick={() => navigate(-1)} className="hover:text-white transition-colors"><ArrowLeft className="w-6 h-6" /></button>}
+                icon={<button onClick={handleBack} aria-label="返回上一页" className="hover:text-white transition-colors"><ArrowLeft className="w-6 h-6" /></button>}
                 title="订单详情"
                 color="green"
                 rightElement={
@@ -73,6 +78,7 @@ export default function C2COrderDetail() {
                         </div>
                         <button
                             onClick={() => handleCopy(mockOrder.seller.alipay)}
+                            aria-label="复制卖家账号"
                             className="p-2 border border-[#333] text-gray-500 hover:text-white hover:border-white transition-colors"
                             title="复制账号"
                         >

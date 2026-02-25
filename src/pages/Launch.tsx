@@ -53,8 +53,19 @@ export default function Launch() {
 
   const [selectedStaff, setSelectedStaff] = useState<string[]>([]);
 
+  const normalizedTokenName = tokenName.trim();
+  const normalizedTokenSymbol = tokenSymbol.trim().toUpperCase();
+
+  const toggleStaff = (staffId: string) => {
+    setSelectedStaff((previous) =>
+      previous.includes(staffId)
+        ? previous.filter((id) => id !== staffId)
+        : [...previous, staffId],
+    );
+  };
+
   const handleLaunch = () => {
-    if (!tokenName || !tokenSymbol) {
+    if (!normalizedTokenName || !normalizedTokenSymbol) {
       addToast("请填写代币名称和符号", "error");
       return;
     }
@@ -66,25 +77,27 @@ export default function Launch() {
         return sum + (staff?.cost || 0);
       }, 0);
 
-    const hiredAgents: Agent[] = selectedStaff.map((id) => {
-      const staff = aiStaff.find((s) => s.id === id)!;
-      const agentId = `${staff.role}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
-      return {
-        id: agentId,
-        name: `${tokenSymbol} ${staff.name.split(" ")[0]}`,
-        role: staff.role,
-        level: 1,
-        status: "working",
-        output: "初始化中...",
-        quote: `为 ${tokenSymbol} 社区服务！`,
-        avatar: `https://api.dicebear.com/9.x/bottts/svg?seed=${agentId}&backgroundColor=0a0a0c`,
-      };
-    });
+    const hiredAgents: Agent[] = selectedStaff
+      .map((id) => aiStaff.find((staffItem) => staffItem.id === id))
+      .filter((staff): staff is (typeof aiStaff)[number] => Boolean(staff))
+      .map((staff) => {
+        const agentId = `${staff.role}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+        return {
+          id: agentId,
+          name: `${normalizedTokenSymbol} ${staff.name.split(" ")[0]}`,
+          role: staff.role,
+          level: 1,
+          status: "working",
+          output: "初始化中...",
+          quote: `为 ${normalizedTokenSymbol} 社区服务！`,
+          avatar: `https://api.dicebear.com/9.x/bottts/svg?seed=${agentId}&backgroundColor=0a0a0c`,
+        };
+      });
 
     launchToken(
       {
-        name: tokenName,
-        symbol: tokenSymbol,
+        name: normalizedTokenName,
+        symbol: normalizedTokenSymbol,
         price: 0.001,
         change: "+0.0%",
         mcap: "$10K",
@@ -151,6 +164,7 @@ export default function Launch() {
                 placeholder="e.g. $NEON"
                 value={tokenSymbol}
                 onChange={(e) => setTokenSymbol(e.target.value)}
+                autoCapitalize="characters"
                 className="w-full bg-black border border-[#333] rounded p-3 text-[#00FF41] focus:outline-none focus:border-[#00FF41] font-vt text-xl"
               />
             </div>
@@ -175,7 +189,7 @@ export default function Launch() {
             </div>
             <button
               onClick={() => {
-                if (!tokenName || !tokenSymbol) {
+                if (!normalizedTokenName || !normalizedTokenSymbol) {
                   addToast("请填写代币名称和符号", "error");
                   return;
                 }
@@ -207,17 +221,12 @@ export default function Launch() {
             {aiStaff.map((staff) => {
               const isSelected = selectedStaff.includes(staff.id);
               return (
-                <div
+                <button
+                  type="button"
                   key={staff.id}
-                  onClick={() => {
-                    if (isSelected) {
-                      setSelectedStaff(
-                        selectedStaff.filter((id) => id !== staff.id),
-                      );
-                    } else {
-                      setSelectedStaff([...selectedStaff, staff.id]);
-                    }
-                  }}
+                  onClick={() => toggleStaff(staff.id)}
+                  aria-pressed={isSelected}
+                  aria-label={`切换 ${staff.name}`}
                   className={`border rounded-lg p-4 cursor-pointer transition-all flex flex-col items-center gap-3 ${isSelected
                     ? "border-[#00FF41] bg-[#00FF41]/10 glow-box"
                     : "border-[#333] bg-black hover:border-gray-500"
@@ -232,7 +241,7 @@ export default function Launch() {
                     {staff.name}
                   </div>
                   <div className="text-[#FFD700] text-sm">{staff.cost} TAI</div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -288,13 +297,13 @@ export default function Launch() {
             <div className="border-t border-[#333] pt-3 flex justify-between font-bold text-lg">
               <span className="text-[#FFD700]">总计 (TOTAL)</span>
               <span className="text-[#FFD700]">
-                {Number(
+                {(
                   1000 +
                   selectedStaff.reduce(
                     (sum, id) =>
                       sum + (aiStaff.find((s) => s.id === id)?.cost || 0),
                     0,
-                  ) || 0
+                  )
                 ).toLocaleString()} TAI
               </span>
             </div>

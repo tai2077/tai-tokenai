@@ -134,8 +134,8 @@ export default function Trade() {
             <div className="bg-[#111] border border-[#333] rounded-lg p-4">
                 <h3 className="font-pixel text-[10px] text-gray-400 mb-4">最近交易</h3>
                 <ul className="space-y-4 text-sm">
-                    {history.map((h, i) => (
-                        <li key={i} className="flex gap-4">
+                    {history.map((h) => (
+                        <li key={`${h.time}-${h.text}`} className="flex gap-4">
                             <span className="text-gray-600">[{h.time}]</span>
                             <span className="text-white relative pl-2 before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-1 before:h-1 before:bg-[#00FF41] before:rounded-full">
                                 {h.text}

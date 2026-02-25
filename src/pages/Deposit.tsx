@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowDownToLine, Wallet } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
+import { useTelegramBackButton } from "../hooks/useTelegramBackButton";
 
 export default function Deposit() {
     const navigate = useNavigate();
     const { mainWallet, aiWallet, setMainWallet, setAiWallet, addToast } = useStore();
     const [amount, setAmount] = useState<string>("");
+    const handleBack = useCallback(() => navigate(-1), [navigate]);
 
     const quickAmounts = [100, 500, 1000];
+
+    useTelegramBackButton(handleBack);
 
     const handleDeposit = () => {
         const numAmount = Number(amount);
@@ -25,13 +29,13 @@ export default function Deposit() {
         setMainWallet({ balance: mainWallet.balance - numAmount });
         setAiWallet({ balance: aiWallet.balance + numAmount });
         addToast(`成功充值 ${numAmount} TAI 到 AI 钱包`, "success");
-        navigate(-1);
+        handleBack();
     };
 
     return (
         <div className="max-w-md mx-auto flex flex-col gap-6 pb-20">
             <button
-                onClick={() => navigate(-1)}
+                onClick={handleBack}
                 className="flex items-center gap-2 text-gray-400 hover:text-[#00FF41] transition-colors self-start"
             >
                 <ArrowLeft className="w-4 h-4" /> 返回

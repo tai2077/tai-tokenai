@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { AnimatePresence } from "framer-motion";
 import { manifestUrl } from "./lib/tonconnect";
@@ -66,6 +66,7 @@ function AnimatedRoutes() {
         <Route path="/c2c/order/:id" element={<PageTransition><C2COrderDetail /></PageTransition>} />
         <Route path="/auto-withdraw" element={<PageTransition><AutoWithdraw /></PageTransition>} />
         <Route path="/trade" element={<PageTransition><Trade /></PageTransition>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>
   );

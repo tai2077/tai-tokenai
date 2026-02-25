@@ -9,10 +9,25 @@ const resources = {
     zh: { translation: zh },
 };
 
+const supportedLanguages = ["zh", "en"] as const;
+type SupportedLanguage = (typeof supportedLanguages)[number];
+
+const getInitialLanguage = (): SupportedLanguage => {
+    if (typeof window === "undefined") return "zh";
+
+    const stored = window.localStorage.getItem("tai_lang");
+    if (stored && supportedLanguages.includes(stored as SupportedLanguage)) {
+        return stored as SupportedLanguage;
+    }
+
+    return "zh";
+};
+
 i18n.use(initReactI18next).init({
     resources,
-    lng: "zh", // 默认语言
+    lng: getInitialLanguage(),
     fallbackLng: "zh",
+    supportedLngs: [...supportedLanguages],
     interpolation: {
         escapeValue: false, // React 已经防范了 XSS
     },

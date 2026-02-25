@@ -1,5 +1,11 @@
 import { create } from "zustand";
 import { coreApi } from "../lib/api";
+import type {
+  CoreAddresses,
+  CorePrices,
+  StakingInfo,
+  VestingStatus,
+} from "../lib/types";
 
 export type AgentRole =
   | "MINER"
@@ -48,6 +54,23 @@ export interface ToastMessage {
   type: "success" | "error" | "info";
 }
 
+export type LiveFeedType = "trade" | "scout" | "mine" | "launch" | "analysis";
+
+export interface LiveFeedItem {
+  id: number;
+  time: string;
+  text: string;
+  type: LiveFeedType;
+  avatar?: string;
+}
+
+export interface GlobalData {
+  prices: CorePrices;
+  addresses: CoreAddresses | null;
+  stakingInfo: StakingInfo | null;
+  vestingStatus: VestingStatus | null;
+}
+
 interface StoreState {
   // Wallets
   mainWallet: {
@@ -73,16 +96,11 @@ interface StoreState {
   createdTokens: Token[];
   marketTokens: Token[];
   aiAgents: Agent[];
-  liveFeed: { id: number; time: string; text: string; type: string; avatar?: string }[];
+  liveFeed: LiveFeedItem[];
   toasts: ToastMessage[];
 
   // Global API Data
-  globalData: {
-    prices: { tai: number; btc: number; eth: number };
-    addresses: any;
-    stakingInfo: any;
-    vestingStatus: any;
-  };
+  globalData: GlobalData;
 
   // Actions
   fetchGlobalData: () => Promise<void>;
@@ -98,7 +116,7 @@ interface StoreState {
   updateAgentStrategy: (tokenId: string, strategy: string) => void;
   addToast: (message: string, type?: "success" | "error" | "info") => void;
   removeToast: (id: string) => void;
-  addFeedEvent: (text: string, type: string) => void;
+  addFeedEvent: (text: string, type: LiveFeedType) => void;
 }
 
 const initialMarketTokens: Token[] = [
@@ -197,6 +215,8 @@ const initialAgents: Agent[] = [
   },
 ];
 
+const fallbackPrices: CorePrices = { tai: 1.45, btc: 64230, eth: 3450 };
+
 export const useStore = create<StoreState>((set, get) => ({
   mainWallet: {
     address: null,
@@ -269,14 +289,14 @@ export const useStore = create<StoreState>((set, get) => ({
       ]);
       set({
         globalData: {
-          prices: prices || { tai: 1.45, btc: 64230, eth: 3450 },
+          prices: prices || fallbackPrices,
           addresses,
           stakingInfo,
           vestingStatus,
         },
       });
-    } catch (e) {
-      console.error("Failed to fetch global data", e);
+    } catch (error: unknown) {
+      console.error("Failed to fetch global data", error);
     }
   },
 
@@ -300,9 +320,14 @@ export const useStore = create<StoreState>((set, get) => ({
       return;
     }
 
+    if (amount <= 0 || cost <= 0) {
+      addToast("交易数量无效", "error");
+      return;
+    }
+
     const newBalances = { ...balances, USDT: balances.USDT - cost };
     const existingHolding = holdings.find((h) => h.tokenId === tokenId);
-    let newHoldings;
+    let newHoldings: Holding[];
 
     if (existingHolding) {
       newHoldings = holdings.map((h) =>
@@ -323,9 +348,9 @@ export const useStore = create<StoreState>((set, get) => ({
     );
 
     set({ balances: newBalances, holdings: newHoldings });
-    addToast(`成功买入 ${Number(amount || 0).toLocaleString()} ${token?.symbol}`, "success");
+    addToast(`成功买入 ${amount.toLocaleString()} ${token?.symbol || ""}`, "success");
     addFeedEvent(
-      `PLAYER_ONE 💰 成交：买入 ${Number(amount || 0).toLocaleString()} ${token?.symbol} @ $${Number(cost / amount || 0).toFixed(3)}`,
+      `PLAYER_ONE 💰 成交：买入 ${amount.toLocaleString()} ${token?.symbol || ""} @ $${(cost / amount).toFixed(3)}`,
       "trade",
     );
   },
@@ -339,6 +364,11 @@ export const useStore = create<StoreState>((set, get) => ({
       addToast,
       addFeedEvent,
     } = get();
+    if (amount <= 0 || revenue <= 0) {
+      addToast("交易数量无效", "error");
+      return;
+    }
+
     const existingHolding = holdings.find((h) => h.tokenId === tokenId);
 
     if (!existingHolding || existingHolding.amount < amount) {
@@ -347,7 +377,7 @@ export const useStore = create<StoreState>((set, get) => ({
     }
 
     const newBalances = { ...balances, USDT: balances.USDT + revenue };
-    let newHoldings = holdings
+    const newHoldings = holdings
       .map((h) =>
         h.tokenId === tokenId ? { ...h, amount: h.amount - amount } : h,
       )
@@ -358,9 +388,9 @@ export const useStore = create<StoreState>((set, get) => ({
     );
 
     set({ balances: newBalances, holdings: newHoldings });
-    addToast(`成功卖出 ${Number(amount || 0).toLocaleString()} ${token?.symbol}`, "success");
+    addToast(`成功卖出 ${amount.toLocaleString()} ${token?.symbol || ""}`, "success");
     addFeedEvent(
-      `PLAYER_ONE 💰 成交：卖出 ${Number(amount || 0).toLocaleString()} ${token?.symbol} @ $${Number(revenue / amount || 0).toFixed(3)}`,
+      `PLAYER_ONE 💰 成交：卖出 ${amount.toLocaleString()} ${token?.symbol || ""} @ $${(revenue / amount).toFixed(3)}`,
       "trade",
     );
   },

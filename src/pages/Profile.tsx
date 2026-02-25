@@ -19,6 +19,7 @@ import { useStore } from "../store/useStore";
 import WalletCard from "../components/WalletCard";
 import { PageHeader } from "../components/PageHeader";
 import { EmptyState } from "../components/EmptyState";
+import { copyText } from "../lib/clipboard";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -74,8 +75,12 @@ export default function Profile() {
     };
   };
 
-  const handleCopyAddress = () => {
-    navigator.clipboard.writeText(user.address);
+  const handleCopyAddress = async () => {
+    const copiedOk = await copyText(user.address);
+    if (!copiedOk) {
+      addToast("复制失败，请手动复制", "error");
+      return;
+    }
     setCopied(true);
     addToast("地址已复制", "success");
     setTimeout(() => setCopied(false), 2000);
@@ -192,12 +197,12 @@ export default function Profile() {
               {holdings.length === 0 ? (
                 <EmptyState message="暂无持仓资产" />
               ) : (
-                holdings.map((h, i) => {
+                holdings.map((h) => {
                   const details = getHoldingDetails(h.tokenId, h.amount);
                   if (!details) return null;
                   return (
                     <div
-                      key={i}
+                      key={h.tokenId}
                       className="flex justify-between text-sm items-center"
                     >
                       <span className="text-[#00FF41]">{details.symbol}</span>
@@ -224,9 +229,9 @@ export default function Profile() {
               {createdTokens.length === 0 ? (
                 <EmptyState message="暂无创建的代币" />
               ) : (
-                createdTokens.map((t, i) => (
+                createdTokens.map((t) => (
                   <div
-                    key={i}
+                    key={t.id}
                     className="flex justify-between text-sm items-center"
                   >
                     <Link
