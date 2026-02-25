@@ -10,6 +10,7 @@ import {
   ArrowDownRight,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function TokenDetail() {
   const { address } = useParams();
@@ -81,35 +82,33 @@ export default function TokenDetail() {
   return (
     <div className="flex flex-col gap-6 pb-20">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-4">
-          <Link
-            to="/market"
-            className="text-gray-500 hover:text-[#00FF41] transition-colors"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </Link>
-          <div className="w-10 h-10 bg-black border border-[#333] rounded flex items-center justify-center font-pixel text-[6px] text-[#00FF41]">
-            LOGO
+      <PageHeader
+        icon={
+          <div className="flex items-center gap-4">
+            <Link to="/market" className="text-gray-500 hover:text-[#FFD700] transition-colors">
+              <ArrowLeft className="w-6 h-6" />
+            </Link>
+            <div className="w-10 h-10 bg-black border border-[#333] rounded flex items-center justify-center font-pixel text-[6px] text-[#FFD700]">LOGO</div>
           </div>
-          <div>
-            <h1 className="font-pixel text-[14px] text-[#FFD700] glow-text-gold">
-              {token.name}
-            </h1>
-            <span className="text-sm text-gray-400">{token.symbol}</span>
+        }
+        title={
+          <div className="flex flex-col ml-2">
+            <span>{token.name}</span>
+            <span className="text-[10px] text-gray-400 font-pixel tracking-normal mt-1">{token.symbol}</span>
           </div>
-        </div>
-        <div className="text-right">
-          <p className="font-vt text-3xl text-white">
-            ${token.price.toFixed(3)}
-          </p>
-          <p
-            className={`text-sm ${token.change.startsWith("+") ? "text-[#00FF41]" : "text-red-500"}`}
-          >
-            {token.change} (24H)
-          </p>
-        </div>
-      </div>
+        }
+        color="gold"
+        rightElement={
+          <div className="text-right">
+            <p className="font-vt text-2xl text-white">
+              ${token.price.toFixed(3)}
+            </p>
+            <p className={`text-sm ${token.change.startsWith("+") ? "text-[#00FF41]" : "text-red-500"}`}>
+              {token.change} (24H)
+            </p>
+          </div>
+        }
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Chart & AI Status */}

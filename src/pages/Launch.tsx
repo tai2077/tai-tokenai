@@ -10,6 +10,7 @@ import {
   MessageSquare,
   LineChart,
 } from "lucide-react";
+import { PageHeader } from "../components/PageHeader";
 import { useStore, Agent } from "../store/useStore";
 
 export default function Launch() {
@@ -97,12 +98,11 @@ export default function Launch() {
 
   return (
     <div className="flex flex-col gap-6 pb-20 max-w-2xl mx-auto">
-      <div className="flex items-center gap-4 mb-4">
-        <Rocket className="w-8 h-8 text-[#00FF41]" />
-        <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-          一键发币 (LAUNCH)
-        </h1>
-      </div>
+      <PageHeader
+        title="一键发币 (LAUNCH)"
+        icon={<Rocket className="w-6 h-6" />}
+        color="gold"
+      />
 
       {/* Progress */}
       <div className="flex justify-between mb-8 relative">
@@ -216,11 +216,10 @@ export default function Launch() {
                       setSelectedStaff([...selectedStaff, staff.id]);
                     }
                   }}
-                  className={`border rounded-lg p-4 cursor-pointer transition-all flex flex-col items-center gap-3 ${
-                    isSelected
+                  className={`border rounded-lg p-4 cursor-pointer transition-all flex flex-col items-center gap-3 ${isSelected
                       ? "border-[#00FF41] bg-[#00FF41]/10 glow-box"
                       : "border-[#333] bg-black hover:border-gray-500"
-                  }`}
+                    }`}
                 >
                   <div
                     className={isSelected ? "text-[#00FF41]" : "text-gray-500"}

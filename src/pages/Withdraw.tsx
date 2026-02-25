@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowUpFromLine, Wallet } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Withdraw() {
     const navigate = useNavigate();
@@ -36,12 +37,11 @@ export default function Withdraw() {
                 <ArrowLeft className="w-4 h-4" /> 返回
             </button>
 
-            <div className="flex items-center gap-4 mb-2">
-                <ArrowUpFromLine className="w-8 h-8 text-[#FFD700]" />
-                <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-                    从 AI 钱包提现
-                </h1>
-            </div>
+            <PageHeader
+                title="从 AI 钱包提现"
+                icon={<ArrowUpFromLine className="w-6 h-6" />}
+                color="gold"
+            />
 
             <div className="bg-[#111] border border-[#333] rounded-lg p-6 glow-box flex flex-col gap-6">
                 <div className="flex flex-col gap-2 border-b border-[#333] pb-4">

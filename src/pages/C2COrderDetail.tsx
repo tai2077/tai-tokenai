@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, Copy, AlertTriangle } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function C2COrderDetail() {
     const navigate = useNavigate();
@@ -31,19 +32,16 @@ export default function C2COrderDetail() {
 
     return (
         <div className="max-w-md mx-auto flex flex-col gap-6 pb-20">
-            <button
-                onClick={() => navigate(-1)}
-                className="flex items-center gap-2 text-gray-400 hover:text-[#00FF41] transition-colors self-start"
-            >
-                <ArrowLeft className="w-4 h-4" /> 返回
-            </button>
-
-            <div className="flex justify-between items-center border-b border-[#333] pb-4">
-                <h1 className="font-pixel text-lg text-white">订单详情</h1>
-                <span className="text-[#FFD700] flex items-center gap-2 font-vt text-lg glow-text-gold">
-                    <AlertTriangle className="w-5 h-5" /> {mockOrder.status}
-                </span>
-            </div>
+            <PageHeader
+                icon={<button onClick={() => navigate(-1)} className="hover:text-white transition-colors"><ArrowLeft className="w-6 h-6" /></button>}
+                title="订单详情"
+                color="green"
+                rightElement={
+                    <span className="text-[#FFD700] flex items-center gap-2 font-vt text-lg glow-text-gold">
+                        <AlertTriangle className="w-5 h-5" /> {mockOrder.status}
+                    </span>
+                }
+            />
 
             <div className="bg-[#111] border border-[#333] rounded-lg p-6 glow-box flex flex-col gap-6 font-vt">
                 <div className="flex flex-col gap-2 border-b border-[#333] pb-4">

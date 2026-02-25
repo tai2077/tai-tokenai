@@ -11,6 +11,7 @@ import {
 import { useStore } from "../store/useStore";
 import { SkeletonCard } from "../components/Skeleton";
 import PullToRefresh from "../components/PullToRefresh";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Dashboard() {
   const [revenue, setRevenue] = useState(1234.56);
@@ -35,14 +36,15 @@ export default function Dashboard() {
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="flex flex-col gap-6 pb-20">
         {/* Header */}
-        <div className="flex justify-between items-center">
-          <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-            指挥室 (COMMAND CENTER)
-          </h1>
-          <span className="text-sm border border-[#333] px-2 py-1 rounded bg-[#111]">
-            LVL 42
-          </span>
-        </div>
+        <PageHeader
+          title="指挥室 (COMMAND)"
+          color="gold"
+          rightElement={
+            <span className="font-pixel text-[8px] border border-[#333] px-2 py-1 rounded bg-[#111] text-gray-400">
+              LVL 42
+            </span>
+          }
+        />
 
         {/* HP Bar (Total Assets) */}
         <div className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">

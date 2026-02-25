@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { LineChart, TrendingUp, Flame, Sparkles, Heart } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Market() {
   const [activeTab, setActiveTab] = useState("HOT");
@@ -14,12 +15,11 @@ export default function Market() {
 
   return (
     <div className="flex flex-col gap-6 pb-20">
-      <div className="flex items-center gap-4 mb-4">
-        <LineChart className="w-8 h-8 text-[#00FF41]" />
-        <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-          市场 (MARKET)
-        </h1>
-      </div>
+      <PageHeader
+        title="市场 (MARKET)"
+        icon={<LineChart className="w-6 h-6" />}
+        color="gold"
+      />
 
       {/* Tabs */}
       <div className="flex gap-2 border-b border-[#333] pb-4 overflow-x-auto">
@@ -43,11 +43,10 @@ export default function Market() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-t-lg font-pixel text-[10px] whitespace-nowrap transition-colors ${
-              activeTab === tab.id
+            className={`flex items-center gap-2 px-4 py-2 rounded-t-lg font-pixel text-[10px] whitespace-nowrap transition-colors ${activeTab === tab.id
                 ? "bg-[#00FF41] text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]"
                 : "bg-[#111] text-gray-500 hover:text-[#00FF41] border border-[#333] border-b-0"
-            }`}
+              }`}
           >
             {tab.icon}
             {tab.label}

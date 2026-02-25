@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Coins, Star } from "lucide-react";
+import { PageHeader } from "../components/PageHeader";
 
 interface Order {
     id: string;
@@ -40,19 +41,18 @@ export default function C2C() {
 
     return (
         <div className="flex flex-col gap-6 pb-20 max-w-2xl mx-auto">
-            <div className="flex items-center gap-4 mb-2">
-                <Coins className="w-8 h-8 text-[#FFD700]" />
-                <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-                    C2C 交易
-                </h1>
-            </div>
+            <PageHeader
+                title="C2C 交易"
+                icon={<Coins className="w-6 h-6" />}
+                color="gold"
+            />
 
             <div className="flex border-b border-[#333]">
                 <button
                     onClick={() => setActiveTab("buy")}
                     className={`flex-1 py-3 text-center font-pixel text-[10px] sm:text-xs transition-colors ${activeTab === "buy"
-                            ? "text-[#00FF41] border-b-2 border-[#00FF41]"
-                            : "text-gray-500 hover:text-gray-300"
+                        ? "text-[#00FF41] border-b-2 border-[#00FF41]"
+                        : "text-gray-500 hover:text-gray-300"
                         }`}
                 >
                     买入
@@ -60,8 +60,8 @@ export default function C2C() {
                 <button
                     onClick={() => setActiveTab("sell")}
                     className={`flex-1 py-3 text-center font-pixel text-[10px] sm:text-xs transition-colors ${activeTab === "sell"
-                            ? "text-[#ff4444] border-b-2 border-[#ff4444]"
-                            : "text-gray-500 hover:text-gray-300"
+                        ? "text-[#ff4444] border-b-2 border-[#ff4444]"
+                        : "text-gray-500 hover:text-gray-300"
                         }`}
                 >
                     卖出
@@ -69,8 +69,8 @@ export default function C2C() {
                 <button
                     onClick={() => setActiveTab("orders")}
                     className={`flex-1 py-3 text-center font-pixel text-[10px] sm:text-xs transition-colors ${activeTab === "orders"
-                            ? "text-white border-b-2 border-white"
-                            : "text-gray-500 hover:text-gray-300"
+                        ? "text-white border-b-2 border-white"
+                        : "text-gray-500 hover:text-gray-300"
                         }`}
                 >
                     我的订单

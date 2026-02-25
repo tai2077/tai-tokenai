@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Settings, ToggleRight, ToggleLeft } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function AutoWithdraw() {
     const navigate = useNavigate();
@@ -32,12 +33,11 @@ export default function AutoWithdraw() {
                 <ArrowLeft className="w-4 h-4" /> 返回
             </button>
 
-            <div className="flex items-center gap-4 mb-2">
-                <Settings className="w-8 h-8 text-[#00FF41]" />
-                <h1 className="font-pixel text-xl text-[#00FF41] glow-text">
-                    🤖 自动提现设置
-                </h1>
-            </div>
+            <PageHeader
+                title="🤖 自动提现设置"
+                icon={<Settings className="w-6 h-6" />}
+                color="green"
+            />
 
             <p className="text-gray-400 text-sm bg-[#111] p-4 border border-[#333] rounded-lg">
                 开启后，AI 会在余额超过设定值时自动挂单卖出，
@@ -108,8 +108,8 @@ export default function AutoWithdraw() {
                                 disabled={!enabled}
                                 onClick={() => setMethod(m.id)}
                                 className={`py-3 border font-vt transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${method === m.id
-                                        ? "border-[#00FF41] text-[#00FF41] glow-box"
-                                        : "border-[#333] text-gray-400 hover:border-[#00FF41]"
+                                    ? "border-[#00FF41] text-[#00FF41] glow-box"
+                                    : "border-[#333] text-gray-400 hover:border-[#00FF41]"
                                     }`}
                             >
                                 {method === m.id ? "○ " : ""}

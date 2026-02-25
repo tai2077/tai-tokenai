@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowDownToLine, Wallet } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Deposit() {
     const navigate = useNavigate();
@@ -36,12 +37,11 @@ export default function Deposit() {
                 <ArrowLeft className="w-4 h-4" /> 返回
             </button>
 
-            <div className="flex items-center gap-4 mb-2">
-                <ArrowDownToLine className="w-8 h-8 text-[#00FF41]" />
-                <h1 className="font-pixel text-xl text-[#00FF41] glow-text">
-                    充值到 AI 钱包
-                </h1>
-            </div>
+            <PageHeader
+                title="充值到 AI 钱包"
+                icon={<ArrowDownToLine className="w-6 h-6" />}
+                color="green"
+            />
 
             <div className="bg-[#111] border border-[#333] rounded-lg p-6 glow-box flex flex-col gap-6">
                 <div className="flex flex-col gap-2 border-b border-[#333] pb-4">

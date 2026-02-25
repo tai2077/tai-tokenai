@@ -4,6 +4,7 @@ import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { manifestUrl } from "./lib/tonconnect";
 import Layout from "./components/Layout";
 import { Skeleton } from "./components/Skeleton";
+import { SplashScreen } from "./components/SplashScreen";
 
 // Lazy load pages
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -20,6 +21,12 @@ const AutoWithdraw = lazy(() => import("./pages/AutoWithdraw"));
 const Trade = lazy(() => import("./pages/Trade"));
 
 export default function App() {
+  const [showSplash, setShowSplash] = React.useState(true);
+
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
+
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <Router>

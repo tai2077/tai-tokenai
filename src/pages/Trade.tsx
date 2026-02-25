@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Bot, Target, TrendingUp, Grid, Play, Pause, Activity } from "lucide-react";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Trade() {
     const [strategy, setStrategy] = useState("sniper");
@@ -33,12 +34,11 @@ export default function Trade() {
 
     return (
         <div className="max-w-md mx-auto flex flex-col gap-6 pb-20 font-vt">
-            <div className="flex items-center gap-4 mb-2">
-                <Bot className="w-8 h-8 text-[#00FF41]" />
-                <h1 className="font-pixel text-xl text-[#00FF41] glow-text">
-                    AI 自动交易
-                </h1>
-            </div>
+            <PageHeader
+                title="AI 自动交易"
+                icon={<Bot className="w-6 h-6" />}
+                color="green"
+            />
 
             <div className="bg-[#111] border border-[#333] rounded-lg p-6 glow-box flex flex-col gap-4 text-center">
                 <h2 className="text-gray-500 text-sm">交易资产</h2>
@@ -66,8 +66,8 @@ export default function Trade() {
                             key={s.id}
                             onClick={() => setStrategy(s.id)}
                             className={`flex flex-col items-start p-4 border transition-colors ${strategy === s.id
-                                    ? "border-[#00FF41] bg-[#00FF41]/5 glow-box"
-                                    : "border-[#333] hover:border-[#00FF41]"
+                                ? "border-[#00FF41] bg-[#00FF41]/5 glow-box"
+                                : "border-[#333] hover:border-[#00FF41]"
                                 }`}
                         >
                             <div className="flex justify-between w-full mb-1">
@@ -119,8 +119,8 @@ export default function Trade() {
                     <button
                         onClick={() => setActive(!active)}
                         className={`py-2 px-4 flex items-center gap-2 border font-pixel text-[10px] transition-colors ${active
-                                ? "border-[#ff4444] text-[#ff4444] hover:bg-[#ff4444] hover:text-black"
-                                : "border-[#00FF41] text-[#00FF41] hover:bg-[#00FF41] hover:text-black glow-box"
+                            ? "border-[#ff4444] text-[#ff4444] hover:bg-[#ff4444] hover:text-black"
+                            : "border-[#00FF41] text-[#00FF41] hover:bg-[#00FF41] hover:text-black glow-box"
                             }`}
                     >
                         {active ? <><Pause className="w-4 h-4" /> 暂停</> : <><Play className="w-4 h-4" /> 启动</>}

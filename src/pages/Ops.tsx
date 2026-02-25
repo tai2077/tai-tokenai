@@ -9,18 +9,18 @@ import {
   Activity,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Ops() {
   const { createdTokens, updateAgentStrategy } = useStore();
 
   return (
     <div className="flex flex-col gap-6 pb-20">
-      <div className="flex items-center gap-4 mb-4">
-        <Settings className="w-8 h-8 text-[#00FF41]" />
-        <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-          运营中心 (OPS CENTER)
-        </h1>
-      </div>
+      <PageHeader
+        title="运营中心 (OPS CENTER)"
+        icon={<Settings className="w-6 h-6" />}
+        color="gold"
+      />
 
       {createdTokens.length === 0 ? (
         <div className="bg-[#111] border border-[#333] rounded-lg p-12 text-center text-gray-500 font-pixel text-[12px]">

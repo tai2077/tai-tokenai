@@ -57,20 +57,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="p-4 pt-safe pb-safe max-w-[1920px] mx-auto">{children}</main>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 h-16 bg-[#111] border-t border-[#333] z-50 flex justify-around items-center px-4">
+      <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-[#111] border-t border-[#333] z-50 flex justify-around items-center px-2 pb-safe pt-2">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
           return (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${isActive
-                ? "text-[#00FF41] glow-text"
-                : "text-gray-500 hover:text-[#00FF41]"
+              className={`flex flex-col items-center justify-center w-full h-[56px] gap-1 transition-all duration-200 rounded-lg mx-1 ${isActive
+                ? "text-[#00FF41] glow-text bg-[#00FF41]/10 glow-box"
+                : "text-gray-500 hover:text-[#00FF41] hover:bg-[#00FF41]/5"
                 }`}
             >
               {item.icon}
-              <span className="font-pixel text-[10px]">{item.label}</span>
+              <span className="font-pixel text-[10px] mt-1">{item.label}</span>
             </Link>
           );
         })}

@@ -14,6 +14,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../store/useStore";
 import WalletCard from "../components/WalletCard";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -70,12 +71,11 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col gap-6 pb-20">
-      <div className="flex items-center gap-4 mb-4">
-        <User className="w-8 h-8 text-[#00FF41]" />
-        <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
-          我的 (PROFILE)
-        </h1>
-      </div>
+      <PageHeader
+        title="我的 (PROFILE)"
+        icon={<User className="w-6 h-6" />}
+        color="gold"
+      />
 
       {/* Dual Wallets */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
