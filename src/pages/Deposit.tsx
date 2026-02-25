@@ -48,7 +48,7 @@ export default function Deposit() {
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-500">从:</span>
                         <span className="text-white flex items-center gap-2">
-                            <Wallet className="w-4 h-4 text-gray-400" /> 主钱包 (余额: {mainWallet.balance.toLocaleString()} TAI)
+                            <Wallet className="w-4 h-4 text-gray-400" /> 主钱包 (余额: {Number(mainWallet.balance || 0).toLocaleString()} TAI)
                         </span>
                     </div>
                     <div className="flex justify-between text-sm">

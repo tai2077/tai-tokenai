@@ -288,15 +288,14 @@ export default function Launch() {
             <div className="border-t border-[#333] pt-3 flex justify-between font-bold text-lg">
               <span className="text-[#FFD700]">总计 (TOTAL)</span>
               <span className="text-[#FFD700]">
-                {(
+                {Number(
                   1000 +
                   selectedStaff.reduce(
                     (sum, id) =>
                       sum + (aiStaff.find((s) => s.id === id)?.cost || 0),
                     0,
-                  )
-                ).toLocaleString()}{" "}
-                TAI
+                  ) || 0
+                ).toLocaleString()} TAI
               </span>
             </div>
           </div>

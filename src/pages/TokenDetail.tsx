@@ -196,8 +196,8 @@ export default function TokenDetail() {
                   <span>
                     余额:{" "}
                     {tradeType === "BUY"
-                      ? `${balances.USDT.toLocaleString()} USDT`
-                      : `${tokenBalance.toLocaleString()} ${token.symbol}`}
+                      ? `${Number(balances.USDT || 0).toLocaleString()} USDT`
+                      : `${Number(tokenBalance || 0).toLocaleString()} ${token.symbol}`}
                   </span>
                 </label>
                 <div className="relative">
@@ -226,8 +226,8 @@ export default function TokenDetail() {
                   <span>
                     余额:{" "}
                     {tradeType === "BUY"
-                      ? `${tokenBalance.toLocaleString()} ${token.symbol}`
-                      : `${balances.USDT.toLocaleString()} USDT`}
+                      ? `${Number(tokenBalance || 0).toLocaleString()} ${token.symbol}`
+                      : `${Number(balances.USDT || 0).toLocaleString()} USDT`}
                   </span>
                 </label>
                 <div className="relative">

@@ -323,9 +323,9 @@ export const useStore = create<StoreState>((set, get) => ({
     );
 
     set({ balances: newBalances, holdings: newHoldings });
-    addToast(`成功买入 ${amount.toLocaleString()} ${token?.symbol}`, "success");
+    addToast(`成功买入 ${Number(amount || 0).toLocaleString()} ${token?.symbol}`, "success");
     addFeedEvent(
-      `PLAYER_ONE 💰 成交：买入 ${amount.toLocaleString()} ${token?.symbol} @ $${(cost / amount).toFixed(3)}`,
+      `PLAYER_ONE 💰 成交：买入 ${Number(amount || 0).toLocaleString()} ${token?.symbol} @ $${Number(cost / amount || 0).toFixed(3)}`,
       "trade",
     );
   },
@@ -358,9 +358,9 @@ export const useStore = create<StoreState>((set, get) => ({
     );
 
     set({ balances: newBalances, holdings: newHoldings });
-    addToast(`成功卖出 ${amount.toLocaleString()} ${token?.symbol}`, "success");
+    addToast(`成功卖出 ${Number(amount || 0).toLocaleString()} ${token?.symbol}`, "success");
     addFeedEvent(
-      `PLAYER_ONE 💰 成交：卖出 ${amount.toLocaleString()} ${token?.symbol} @ $${(revenue / amount).toFixed(3)}`,
+      `PLAYER_ONE 💰 成交：卖出 ${Number(amount || 0).toLocaleString()} ${token?.symbol} @ $${Number(revenue / amount || 0).toFixed(3)}`,
       "trade",
     );
   },

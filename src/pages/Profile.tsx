@@ -69,8 +69,8 @@ export default function Profile() {
     if (!token) return null;
     return {
       symbol: token.symbol,
-      amount: amount.toLocaleString(),
-      value: `$${(amount * token.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      amount: Number(amount || 0).toLocaleString(),
+      value: `$${Number(amount * token.price || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
     };
   };
 
@@ -160,7 +160,7 @@ export default function Profile() {
             <div className="flex justify-between text-sm mb-1">
               <span className="font-pixel text-[8px]">TOTAL ASSETS (HP)</span>
               <span className="text-[#FFD700]">
-                ${totalAssets.toLocaleString()} / ${maxAssets.toLocaleString()}
+                ${Number(totalAssets || 0).toLocaleString()} / ${Number(maxAssets || 0).toLocaleString()}
               </span>
             </div>
             <div className="h-4 bg-[#333] rounded overflow-hidden">

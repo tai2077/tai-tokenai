@@ -48,7 +48,7 @@ export default function Withdraw() {
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-500">从:</span>
                         <span className="text-white flex items-center gap-2">
-                            <span className="text-[#00FF41]">🤖 AI 钱包</span> (余额: {aiWallet.balance.toLocaleString()} TAI)
+                            <span className="text-[#00FF41]">🤖 AI 钱包</span> (余额: {Number(aiWallet.balance || 0).toLocaleString()} TAI)
                         </span>
                     </div>
                     <div className="flex justify-between text-sm">

@@ -92,7 +92,7 @@ export default function Dashboard() {
           <div className="flex justify-between text-sm mb-2">
             <span className="font-pixel text-[10px]">TOTAL ASSETS (HP)</span>
             <span className="text-[#FFD700]">
-              ${totalAssets.toLocaleString()} / ${maxAssets.toLocaleString()}
+              ${Number(totalAssets || 0).toLocaleString()} / ${Number(maxAssets || 0).toLocaleString()}
             </span>
           </div>
           {loading ? (
@@ -192,14 +192,14 @@ export default function Dashboard() {
                 )}
                 <span
                   className={`flex-1 ${feed.type === "trade"
-                      ? "text-[#00FF41]"
-                      : feed.type === "scout"
-                        ? "text-[#3B82F6]"
-                        : feed.type === "mine"
-                          ? "text-[#F59E0B]"
-                          : feed.type === "launch"
-                            ? "text-[#FFD700] glow-text-gold"
-                            : "text-[#8B5CF6]"
+                    ? "text-[#00FF41]"
+                    : feed.type === "scout"
+                      ? "text-[#3B82F6]"
+                      : feed.type === "mine"
+                        ? "text-[#F59E0B]"
+                        : feed.type === "launch"
+                          ? "text-[#FFD700] glow-text-gold"
+                          : "text-[#8B5CF6]"
                     }`}
                 >
                   {feed.text}

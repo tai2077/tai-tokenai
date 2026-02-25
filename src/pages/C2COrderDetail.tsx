@@ -48,7 +48,7 @@ export default function C2COrderDetail() {
                     <div className="flex justify-between text-lg">
                         <span className="text-gray-500">购买数量:</span>
                         <span className="text-white">
-                            {mockOrder.amount.toLocaleString()} TAI
+                            {Number(mockOrder.amount || 0).toLocaleString()} TAI
                         </span>
                     </div>
                     <div className="flex justify-between text-xl">

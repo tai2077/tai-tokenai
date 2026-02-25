@@ -81,7 +81,7 @@ export const WalletCard = React.memo(({
                 <div className="flex justify-between items-center pb-2 border-b border-[#333]">
                     <span className="text-gray-500">余额:</span>
                     <span className="text-[#00FF41] text-lg font-bold glow-text">
-                        {balance.toLocaleString()} TAI
+                        {Number(balance || 0).toLocaleString()} TAI
                     </span>
                 </div>
 

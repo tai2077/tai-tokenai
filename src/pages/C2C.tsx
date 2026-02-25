@@ -101,7 +101,7 @@ export default function C2C() {
                                 <div className="text-sm">
                                     <span className="text-gray-500">数量:</span>{" "}
                                     <span className="text-white">
-                                        {order.amount.toLocaleString()} TAI
+                                        {Number(order.amount || 0).toLocaleString()} TAI
                                     </span>
                                 </div>
                                 <div className="flex gap-2">

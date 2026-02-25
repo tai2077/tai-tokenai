@@ -38,10 +38,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="animate-marquee flex gap-12 text-xl inline-block px-4">
             <span>SYS.STATUS: ONLINE</span>
             <span className="hidden sm:inline">
-              BTC: ${(globalData.prices?.btc || 64230).toLocaleString()} <span className="text-[#00FF41]">+5.2%</span>
+              BTC: ${Number(globalData.prices?.btc || 64230).toLocaleString()} <span className="text-[#00FF41]">+5.2%</span>
             </span>
             <span className="hidden sm:inline">
-              ETH: ${(globalData.prices?.eth || 3450).toLocaleString()} <span className="text-[#00FF41]">+2.1%</span>
+              ETH: ${Number(globalData.prices?.eth || 3450).toLocaleString()} <span className="text-[#00FF41]">+2.1%</span>
             </span>
             <span>
               TAI: ${(globalData.prices?.tai || 1.45)} <span className="text-[#00FF41]">+14.4%</span>
