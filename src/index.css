@@ -5,6 +5,13 @@
   --font-vt: "VT323", monospace;
 }
 
+:root {
+  --color-bg: #0a0a0c;
+  --color-surface: #111111;
+  --color-border: #333333;
+  --color-text-primary: #00ff41;
+}
+
 @layer utilities {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom, 20px);
@@ -80,6 +87,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+  }
 
   button,
   a,
