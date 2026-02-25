@@ -1,0 +1,121 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { LineChart, TrendingUp, Flame, Sparkles, Heart } from "lucide-react";
+import { useStore } from "../store/useStore";
+
+export default function Market() {
+  const [activeTab, setActiveTab] = useState("HOT");
+  const { marketTokens } = useStore();
+
+  const filteredTokens = marketTokens.filter(
+    (t) => t.type === activeTab || activeTab === "ALL",
+  );
+
+  return (
+    <div className="flex flex-col gap-6 pb-20">
+      <div className="flex items-center gap-4 mb-4">
+        <LineChart className="w-8 h-8 text-[#00FF41]" />
+        <h1 className="font-pixel text-xl text-[#FFD700] glow-text-gold">
+          市场 (MARKET)
+        </h1>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-2 border-b border-[#333] pb-4 overflow-x-auto">
+        {[
+          {
+            id: "HOT",
+            label: "热门币 (HOT)",
+            icon: <Flame className="w-4 h-4" />,
+          },
+          {
+            id: "NEW",
+            label: "新币 (NEW)",
+            icon: <Sparkles className="w-4 h-4" />,
+          },
+          {
+            id: "TOP",
+            label: "涨幅榜 (TOP GAINERS)",
+            icon: <TrendingUp className="w-4 h-4" />,
+          },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-t-lg font-pixel text-[10px] whitespace-nowrap transition-colors ${
+              activeTab === tab.id
+                ? "bg-[#00FF41] text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]"
+                : "bg-[#111] text-gray-500 hover:text-[#00FF41] border border-[#333] border-b-0"
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Token List */}
+      <div className="flex flex-col gap-4">
+        {filteredTokens.map((token, index) => (
+          <motion.div
+            key={token.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="bg-[#111] border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <div className="w-12 h-12 bg-black border border-[#333] rounded flex items-center justify-center font-pixel text-[8px] text-[#00FF41] shrink-0">
+                LOGO
+              </div>
+              <div className="flex-1">
+                <Link
+                  to={`/token/${token.id}`}
+                  className="font-pixel text-[12px] text-[#FFD700] hover:underline mb-1 block"
+                >
+                  {token.name}
+                </Link>
+                <div className="flex items-center gap-2 text-sm text-gray-400">
+                  <span>{token.symbol}</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    AI:
+                    {token.aiStatus === "working" ? (
+                      <Heart className="w-3 h-3 text-red-500 fill-red-500 heart-beat" />
+                    ) : (
+                      <Heart className="w-3 h-3 text-gray-600 fill-gray-600" />
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between w-full sm:w-auto gap-6 sm:gap-8">
+              <div className="text-left sm:text-right">
+                <p className="font-vt text-2xl text-white">
+                  ${token.price.toFixed(3)}
+                </p>
+                <p
+                  className={`text-sm ${token.change.startsWith("+") ? "text-[#00FF41]" : "text-red-500"}`}
+                >
+                  {token.change}
+                </p>
+              </div>
+              <div className="text-left sm:text-right hidden md:block">
+                <p className="text-xs text-gray-500 mb-1">MCAP</p>
+                <p className="font-vt text-xl text-[#FFD700]">{token.mcap}</p>
+              </div>
+              <Link
+                to={`/token/${token.id}`}
+                className="bg-[#00FF41] text-black px-6 py-2 rounded font-pixel text-[10px] hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all shrink-0"
+              >
+                买入
+              </Link>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,12 @@
+{
+    "nav": {
+        "dashboard": "COMMAND",
+        "launch": "LAUNCH",
+        "trade": "TRADE",
+        "market": "MARKET",
+        "profile": "PROFILE"
+    },
+    "layout": {
+        "connect": "CONNECT"
+    }
+}
