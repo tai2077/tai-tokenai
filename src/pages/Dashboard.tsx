@@ -55,7 +55,7 @@ export default function Dashboard() {
       <div className="flex flex-col gap-6 pb-20">
         {/* Header */}
         <PageHeader
-          title="指挥室 (COMMAND)"
+          title="作战 (OPERATIONS)"
           color="gold"
           rightElement={
             <span className="font-pixel text-[8px] border border-[#333] px-2 py-1 rounded bg-[#111] text-gray-400">
@@ -158,9 +158,12 @@ export default function Dashboard() {
                 key={ai.id}
                 className="border border-[#333] rounded p-2 flex items-center justify-between"
               >
-                <div>
-                  <p className="font-pixel text-[8px] mb-1">{ai.name}</p>
-                  <p className="text-xs text-gray-500">{ai.role}</p>
+                <div className="flex gap-2 items-center">
+                  <img src={ai.avatar} alt={ai.name} className="w-8 h-8 rounded shrink-0 bg-[#0a0a0c] border border-[#333]" />
+                  <div>
+                    <p className="font-pixel text-[8px] mb-1">{ai.name}</p>
+                    <p className="text-xs text-gray-500">{ai.role}</p>
+                  </div>
                 </div>
                 {ai.status === "working" ? (
                   <Heart className="w-4 h-4 text-red-500 fill-red-500 heart-beat" />
@@ -181,12 +184,14 @@ export default function Dashboard() {
             {liveFeed.map((feed) => (
               <div
                 key={feed.id}
-                className="flex gap-2 items-start border-b border-[#333] pb-2 last:border-0"
+                className="flex gap-2 items-center border-b border-[#333] pb-2 last:border-0"
               >
-                <span className="text-gray-500 shrink-0">[{feed.time}]</span>
+                <span className="text-gray-500 shrink-0 text-xs mt-0.5">[{feed.time}]</span>
+                {feed.avatar && (
+                  <img src={feed.avatar} alt="avatar" className="w-6 h-6 rounded shrink-0 bg-[#0a0a0c] border border-[#333]" />
+                )}
                 <span
-                  className={
-                    feed.type === "trade"
+                  className={`flex-1 ${feed.type === "trade"
                       ? "text-[#00FF41]"
                       : feed.type === "scout"
                         ? "text-[#3B82F6]"
@@ -195,7 +200,7 @@ export default function Dashboard() {
                           : feed.type === "launch"
                             ? "text-[#FFD700] glow-text-gold"
                             : "text-[#8B5CF6]"
-                  }
+                    }`}
                 >
                   {feed.text}
                 </span>

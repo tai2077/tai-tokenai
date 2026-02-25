@@ -54,10 +54,10 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Dashboard /></PageTransition>} />
+        <Route path="/" element={<PageTransition><Market /></PageTransition>} />
+        <Route path="/ops-center" element={<PageTransition><Dashboard /></PageTransition>} />
         <Route path="/launch" element={<PageTransition><Launch /></PageTransition>} />
         <Route path="/ops" element={<PageTransition><Ops /></PageTransition>} />
-        <Route path="/market" element={<PageTransition><Market /></PageTransition>} />
         <Route path="/token/:address" element={<PageTransition><TokenDetail /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/deposit" element={<PageTransition><Deposit /></PageTransition>} />

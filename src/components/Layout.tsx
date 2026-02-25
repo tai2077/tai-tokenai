@@ -20,10 +20,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const navItems = [
-    { path: "/", label: t("nav.dashboard"), icon: <Terminal className="w-5 h-5" /> },
+    { path: "/", label: t("nav.market"), icon: <LineChart className="w-5 h-5" /> },
+    { path: "/ops-center", label: t("nav.dashboard"), icon: <Terminal className="w-5 h-5" /> },
     { path: "/launch", label: t("nav.launch"), icon: <Rocket className="w-5 h-5" /> },
     { path: "/trade", label: t("nav.trade"), icon: <Bot className="w-5 h-5" /> },
-    { path: "/market", label: t("nav.market"), icon: <LineChart className="w-5 h-5" /> },
     { path: "/profile", label: t("nav.profile"), icon: <User className="w-5 h-5" /> },
   ];
 

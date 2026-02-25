@@ -20,6 +20,7 @@ export interface Agent {
   status: "working" | "resting";
   output: string;
   quote: string;
+  avatar: string;
 }
 
 export interface Token {
@@ -72,7 +73,7 @@ interface StoreState {
   createdTokens: Token[];
   marketTokens: Token[];
   aiAgents: Agent[];
-  liveFeed: { id: number; time: string; text: string; type: string }[];
+  liveFeed: { id: number; time: string; text: string; type: string; avatar?: string }[];
   toasts: ToastMessage[];
 
   // Global API Data
@@ -162,6 +163,7 @@ const initialAgents: Agent[] = [
     status: "working",
     output: "⚡ +500/h",
     quote: "⚡ 能源产出 +500 | 库存充足",
+    avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=MINER-01&backgroundColor=0a0a0c&colors=00FF41",
   },
   {
     id: "SCOUT-99",
@@ -171,6 +173,7 @@ const initialAgents: Agent[] = [
     status: "working",
     output: "📰 +2/h",
     quote: "🔍 发现：某巨鲸地址 30 分钟内转入 $50M USDT",
+    avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=SCOUT-99&backgroundColor=0a0a0c&colors=3B82F6",
   },
   {
     id: "ANALYST-X",
@@ -180,6 +183,7 @@ const initialAgents: Agent[] = [
     status: "resting",
     output: "📊 +5/h",
     quote: "📊 BTC 4H 分析：支撑位 $66,800，阻力 $68,500",
+    avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=ANALYST-X&backgroundColor=0a0a0c&baseColor=8B5CF6",
   },
   {
     id: "TRADER-7",
@@ -189,6 +193,7 @@ const initialAgents: Agent[] = [
     status: "working",
     output: "💰 +$1234",
     quote: "💰 成交：买入 0.5 ETH @ $3,450",
+    avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=TRADER-7&backgroundColor=0a0a0c&colors=EF4444",
   },
 ];
 
@@ -221,24 +226,28 @@ export const useStore = create<StoreState>((set, get) => ({
       time: "10:42:01",
       text: "TRADER-7 💰 成交：买入 0.5 ETH @ $3,450",
       type: "trade",
+      avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=TRADER-7&backgroundColor=0a0a0c&colors=EF4444"
     },
     {
       id: 2,
       time: "10:41:15",
       text: "SCOUT-99 🔍 发现：某巨鲸地址 30 分钟内转入 $50M USDT",
       type: "scout",
+      avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=SCOUT-99&backgroundColor=0a0a0c&colors=3B82F6"
     },
     {
       id: 3,
       time: "10:39:50",
       text: "MINER-01 ⚡ 能源产出 +500 | 库存充足",
       type: "mine",
+      avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=MINER-01&backgroundColor=0a0a0c&colors=00FF41"
     },
     {
       id: 4,
       time: "10:35:22",
       text: "ANALYST-X 📊 BTC 4H 分析：支撑位 $66,800，阻力 $68,500",
       type: "analysis",
+      avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=ANALYST-X&backgroundColor=0a0a0c&baseColor=8B5CF6"
     },
   ],
   toasts: [],

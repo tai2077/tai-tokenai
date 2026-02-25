@@ -68,14 +68,16 @@ export default function Launch() {
 
     const hiredAgents: Agent[] = selectedStaff.map((id) => {
       const staff = aiStaff.find((s) => s.id === id)!;
+      const agentId = `${staff.role}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
       return {
-        id: `${staff.role}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+        id: agentId,
         name: `${tokenSymbol} ${staff.name.split(" ")[0]}`,
         role: staff.role,
         level: 1,
         status: "working",
         output: "初始化中...",
         quote: `为 ${tokenSymbol} 社区服务！`,
+        avatar: `https://api.dicebear.com/9.x/bottts/svg?seed=${agentId}&backgroundColor=0a0a0c`,
       };
     });
 
@@ -217,8 +219,8 @@ export default function Launch() {
                     }
                   }}
                   className={`border rounded-lg p-4 cursor-pointer transition-all flex flex-col items-center gap-3 ${isSelected
-                      ? "border-[#00FF41] bg-[#00FF41]/10 glow-box"
-                      : "border-[#333] bg-black hover:border-gray-500"
+                    ? "border-[#00FF41] bg-[#00FF41]/10 glow-box"
+                    : "border-[#333] bg-black hover:border-gray-500"
                     }`}
                 >
                   <div

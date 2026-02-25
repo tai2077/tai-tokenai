@@ -21,6 +21,15 @@ export default function Market() {
         color="gold"
       />
 
+      {/* FOMO Live Banner */}
+      <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-2 overflow-hidden flex items-center relative glow-box">
+        <Flame className="w-4 h-4 text-red-500 absolute left-2 z-10 animate-pulse" />
+        <div className="animate-marquee whitespace-nowrap pl-8 text-[10px] font-pixel text-red-400">
+          🔥 巨头建仓: 某地址扫货 1.5M TAI  |  🚀 新币上线: DOGE_CYBER_PUMP 5分钟内暴涨 +300%  |  💎 重点监控: AI_MINER_01 收益率异常飙升
+        </div>
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#0a0a0c] to-transparent z-10 pointer-events-none"></div>
+      </div>
+
       {/* Tabs */}
       <div className="flex gap-2 border-b border-[#333] pb-4 overflow-x-auto">
         {[
@@ -92,11 +101,11 @@ export default function Market() {
 
             <div className="flex items-center justify-between w-full sm:w-auto gap-4 sm:gap-8 mt-2 sm:mt-0">
               <div className="text-left sm:text-right">
-                <p className="font-vt text-xl sm:text-2xl text-white">
+                <p className="font-vt text-2xl sm:text-3xl text-white">
                   ${token.price.toFixed(3)}
                 </p>
                 <p
-                  className={`text-xs sm:text-sm ${token.change.startsWith("+") ? "text-[#00FF41]" : "text-red-500"}`}
+                  className={`text-sm sm:text-base font-bold ${token.change.startsWith("+") ? "text-[#00FF41] glow-text animate-pulse" : "text-red-500"}`}
                 >
                   {token.change}
                 </p>
