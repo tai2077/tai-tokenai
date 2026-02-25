@@ -31,16 +31,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="animate-marquee flex gap-12 text-xl inline-block px-4">
             <span>SYS.STATUS: ONLINE</span>
-            <span>
+            <span className="hidden sm:inline">
               BTC: $64,230 <span className="text-[#00FF41]">+5.2%</span>
             </span>
-            <span>
+            <span className="hidden sm:inline">
               ETH: $3,450 <span className="text-[#00FF41]">+2.1%</span>
             </span>
             <span>
               TAI: $1.45 <span className="text-[#00FF41]">+14.4%</span>
             </span>
-            <span>AGENT_NETWORK: 1,337 ACTIVE</span>
+            <span className="hidden md:inline">AGENT_NETWORK: 1,337 ACTIVE</span>
           </div>
 
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#111] to-transparent z-10 pointer-events-none"></div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Coins, Star } from "lucide-react";
 import { PageHeader } from "../components/PageHeader";
+import { EmptyState } from "../components/EmptyState";
 
 interface Order {
     id: string;
@@ -125,15 +126,11 @@ export default function C2C() {
                     ))}
 
                 {activeTab === "sell" && (
-                    <div className="text-center text-gray-500 py-10 font-vt">
-                        暂无可匹配的买单
-                    </div>
+                    <EmptyState message="暂无可匹配的买单" />
                 )}
 
                 {activeTab === "orders" && (
-                    <div className="text-center text-gray-500 py-10 font-vt">
-                        暂无历史订单
-                    </div>
+                    <EmptyState message="暂无历史订单" />
                 )}
             </div>
         </div>

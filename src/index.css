@@ -65,6 +65,18 @@
   .animate-marquee {
     animation: marquee 20s linear infinite;
   }
+
+  .typing-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #00FF41;
+    animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
+  }
+
+  .value-update-flash {
+    animation: flash-green 1s ease-out;
+  }
 }
 
 @layer base {
@@ -72,6 +84,11 @@
   button,
   a {
     @apply transition-transform duration-75 active:scale-95;
+  }
+
+  input:focus {
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    border-color: #00FF41 !important;
   }
 }
 
@@ -82,6 +99,47 @@
 
   100% {
     transform: translateX(-100%);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
+}
+
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: #00FF41
+  }
+}
+
+@keyframes flash-green {
+  0% {
+    color: #fff;
+    text-shadow: 0 0 10px #fff;
+    transform: scale(1.05);
+  }
+
+  50% {
+    color: #00FF41;
+    text-shadow: 0 0 20px #00FF41;
+  }
+
+  100% {
+    color: #00FF41;
+    text-shadow: 0 0 5px #00FF41;
+    transform: scale(1);
   }
 }
 

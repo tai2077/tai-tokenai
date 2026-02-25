@@ -2,22 +2,38 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Heart,
   Rocket,
   DollarSign,
   ArrowDownToLine,
   Activity,
+  TerminalSquare,
+  Heart
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { SkeletonCard } from "../components/Skeleton";
 import PullToRefresh from "../components/PullToRefresh";
 import { PageHeader } from "../components/PageHeader";
+import { X } from "lucide-react";
 
 export default function Dashboard() {
   const [revenue, setRevenue] = useState(1234.56);
   const { totalAssets, maxAssets, aiAgents, liveFeed } = useStore();
 
   const [loading, setLoading] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [flashRevenue, setFlashRevenue] = useState(false);
+
+  useEffect(() => {
+    const isDone = localStorage.getItem("tai_onboarding_done");
+    if (!isDone) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const dismissOnboarding = () => {
+    setShowOnboarding(false);
+    localStorage.setItem("tai_onboarding_done", "true");
+  };
 
   const handleRefresh = async () => {
     setLoading(true);
@@ -28,6 +44,8 @@ export default function Dashboard() {
   useEffect(() => {
     const timer = setInterval(() => {
       setRevenue((prev) => prev + Math.random() * 2);
+      setFlashRevenue(true);
+      setTimeout(() => setFlashRevenue(false), 1000);
     }, 3000);
     return () => clearInterval(timer);
   }, []);
@@ -45,6 +63,29 @@ export default function Dashboard() {
             </span>
           }
         />
+
+        {/* Onboarding Banner */}
+        {showOnboarding && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-[#00FF41]/10 border border-[#00FF41] rounded-lg p-4 relative glow-box mb-2"
+          >
+            <button
+              onClick={dismissOnboarding}
+              className="absolute top-2 right-2 text-[#00FF41] hover:text-white"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <h3 className="font-pixel text-[10px] text-[#00FF41] mb-2 flex items-center gap-2">
+              <TerminalSquare className="w-4 h-4" /> SYS.MESSAGE
+            </h3>
+            <p className="font-vt text-sm sm:text-base text-gray-200">
+              <span className="typing-text">WELCOME TO TAI NETWORK 欢迎加入。请先关联你的 TON 钱包。</span>
+            </p>
+          </motion.div>
+        )}
 
         {/* HP Bar (Total Assets) */}
         <div className="bg-[#111]/80 backdrop-blur-md border border-[#333] rounded-lg p-4 hover:border-[#00FF41] transition-colors glow-box">

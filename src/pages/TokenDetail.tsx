@@ -92,9 +92,9 @@ export default function TokenDetail() {
           </div>
         }
         title={
-          <div className="flex flex-col ml-2">
-            <span>{token.name}</span>
-            <span className="text-[10px] text-gray-400 font-pixel tracking-normal mt-1">{token.symbol}</span>
+          <div className="flex flex-col ml-2 truncate">
+            <span className="truncate">{token.name}</span>
+            <span className="text-[10px] text-gray-400 font-pixel tracking-normal mt-1 truncate">{token.symbol}</span>
           </div>
         }
         color="gold"
@@ -264,19 +264,19 @@ export default function TokenDetail() {
               <Users className="w-4 h-4" /> 持仓者 (HOLDERS)
             </h3>
             <div className="space-y-3">
-              <div className="flex justify-between text-xs text-gray-500 border-b border-[#333] pb-2">
-                <span>ADDRESS</span>
-                <span>AMOUNT</span>
-                <span>%</span>
+              <div className="flex justify-between text-[10px] sm:text-xs text-gray-500 border-b border-[#333] pb-2">
+                <span className="w-1/3">ADDRESS</span>
+                <span className="w-1/3 text-center">AMOUNT</span>
+                <span className="w-1/3 text-right">%</span>
               </div>
               {mockHolders.map((h, i) => (
                 <div
                   key={i}
-                  className="flex justify-between text-sm items-center"
+                  className="flex justify-between text-xs sm:text-sm items-center"
                 >
-                  <span className="text-[#00FF41]">{h.address}</span>
-                  <span className="text-white">{h.amount}</span>
-                  <span className="text-gray-400">{h.percentage}</span>
+                  <span className="text-[#00FF41] w-1/3 truncate pr-2">{h.address}</span>
+                  <span className="text-white w-1/3 text-center truncate pr-2">{h.amount}</span>
+                  <span className="text-gray-400 w-1/3 text-right">{h.percentage}</span>
                 </div>
               ))}
             </div>

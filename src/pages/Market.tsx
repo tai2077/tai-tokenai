@@ -44,8 +44,8 @@ export default function Market() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-t-lg font-pixel text-[10px] whitespace-nowrap transition-colors ${activeTab === tab.id
-                ? "bg-[#00FF41] text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]"
-                : "bg-[#111] text-gray-500 hover:text-[#00FF41] border border-[#333] border-b-0"
+              ? "bg-[#00FF41] text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]"
+              : "bg-[#111] text-gray-500 hover:text-[#00FF41] border border-[#333] border-b-0"
               }`}
           >
             {tab.icon}
@@ -90,24 +90,24 @@ export default function Market() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between w-full sm:w-auto gap-6 sm:gap-8">
+            <div className="flex items-center justify-between w-full sm:w-auto gap-4 sm:gap-8 mt-2 sm:mt-0">
               <div className="text-left sm:text-right">
-                <p className="font-vt text-2xl text-white">
+                <p className="font-vt text-xl sm:text-2xl text-white">
                   ${token.price.toFixed(3)}
                 </p>
                 <p
-                  className={`text-sm ${token.change.startsWith("+") ? "text-[#00FF41]" : "text-red-500"}`}
+                  className={`text-xs sm:text-sm ${token.change.startsWith("+") ? "text-[#00FF41]" : "text-red-500"}`}
                 >
                   {token.change}
                 </p>
               </div>
               <div className="text-left sm:text-right hidden md:block">
-                <p className="text-xs text-gray-500 mb-1">MCAP</p>
-                <p className="font-vt text-xl text-[#FFD700]">{token.mcap}</p>
+                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">MCAP</p>
+                <p className="font-vt text-lg sm:text-xl text-[#FFD700]">{token.mcap}</p>
               </div>
               <Link
                 to={`/token/${token.id}`}
-                className="bg-[#00FF41] text-black px-6 py-2 rounded font-pixel text-[10px] hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all shrink-0"
+                className="bg-[#00FF41] text-black px-4 sm:px-6 py-2 rounded font-pixel text-[8px] sm:text-[10px] hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all shrink-0"
               >
                 买入
               </Link>

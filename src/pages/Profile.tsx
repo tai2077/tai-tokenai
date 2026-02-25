@@ -10,15 +10,20 @@ import {
   Skull,
   Coins,
   Zap,
+  Users,
+  Copy,
+  CheckCircle2
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../store/useStore";
 import WalletCard from "../components/WalletCard";
 import { PageHeader } from "../components/PageHeader";
+import { EmptyState } from "../components/EmptyState";
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { totalAssets, maxAssets, holdings, createdTokens, marketTokens, mainWallet, aiWallet } =
+  const [copied, setCopied] = React.useState(false);
+  const { totalAssets, maxAssets, holdings, createdTokens, marketTokens, mainWallet, aiWallet, addToast } =
     useStore();
 
   const user = {
@@ -67,6 +72,13 @@ export default function Profile() {
       amount: amount.toLocaleString(),
       value: `$${(amount * token.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
     };
+  };
+
+  const handleCopyAddress = () => {
+    navigator.clipboard.writeText(user.address);
+    setCopied(true);
+    addToast("地址已复制", "success");
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -134,8 +146,12 @@ export default function Profile() {
           <div className="flex items-center justify-center md:justify-start gap-2 text-gray-400 mb-4">
             <Wallet className="w-4 h-4" />
             <span className="font-vt text-lg">{user.address}</span>
-            <button className="text-xs underline hover:text-[#00FF41]">
-              复制
+            <button
+              onClick={handleCopyAddress}
+              className={`text-xs flex items-center gap-1 transition-all ${copied ? "text-[#00FF41] scale-110" : "hover:text-[#00FF41] hover:scale-105 active:scale-95"}`}
+            >
+              {copied ? <CheckCircle2 className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+              {copied ? "已复制" : "复制"}
             </button>
           </div>
 
@@ -174,9 +190,7 @@ export default function Profile() {
                 <span>VALUE</span>
               </div>
               {holdings.length === 0 ? (
-                <div className="text-center text-gray-500 text-xs py-4">
-                  暂无持仓
-                </div>
+                <EmptyState message="暂无持仓资产" />
               ) : (
                 holdings.map((h, i) => {
                   const details = getHoldingDetails(h.tokenId, h.amount);
@@ -208,9 +222,7 @@ export default function Profile() {
                 <span>MCAP</span>
               </div>
               {createdTokens.length === 0 ? (
-                <div className="text-center text-gray-500 text-xs py-4">
-                  暂无创建的代币
-                </div>
+                <EmptyState message="暂无创建的代币" />
               ) : (
                 createdTokens.map((t, i) => (
                   <div

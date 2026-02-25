@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
+import { EmptyState } from "../components/EmptyState";
 
 export default function Ops() {
   const { createdTokens, updateAgentStrategy } = useStore();
@@ -23,9 +24,10 @@ export default function Ops() {
       />
 
       {createdTokens.length === 0 ? (
-        <div className="bg-[#111] border border-[#333] rounded-lg p-12 text-center text-gray-500 font-pixel text-[12px]">
-          暂无运营中的代币，请先去 [发币] 页面创建。
-        </div>
+        <EmptyState
+          title="系统空载"
+          message="暂无运营中的代币，请先去 [发币] 页面创建。"
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {createdTokens.map((token) => (
