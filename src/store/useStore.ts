@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { coreApi } from "../lib/api";
 
 export type AgentRole =
   | "MINER"
@@ -74,7 +75,16 @@ interface StoreState {
   liveFeed: { id: number; time: string; text: string; type: string }[];
   toasts: ToastMessage[];
 
+  // Global API Data
+  globalData: {
+    prices: { tai: number; btc: number; eth: number };
+    addresses: any;
+    stakingInfo: any;
+    vestingStatus: any;
+  };
+
   // Actions
+  fetchGlobalData: () => Promise<void>;
   setMainWallet: (update: Partial<StoreState["mainWallet"]>) => void;
   setAiWallet: (update: Partial<StoreState["aiWallet"]>) => void;
   buyToken: (tokenId: string, amount: number, cost: number) => void;
@@ -232,6 +242,34 @@ export const useStore = create<StoreState>((set, get) => ({
     },
   ],
   toasts: [],
+
+  globalData: {
+    prices: { tai: 1.45, btc: 64230, eth: 3450 },
+    addresses: null,
+    stakingInfo: null,
+    vestingStatus: null,
+  },
+
+  fetchGlobalData: async () => {
+    try {
+      const [prices, addresses, stakingInfo, vestingStatus] = await Promise.all([
+        coreApi.getPrice(),
+        coreApi.getAddresses(),
+        coreApi.getStakingInfo(),
+        coreApi.getVestingStatus(),
+      ]);
+      set({
+        globalData: {
+          prices: prices || { tai: 1.45, btc: 64230, eth: 3450 },
+          addresses,
+          stakingInfo,
+          vestingStatus,
+        },
+      });
+    } catch (e) {
+      console.error("Failed to fetch global data", e);
+    }
+  },
 
   setMainWallet: (update) =>
     set((state) => ({ mainWallet: { ...state.mainWallet, ...update } })),

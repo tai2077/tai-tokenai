@@ -108,6 +108,16 @@ export const coreApi = {
         { totalStaked: 1000000, apy: "15%" },
         'GET /staking/info'
     ),
+    getVestingStatus: () => withMockFallback<any>(
+        api.get('/vesting/status'),
+        {
+            totalVested: 500000,
+            claimed: 100000,
+            locked: 400000,
+            nextUnlock: "2026-06-01"
+        },
+        'GET /vesting/status'
+    ),
 };
 
 export default api;

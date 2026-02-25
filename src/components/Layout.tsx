@@ -4,10 +4,16 @@ import { Terminal, Rocket, LineChart, User, Bot, Globe } from "lucide-react";
 import ToastContainer from "./Toast";
 import WalletButton from "./WalletButton";
 import { useTranslation } from "react-i18next";
+import { useStore } from "../store/useStore";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const { globalData, fetchGlobalData } = useStore();
+
+  React.useEffect(() => {
+    fetchGlobalData();
+  }, [fetchGlobalData]);
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh");
@@ -32,13 +38,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="animate-marquee flex gap-12 text-xl inline-block px-4">
             <span>SYS.STATUS: ONLINE</span>
             <span className="hidden sm:inline">
-              BTC: $64,230 <span className="text-[#00FF41]">+5.2%</span>
+              BTC: ${globalData.prices.btc.toLocaleString()} <span className="text-[#00FF41]">+5.2%</span>
             </span>
             <span className="hidden sm:inline">
-              ETH: $3,450 <span className="text-[#00FF41]">+2.1%</span>
+              ETH: ${globalData.prices.eth.toLocaleString()} <span className="text-[#00FF41]">+2.1%</span>
             </span>
             <span>
-              TAI: $1.45 <span className="text-[#00FF41]">+14.4%</span>
+              TAI: ${globalData.prices.tai} <span className="text-[#00FF41]">+14.4%</span>
             </span>
             <span className="hidden md:inline">AGENT_NETWORK: 1,337 ACTIVE</span>
           </div>
