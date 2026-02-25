@@ -18,6 +18,23 @@ const API_BASE = import.meta.env.VITE_API_URL || 'https://api.tai.lat';
 const ALLOW_MOCK_FALLBACK =
   import.meta.env.DEV && import.meta.env.VITE_ALLOW_MOCK === 'true';
 
+interface ApiEnvelope<T> {
+  data?: T;
+  result?: T;
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const unwrapPayload = <T>(payload: unknown): T => {
+  if (isRecord(payload)) {
+    const envelope = payload as ApiEnvelope<T>;
+    if (envelope.data !== undefined) return envelope.data;
+    if (envelope.result !== undefined) return envelope.result;
+  }
+  return payload as T;
+};
+
 const api = axios.create({
   baseURL: API_BASE,
   timeout: 10000,
@@ -49,10 +66,10 @@ api.interceptors.response.use(
 );
 
 const requestData = async <T>(
-  requestPromise: Promise<AxiosResponse<T>>,
+  requestPromise: Promise<AxiosResponse<unknown>>,
 ): Promise<T> => {
   const response = await requestPromise;
-  return response.data;
+  return unwrapPayload<T>(response.data);
 };
 
 export async function withMockFallback<T>(

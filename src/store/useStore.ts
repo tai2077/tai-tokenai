@@ -217,6 +217,74 @@ const initialAgents: Agent[] = [
 
 const fallbackPrices: CorePrices = { tai: 1.45, btc: 64230, eth: 3450 };
 
+const asFiniteNumber = (value: unknown): number | null => {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+};
+
+const normalizePrices = (value: unknown): CorePrices => {
+  if (typeof value !== "object" || value === null) return fallbackPrices;
+  const candidate = value as Partial<Record<keyof CorePrices, unknown>>;
+
+  const tai = asFiniteNumber(candidate.tai);
+  const btc = asFiniteNumber(candidate.btc);
+  const eth = asFiniteNumber(candidate.eth);
+
+  if (tai === null || btc === null || eth === null) {
+    return fallbackPrices;
+  }
+
+  return { tai, btc, eth };
+};
+
+const normalizeAddresses = (value: unknown): CoreAddresses | null => {
+  if (typeof value !== "object" || value === null) return null;
+  const candidate = value as Partial<Record<keyof CoreAddresses, unknown>>;
+  if (typeof candidate.router !== "string" || typeof candidate.staking !== "string") {
+    return null;
+  }
+  return { router: candidate.router, staking: candidate.staking };
+};
+
+const normalizeStakingInfo = (value: unknown): StakingInfo | null => {
+  if (typeof value !== "object" || value === null) return null;
+  const candidate = value as Partial<Record<keyof StakingInfo, unknown>>;
+  const totalStaked = asFiniteNumber(candidate.totalStaked);
+  if (totalStaked === null || typeof candidate.apy !== "string") {
+    return null;
+  }
+  return { totalStaked, apy: candidate.apy };
+};
+
+const normalizeVestingStatus = (value: unknown): VestingStatus | null => {
+  if (typeof value !== "object" || value === null) return null;
+  const candidate = value as Partial<Record<keyof VestingStatus, unknown>>;
+
+  const totalVested = asFiniteNumber(candidate.totalVested);
+  const claimed = asFiniteNumber(candidate.claimed);
+  const locked = asFiniteNumber(candidate.locked);
+
+  if (
+    totalVested === null ||
+    claimed === null ||
+    locked === null ||
+    typeof candidate.nextUnlock !== "string"
+  ) {
+    return null;
+  }
+
+  return {
+    totalVested,
+    claimed,
+    locked,
+    nextUnlock: candidate.nextUnlock,
+  };
+};
+
 export const useStore = create<StoreState>((set, get) => ({
   mainWallet: {
     address: null,
@@ -289,10 +357,10 @@ export const useStore = create<StoreState>((set, get) => ({
       ]);
       set({
         globalData: {
-          prices: prices || fallbackPrices,
-          addresses,
-          stakingInfo,
-          vestingStatus,
+          prices: normalizePrices(prices),
+          addresses: normalizeAddresses(addresses),
+          stakingInfo: normalizeStakingInfo(stakingInfo),
+          vestingStatus: normalizeVestingStatus(vestingStatus),
         },
       });
     } catch (error: unknown) {
