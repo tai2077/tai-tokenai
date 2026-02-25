@@ -1,8 +1,11 @@
+"use client";
+
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Coins, Star } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Coins, Star } from "lucide-react";
 import { PageHeader } from "../components/PageHeader";
 import { EmptyState } from "../components/EmptyState";
+import { formatNumber } from "../lib/number";
 
 interface Order {
     id: string;
@@ -14,7 +17,7 @@ interface Order {
 }
 
 export default function C2C() {
-    const navigate = useNavigate();
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState<"buy" | "sell" | "orders">("buy");
 
     const mockOrders: Order[] = [
@@ -37,7 +40,7 @@ export default function C2C() {
     ];
 
     const handleBuy = (orderId: string) => {
-        navigate(`/c2c/order/${orderId}`);
+        router.push(`/c2c/order/${orderId}`);
     };
 
     return (
@@ -101,7 +104,7 @@ export default function C2C() {
                                 <div className="text-sm">
                                     <span className="text-gray-500">数量:</span>{" "}
                                     <span className="text-white">
-                                        {Number(order.amount || 0).toLocaleString()} TAI
+                                        {formatNumber(order.amount)} TAI
                                     </span>
                                 </div>
                                 <div className="flex gap-2">

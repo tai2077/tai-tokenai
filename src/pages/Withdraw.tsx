@@ -1,15 +1,18 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowUpFromLine, Wallet } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
 import { useTelegramBackButton } from "../hooks/useTelegramBackButton";
+import { formatNumber } from "../lib/number";
 
 export default function Withdraw() {
-    const navigate = useNavigate();
+    const router = useRouter();
     const { mainWallet, aiWallet, setMainWallet, setAiWallet, addToast } = useStore();
     const [amount, setAmount] = useState<string>("");
-    const handleBack = useCallback(() => navigate(-1), [navigate]);
+    const handleBack = useCallback(() => router.back(), [router]);
 
     const quickAmounts = [100, 500, 1000];
 
@@ -52,7 +55,7 @@ export default function Withdraw() {
                     <div className="flex justify-between text-sm">
                         <span className="text-gray-500">从:</span>
                         <span className="text-white flex items-center gap-2">
-                            <span className="text-[#00FF41]">🤖 AI 钱包</span> (余额: {Number(aiWallet.balance || 0).toLocaleString()} TAI)
+                            <span className="text-[#00FF41]">🤖 AI 钱包</span> (余额: {formatNumber(aiWallet.balance)} TAI)
                         </span>
                     </div>
                     <div className="flex justify-between text-sm">

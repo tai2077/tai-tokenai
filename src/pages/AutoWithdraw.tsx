@@ -1,14 +1,16 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Settings, ToggleRight, ToggleLeft } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
 import { useTelegramBackButton } from "../hooks/useTelegramBackButton";
 
 export default function AutoWithdraw() {
-    const navigate = useNavigate();
+    const router = useRouter();
     const addToast = useStore((state) => state.addToast);
-    const handleBack = useCallback(() => navigate(-1), [navigate]);
+    const handleBack = useCallback(() => router.back(), [router]);
 
     const [enabled, setEnabled] = useState(false);
     const [threshold, setThreshold] = useState("1000");

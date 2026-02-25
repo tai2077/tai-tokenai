@@ -82,8 +82,10 @@
 @layer base {
 
   button,
-  a {
+  a,
+  [role="button"] {
     @apply transition-transform duration-75 active:scale-95;
+    touch-action: manipulation;
   }
 
   input:focus {
@@ -145,4 +147,15 @@
 
 .hp-bar-fill {
   transition: width 0.3s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

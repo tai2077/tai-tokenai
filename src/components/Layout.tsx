@@ -1,15 +1,20 @@
+"use client";
+
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Terminal, Rocket, LineChart, User, Bot, Globe } from "lucide-react";
 import ToastContainer from "./Toast";
 import WalletButton from "./WalletButton";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../store/useStore";
+import { formatNumber } from "../lib/number";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const location = useLocation();
+  const pathname = usePathname() || "/";
   const { t, i18n } = useTranslation();
-  const { globalData, fetchGlobalData } = useStore();
+  const globalData = useStore((state) => state.globalData);
+  const fetchGlobalData = useStore((state) => state.fetchGlobalData);
 
   React.useEffect(() => {
     fetchGlobalData();
@@ -22,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const navItems = [
-    { path: "/", label: t("nav.market"), icon: <LineChart className="w-5 h-5" /> },
+    { path: "/market", label: t("nav.market"), icon: <LineChart className="w-5 h-5" /> },
     { path: "/ops-center", label: t("nav.dashboard"), icon: <Terminal className="w-5 h-5" /> },
     { path: "/launch", label: t("nav.launch"), icon: <Rocket className="w-5 h-5" /> },
     { path: "/trade", label: t("nav.trade"), icon: <Bot className="w-5 h-5" /> },
@@ -40,10 +45,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="animate-marquee flex gap-12 text-xl inline-block px-4">
             <span>SYS.STATUS: ONLINE</span>
             <span className="hidden sm:inline">
-              BTC: ${Number(globalData.prices?.btc || 64230).toLocaleString()} <span className="text-[#00FF41]">+5.2%</span>
+              BTC: ${formatNumber(globalData.prices?.btc ?? 64230)} <span className="text-[#00FF41]">+5.2%</span>
             </span>
             <span className="hidden sm:inline">
-              ETH: ${Number(globalData.prices?.eth || 3450).toLocaleString()} <span className="text-[#00FF41]">+2.1%</span>
+              ETH: ${formatNumber(globalData.prices?.eth ?? 3450)} <span className="text-[#00FF41]">+2.1%</span>
             </span>
             <span>
               TAI: ${(globalData.prices?.tai || 1.45)} <span className="text-[#00FF41]">+14.4%</span>
@@ -57,6 +62,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-2">
           <button
             onClick={toggleLanguage}
+            aria-label="切换语言"
             className="flex items-center gap-1 text-gray-500 hover:text-white transition-colors border border-[#333] px-2 py-1 rounded"
           >
             <Globe className="w-4 h-4" />
@@ -71,11 +77,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 h-[72px] bg-[#111] border-t border-[#333] z-50 flex justify-around items-center px-2 pb-safe pt-2">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
+          const isActive = pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path));
           return (
             <Link
               key={item.path}
-              to={item.path}
+              href={item.path}
+              prefetch={false}
+              aria-current={isActive ? "page" : undefined}
               className={`flex flex-col items-center justify-center w-full h-[56px] gap-1 transition-all duration-200 rounded-lg mx-1 ${isActive
                 ? "text-[#00FF41] glow-text bg-[#00FF41]/10 glow-box"
                 : "text-gray-500 hover:text-[#00FF41] hover:bg-[#00FF41]/5"

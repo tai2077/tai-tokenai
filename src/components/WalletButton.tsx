@@ -54,6 +54,7 @@ export default function WalletButton() {
         return (
             <button
                 onClick={handleConnect}
+                aria-label="连接钱包"
                 className="px-3 py-1.5 bg-transparent border border-[#00FF41] text-[#00FF41] font-pixel text-[10px] hover:bg-[#00FF41] hover:text-black transition-colors whitespace-nowrap"
             >
                 {t("layout.connect")}
@@ -67,6 +68,7 @@ export default function WalletButton() {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
+                aria-label="钱包菜单"
                 className="px-3 py-1.5 bg-[#111] border border-[#333] text-[#00FF41] font-pixel text-[10px] hover:border-[#00FF41] transition-colors flex items-center gap-2 whitespace-nowrap"
             >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00FF41] animate-pulse"></span>

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { coreApi } from "../lib/api";
+import { formatNumber } from "../lib/number";
 import type {
   CoreAddresses,
   CorePrices,
@@ -416,9 +417,9 @@ export const useStore = create<StoreState>((set, get) => ({
     );
 
     set({ balances: newBalances, holdings: newHoldings });
-    addToast(`成功买入 ${amount.toLocaleString()} ${token?.symbol || ""}`, "success");
+    addToast(`成功买入 ${formatNumber(amount)} ${token?.symbol || ""}`, "success");
     addFeedEvent(
-      `PLAYER_ONE 💰 成交：买入 ${amount.toLocaleString()} ${token?.symbol || ""} @ $${(cost / amount).toFixed(3)}`,
+      `PLAYER_ONE 💰 成交：买入 ${formatNumber(amount)} ${token?.symbol || ""} @ $${(cost / amount).toFixed(3)}`,
       "trade",
     );
   },
@@ -456,9 +457,9 @@ export const useStore = create<StoreState>((set, get) => ({
     );
 
     set({ balances: newBalances, holdings: newHoldings });
-    addToast(`成功卖出 ${amount.toLocaleString()} ${token?.symbol || ""}`, "success");
+    addToast(`成功卖出 ${formatNumber(amount)} ${token?.symbol || ""}`, "success");
     addFeedEvent(
-      `PLAYER_ONE 💰 成交：卖出 ${amount.toLocaleString()} ${token?.symbol || ""} @ $${(revenue / amount).toFixed(3)}`,
+      `PLAYER_ONE 💰 成交：卖出 ${formatNumber(amount)} ${token?.symbol || ""} @ $${(revenue / amount).toFixed(3)}`,
       "trade",
     );
   },

@@ -1,4 +1,8 @@
-import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import axios, {
+  AxiosHeaders,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from 'axios';
 import axiosRetry from 'axios-retry';
 import type {
   AiCreatePayload,
@@ -17,6 +21,8 @@ import type {
 const API_BASE = import.meta.env.VITE_API_URL || 'https://api.tai.lat';
 const ALLOW_MOCK_FALLBACK =
   import.meta.env.DEV && import.meta.env.VITE_ALLOW_MOCK === 'true';
+const CSRF_HEADER = 'X-CSRF-Token';
+const CSRF_COOKIE_KEYS = ['tai_csrf', 'csrf_token', 'XSRF-TOKEN'] as const;
 
 interface ApiEnvelope<T> {
   data?: T;
@@ -25,6 +31,34 @@ interface ApiEnvelope<T> {
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
+
+const getCookieValue = (key: string): string | null => {
+  if (typeof document === 'undefined') return null;
+
+  const cookie = document.cookie
+    .split('; ')
+    .find((item) => item.startsWith(`${key}=`));
+
+  if (!cookie) return null;
+
+  const [, raw = ''] = cookie.split('=');
+  return decodeURIComponent(raw);
+};
+
+const getCsrfToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+
+  for (const key of CSRF_COOKIE_KEYS) {
+    const cookieToken = getCookieValue(key);
+    if (cookieToken) return cookieToken;
+  }
+
+  try {
+    return window.sessionStorage.getItem('tai_csrf') ?? window.localStorage.getItem('tai_csrf');
+  } catch {
+    return null;
+  }
+};
 
 const unwrapPayload = <T>(payload: unknown): T => {
   if (isRecord(payload)) {
@@ -51,14 +85,30 @@ axiosRetry(api, {
 });
 
 api.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    const method = (config.method ?? 'get').toLowerCase();
+    if (['post', 'put', 'patch', 'delete'].includes(method)) {
+      const token = getCsrfToken();
+      if (token) {
+        const nextHeaders =
+          config.headers instanceof AxiosHeaders
+            ? config.headers
+            : new AxiosHeaders(config.headers);
+        if (!nextHeaders.has(CSRF_HEADER)) {
+          nextHeaders.set(CSRF_HEADER, token);
+        }
+        config.headers = nextHeaders;
+      }
+    }
+    return config;
+  },
   (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (typeof window !== 'undefined' && error.response?.status === 401) {
       window.dispatchEvent(new CustomEvent('tai:unauthorized'));
     }
     return Promise.reject(error);

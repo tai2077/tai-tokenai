@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { LineChart, TrendingUp, Flame, Sparkles, Heart } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
@@ -79,7 +81,7 @@ export default function Market() {
               </div>
               <div className="flex-1">
                 <Link
-                  to={`/token/${token.id}`}
+                  href={`/token/${token.id}`}
                   className="font-pixel text-[12px] text-[#FFD700] hover:underline mb-1 block"
                 >
                   {token.name}
@@ -115,7 +117,7 @@ export default function Market() {
                 <p className="font-vt text-lg sm:text-xl text-[#FFD700]">{token.mcap}</p>
               </div>
               <Link
-                to={`/token/${token.id}`}
+                href={`/token/${token.id}`}
                 className="bg-[#00FF41] text-black px-4 sm:px-6 py-2 rounded font-pixel text-[8px] sm:text-[10px] hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all shrink-0"
               >
                 买入

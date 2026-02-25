@@ -7,11 +7,16 @@ export default function ToastContainer() {
   const toasts = useStore((state) => state.toasts);
 
   return (
-    <div className="fixed top-12 right-4 z-[9999] flex flex-col gap-2 pointer-events-none">
+    <div
+      className="fixed top-12 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <AnimatePresence>
         {toasts.map((toast) => (
           <motion.div
             key={toast.id}
+            role="status"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.9 }}

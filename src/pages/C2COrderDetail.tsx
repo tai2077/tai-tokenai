@@ -1,16 +1,20 @@
+"use client";
+
 import React, { useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Copy, AlertTriangle } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
 import { copyText } from "../lib/clipboard";
 import { useTelegramBackButton } from "../hooks/useTelegramBackButton";
+import { formatNumber } from "../lib/number";
 
 export default function C2COrderDetail() {
-    const navigate = useNavigate();
-    const { id } = useParams();
+    const router = useRouter();
+    const params = useParams();
+    const id = params?.id as string;
     const addToast = useStore((state) => state.addToast);
-    const handleBack = useCallback(() => navigate(-1), [navigate]);
+    const handleBack = useCallback(() => router.back(), [router]);
 
     useTelegramBackButton(handleBack);
 
@@ -32,7 +36,7 @@ export default function C2COrderDetail() {
 
     const handlePaid = () => {
         addToast("已通知卖家，请等待对方确认放币", "info");
-        navigate("/c2c"); // Or update status and remain
+        router.push("/c2c"); // Or update status and remain
     };
 
     return (
@@ -53,7 +57,7 @@ export default function C2COrderDetail() {
                     <div className="flex justify-between text-lg">
                         <span className="text-gray-500">购买数量:</span>
                         <span className="text-white">
-                            {Number(mockOrder.amount || 0).toLocaleString()} TAI
+                            {formatNumber(mockOrder.amount)} TAI
                         </span>
                     </div>
                     <div className="flex justify-between text-xl">

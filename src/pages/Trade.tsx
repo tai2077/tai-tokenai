@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Bot, Target, TrendingUp, Grid, Play, Pause, Activity } from "lucide-react";
 import { PageHeader } from "../components/PageHeader";

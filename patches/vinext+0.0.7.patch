@@ -1,0 +1,57 @@
+diff --git a/node_modules/vinext/dist/index.js b/node_modules/vinext/dist/index.js
+index 5195cb0..5f6ec27 100644
+--- a/node_modules/vinext/dist/index.js
++++ b/node_modules/vinext/dist/index.js
+@@ -2482,15 +2482,16 @@ hydrate();
+         // caches them locally in .vinext/fonts/, and rewrites font constructor
+         // calls to pass _selfHostedCSS with @font-face rules pointing at local assets.
+         // In dev mode, this plugin is a no-op (CDN loading is used instead).
+-        {
++        (() => {
++            let googleFontsIsBuild = false;
++            let googleFontsCacheDir = "";
++            const googleFontsCache = new Map();
++            return {
+             name: "vinext:google-fonts",
+             enforce: "pre",
+-            _isBuild: false,
+-            _fontCache: new Map(), // url -> local @font-face CSS
+-            _cacheDir: "",
+             configResolved(config) {
+-                this._isBuild = config.command === "build";
+-                this._cacheDir = path.join(config.root, ".vinext", "fonts");
++                googleFontsIsBuild = config.command === "build";
++                googleFontsCacheDir = path.join(config.root, ".vinext", "fonts");
+             },
+             transform: {
+                 // Hook filter: only invoke JS when code contains 'next/font/google'.
+@@ -2505,7 +2506,7 @@ hydrate();
+                     code: "next/font/google",
+                 },
+                 async handler(code, id) {
+-                    if (!this._isBuild)
++                    if (!googleFontsIsBuild)
+                         return null;
+                     // Defensive guard — duplicates filter logic
+                     if (id.includes("node_modules"))
+@@ -2528,8 +2529,8 @@ hydrate();
+                     const importedNames = new Set(importMatch[1].split(",").map((s) => s.trim()).filter(Boolean));
+                     const s = new MagicString(code);
+                     let hasChanges = false;
+-                    const cacheDir = this._cacheDir;
+-                    const fontCache = this._fontCache;
++                    const cacheDir = googleFontsCacheDir;
++                    const fontCache = googleFontsCache;
+                     let match;
+                     while ((match = fontCallRe.exec(code)) !== null) {
+                         const [fullMatch, fontName, optionsStr] = match;
+@@ -2614,7 +2615,8 @@ hydrate();
+                     };
+                 },
+             },
+-        },
++            };
++        })(),
+         // Local font path resolution:
+         // When a source file calls localFont({ src: "./font.woff2" }) or
+         // localFont({ src: [{ path: "./font.woff2" }] }), the relative paths

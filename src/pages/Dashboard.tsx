@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Rocket,
   DollarSign,
@@ -14,9 +17,10 @@ import { SkeletonCard } from "../components/Skeleton";
 import PullToRefresh from "../components/PullToRefresh";
 import { PageHeader } from "../components/PageHeader";
 import { X } from "lucide-react";
+import { formatNumber } from "../lib/number";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [revenue, setRevenue] = useState(1234.56);
   const { totalAssets, maxAssets, aiAgents, liveFeed } = useStore();
 
@@ -90,7 +94,7 @@ export default function Dashboard() {
           <div className="flex justify-between text-sm mb-2">
             <span className="font-pixel text-[10px]">TOTAL ASSETS (HP)</span>
             <span className="text-[#FFD700]">
-              ${Number(totalAssets || 0).toLocaleString()} / ${Number(maxAssets || 0).toLocaleString()}
+              ${formatNumber(totalAssets)} / ${formatNumber(maxAssets)}
             </span>
           </div>
           {loading ? (
@@ -124,17 +128,17 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="grid grid-cols-3 gap-4">
           <Link
-            to="/launch"
+            href="/launch"
             className="bg-[#00FF41] text-black rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all font-pixel text-[10px]"
           >
             <Rocket className="w-6 h-6" />
             <span>发币</span>
           </Link>
-          <button onClick={() => navigate("/trade")} className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
+          <button onClick={() => router.push("/trade")} className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
             <DollarSign className="w-6 h-6" />
             <span>投资</span>
           </button>
-          <button onClick={() => navigate("/withdraw")} className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
+          <button onClick={() => router.push("/withdraw")} className="bg-[#111]/80 backdrop-blur-md border border-[#333] text-[#00FF41] rounded-lg p-3 flex flex-col items-center justify-center gap-2 hover:border-[#00FF41] hover:bg-[#00FF41]/10 transition-all font-pixel text-[10px]">
             <ArrowDownToLine className="w-6 h-6" />
             <span>提现</span>
           </button>
@@ -146,7 +150,7 @@ export default function Dashboard() {
             <h2 className="font-pixel text-[10px] text-[#FFD700] flex items-center gap-2">
               <Activity className="w-4 h-4" /> AI 军团状态
             </h2>
-            <Link to="/ops" className="text-xs underline hover:text-[#FFD700]">
+            <Link href="/ops" className="text-xs underline hover:text-[#FFD700]">
               管理 &gt;
             </Link>
           </div>

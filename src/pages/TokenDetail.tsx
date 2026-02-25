@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useMemo, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -11,10 +14,12 @@ import {
 } from "lucide-react";
 import { useStore } from "../store/useStore";
 import { PageHeader } from "../components/PageHeader";
+import { formatNumber } from "../lib/number";
 
 export default function TokenDetail() {
-  const { address } = useParams();
-  const navigate = useNavigate();
+  const params = useParams();
+  const address = (params?.address as string) ?? "";
+  const router = useRouter();
   const [tradeType, setTradeType] = useState<"BUY" | "SELL">("BUY");
   const [amount, setAmount] = useState("");
 
@@ -39,7 +44,7 @@ export default function TokenDetail() {
       <div className="flex flex-col items-center justify-center h-64 gap-4">
         <p className="text-red-500 font-pixel">TOKEN NOT FOUND</p>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => router.push("/market")}
           className="text-[#00FF41] underline font-pixel text-[10px]"
         >
           RETURN TO MARKET
@@ -95,7 +100,7 @@ export default function TokenDetail() {
       <PageHeader
         icon={
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-gray-500 hover:text-[#FFD700] transition-colors">
+            <Link href="/market" className="text-gray-500 hover:text-[#FFD700] transition-colors">
               <ArrowLeft className="w-6 h-6" />
             </Link>
             <div className="w-10 h-10 bg-black border border-[#333] rounded flex items-center justify-center font-pixel text-[6px] text-[#FFD700]">LOGO</div>
@@ -202,8 +207,8 @@ export default function TokenDetail() {
                   <span>
                     余额:{" "}
                     {tradeType === "BUY"
-                      ? `${Number(balances.USDT || 0).toLocaleString()} USDT`
-                      : `${tokenBalance.toLocaleString()} ${token.symbol}`}
+                      ? `${formatNumber(balances.USDT)} USDT`
+                      : `${formatNumber(tokenBalance)} ${token.symbol}`}
                   </span>
                 </label>
                 <div className="relative">
@@ -232,8 +237,8 @@ export default function TokenDetail() {
                   <span>
                     余额:{" "}
                     {tradeType === "BUY"
-                      ? `${tokenBalance.toLocaleString()} ${token.symbol}`
-                      : `${balances.USDT.toLocaleString()} USDT`}
+                      ? `${formatNumber(tokenBalance)} ${token.symbol}`
+                      : `${formatNumber(balances.USDT)} USDT`}
                   </span>
                 </label>
                 <div className="relative">

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { motion } from "framer-motion";
 import {
@@ -14,15 +16,17 @@ import {
   Copy,
   CheckCircle2
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useStore } from "../store/useStore";
 import WalletCard from "../components/WalletCard";
 import { PageHeader } from "../components/PageHeader";
 import { EmptyState } from "../components/EmptyState";
 import { copyText } from "../lib/clipboard";
+import { formatNumber } from "../lib/number";
 
 export default function Profile() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [copied, setCopied] = React.useState(false);
   const { totalAssets, maxAssets, holdings, createdTokens, marketTokens, mainWallet, aiWallet, addToast } =
     useStore();
@@ -70,8 +74,11 @@ export default function Profile() {
     if (!token) return null;
     return {
       symbol: token.symbol,
-      amount: Number(amount || 0).toLocaleString(),
-      value: `$${Number(amount * token.price || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      amount: formatNumber(amount),
+      value: `$${formatNumber(amount * token.price, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`,
     };
   };
 
@@ -104,8 +111,8 @@ export default function Profile() {
           balance={mainWallet.balance}
           status={mainWallet.connected ? "已连接" : "未连接"}
           actions={[
-            { label: "充值", onClick: () => navigate("/deposit") },
-            { label: "提现到这里", onClick: () => navigate("/withdraw") },
+            { label: "充值", onClick: () => router.push("/deposit") },
+            { label: "提现到这里", onClick: () => router.push("/withdraw") },
           ]}
         />
 
@@ -125,9 +132,9 @@ export default function Profile() {
             </div>
           }
           actions={[
-            { label: "充值到 AI", onClick: () => navigate("/deposit"), primary: true },
-            { label: "从 AI 提现", onClick: () => navigate("/withdraw") },
-            { label: "自动设置", onClick: () => navigate("/auto-withdraw") },
+            { label: "充值到 AI", onClick: () => router.push("/deposit"), primary: true },
+            { label: "从 AI 提现", onClick: () => router.push("/withdraw") },
+            { label: "自动设置", onClick: () => router.push("/auto-withdraw") },
           ]}
         />
       </div>
@@ -165,7 +172,7 @@ export default function Profile() {
             <div className="flex justify-between text-sm mb-1">
               <span className="font-pixel text-[8px]">TOTAL ASSETS (HP)</span>
               <span className="text-[#FFD700]">
-                ${Number(totalAssets || 0).toLocaleString()} / ${Number(maxAssets || 0).toLocaleString()}
+                ${formatNumber(totalAssets)} / ${formatNumber(maxAssets)}
               </span>
             </div>
             <div className="h-4 bg-[#333] rounded overflow-hidden">
@@ -235,7 +242,7 @@ export default function Profile() {
                     className="flex justify-between text-sm items-center"
                   >
                     <Link
-                      to={`/token/${t.id}`}
+                      href={`/token/${t.id}`}
                       className="text-[#00FF41] hover:underline"
                     >
                       {t.name}

@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import {
   Rocket,
   Upload,
@@ -12,12 +14,13 @@ import {
 } from "lucide-react";
 import { PageHeader } from "../components/PageHeader";
 import { useStore, Agent } from "../store/useStore";
+import { formatNumber } from "../lib/number";
 
 export default function Launch() {
   const [step, setStep] = useState(1);
   const [tokenName, setTokenName] = useState("");
   const [tokenSymbol, setTokenSymbol] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
   const { launchToken, addToast } = useStore();
 
   const aiStaff = [
@@ -108,7 +111,7 @@ export default function Launch() {
       hiredAgents,
     );
 
-    navigate("/ops");
+    router.push("/ops");
   };
 
   return (
@@ -297,14 +300,15 @@ export default function Launch() {
             <div className="border-t border-[#333] pt-3 flex justify-between font-bold text-lg">
               <span className="text-[#FFD700]">总计 (TOTAL)</span>
               <span className="text-[#FFD700]">
-                {(
+                {formatNumber(
                   1000 +
                   selectedStaff.reduce(
                     (sum, id) =>
                       sum + (aiStaff.find((s) => s.id === id)?.cost || 0),
                     0,
-                  )
-                ).toLocaleString()} TAI
+                  ),
+                )}{" "}
+                TAI
               </span>
             </div>
           </div>
