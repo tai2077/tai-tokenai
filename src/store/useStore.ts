@@ -123,7 +123,7 @@ interface StoreState {
 const initialMarketTokens: Token[] = [
   {
     id: "0x123",
-    name: "NEON COIN",
+    name: "NEON SYNTH",
     symbol: "$NEON",
     price: 1.45,
     change: "+14.4%",
@@ -171,6 +171,26 @@ const initialMarketTokens: Token[] = [
     aiStatus: "working",
     type: "TOP",
   },
+  {
+    id: "0x999",
+    name: "QUANTUM CAT",
+    symbol: "$QCAT",
+    price: 0.00015,
+    change: "+310.4%",
+    mcap: "$2M",
+    aiStatus: "working",
+    type: "NEW",
+  },
+  {
+    id: "0x888",
+    name: "OVERRIDE AI",
+    symbol: "$OVRD",
+    price: 88.5,
+    change: "-5.2%",
+    mcap: "$150M",
+    aiStatus: "resting",
+    type: "TOP",
+  },
 ];
 
 const initialAgents: Agent[] = [
@@ -181,8 +201,8 @@ const initialAgents: Agent[] = [
     level: 3,
     status: "working",
     output: "⚡ +500/h",
-    quote: "⚡ 能源产出 +500 | 库存充足",
-    avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=MINER-01&backgroundColor=0a0a0c&colors=00FF41",
+    quote: "⚡ 能源产出稳定运行 | 服务器散热中",
+    avatar: "/images/agents/miner.png",
   },
   {
     id: "SCOUT-99",
@@ -192,7 +212,7 @@ const initialAgents: Agent[] = [
     status: "working",
     output: "📰 +2/h",
     quote: "🔍 发现：某巨鲸地址 30 分钟内转入 $50M USDT",
-    avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=SCOUT-99&backgroundColor=0a0a0c&colors=3B82F6",
+    avatar: "/images/agents/scout.png",
   },
   {
     id: "ANALYST-X",
@@ -200,9 +220,9 @@ const initialAgents: Agent[] = [
     role: "ANALYST",
     level: 1,
     status: "resting",
-    output: "📊 +5/h",
-    quote: "📊 BTC 4H 分析：支撑位 $66,800，阻力 $68,500",
-    avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=ANALYST-X&backgroundColor=0a0a0c&baseColor=8B5CF6",
+    output: "📊 离线",
+    quote: "💤 计算资源已休眠 | 等待下一次周期指令",
+    avatar: "/images/agents/analyst.png",
   },
   {
     id: "TRADER-7",
@@ -211,8 +231,28 @@ const initialAgents: Agent[] = [
     level: 3,
     status: "working",
     output: "💰 +$1234",
-    quote: "💰 成交：买入 0.5 ETH @ $3,450",
-    avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=TRADER-7&backgroundColor=0a0a0c&colors=EF4444",
+    quote: "💰 高频套利脚本执行中... (网格: 12/50)",
+    avatar: "/images/agents/trader.png",
+  },
+  {
+    id: "OPS-MASTER",
+    name: "OPS-MASTER",
+    role: "OPS",
+    level: 5,
+    status: "working",
+    output: "🛡️ 100%",
+    quote: "🛡️ 社区推特自动回复器已部署 (14/h)",
+    avatar: "/images/agents/ops.png",
+  },
+  {
+    id: "AUDIT-0",
+    name: "AUDIT-0",
+    role: "AUDIT",
+    level: 4,
+    status: "working",
+    output: "✅ 0 RUG",
+    quote: "✅ 合约扫描完毕，无后门抛售风险检测",
+    avatar: "/images/agents/audit.png",
   },
 ];
 
@@ -299,44 +339,85 @@ export const useStore = create<StoreState>((set, get) => ({
     dailyLimit: 500,
     status: "active",
   },
-  balances: { USDT: 14500, TAI: 5000 },
-  totalAssets: 14500,
-  maxAssets: 20000,
+  balances: { USDT: 450000, TAI: 850000 },
+  totalAssets: 450000,
+  maxAssets: 1000000,
   holdings: [
-    { tokenId: "0x123", amount: 150000, avgPrice: 1.0 },
-    { tokenId: "0x456", amount: 85000, avgPrice: 0.9 },
+    { tokenId: "0x123", amount: 156000, avgPrice: 0.8 },
+    { tokenId: "0xabc", amount: 8500, avgPrice: 9.5 },
+    { tokenId: "0x999", amount: 20000000, avgPrice: 0.0001 },
+    { tokenId: "0x888", amount: 150, avgPrice: 95.0 },
   ],
-  createdTokens: [],
+  createdTokens: [
+    {
+      id: "0xOWN1",
+      name: "NEURAL CORE",
+      symbol: "$N_CORE",
+      price: 0.012,
+      change: "+450%",
+      mcap: "$125K",
+      aiStatus: "working",
+      type: "CREATED",
+      strategy: "Grid Trading Bot Active",
+      aiStats: { tweets: 450, replies: 1200, newFollowers: 85 },
+    },
+    {
+      id: "0xOWN2",
+      name: "GHOST SHELL",
+      symbol: "$GHOST",
+      price: 0.0003,
+      change: "-12%",
+      mcap: "$45K",
+      aiStatus: "resting",
+      type: "CREATED",
+      strategy: "Dormant / Holding",
+      aiStats: { tweets: 12, replies: 5, newFollowers: 0 },
+    }
+  ],
   marketTokens: initialMarketTokens,
   aiAgents: initialAgents,
   liveFeed: [
     {
       id: 1,
       time: "10:42:01",
-      text: "TRADER-7 💰 成交：买入 0.5 ETH @ $3,450",
+      text: "TRADER-7 💰 成交：闪电贷买入 50.0 ETH @ $3,450",
       type: "trade",
       avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=TRADER-7&backgroundColor=0a0a0c&colors=EF4444"
     },
     {
       id: 2,
       time: "10:41:15",
-      text: "SCOUT-99 🔍 发现：某巨鲸地址 30 分钟内转入 $50M USDT",
+      text: "SCOUT-99 🔍 发现：0x7a...d8f 巨鲸吸筹 1.5M TAI",
       type: "scout",
       avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=SCOUT-99&backgroundColor=0a0a0c&colors=3B82F6"
     },
     {
       id: 3,
       time: "10:39:50",
-      text: "MINER-01 ⚡ 能源产出 +500 | 库存充足",
+      text: "MINER-01 ⚡ 算力溢出：哈希率提升至 1.2 TH/s",
       type: "mine",
       avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=MINER-01&backgroundColor=0a0a0c&colors=00FF41"
     },
     {
       id: 4,
       time: "10:35:22",
-      text: "ANALYST-X 📊 BTC 4H 分析：支撑位 $66,800，阻力 $68,500",
+      text: "ANALYST-X 📊 TAI 触及黄金分割点 0.618，买入信号确认。",
       type: "analysis",
       avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=ANALYST-X&backgroundColor=0a0a0c&baseColor=8B5CF6"
+    },
+    {
+      id: 5,
+      time: "10:30:10",
+      text: "OPS-MASTER 🛡️ 自动冻结 3 个可疑套利合约地址",
+      type: "launch",
+      avatar: "https://api.dicebear.com/9.x/bottts/svg?seed=OPS-MASTER&backgroundColor=0a0a0c&colors=14b8a6"
+    },
+    {
+      id: 6,
+      time: "10:28:44",
+      text: "TRADER-7 💰 止损：卖出 1,000,000 $PDOGE",
+      type: "trade",
+      avatar: "https://api.dicebear.com/9.x/bottts-neutral/svg?seed=TRADER-7&backgroundColor=0a0a0c&colors=EF4444"
     },
   ],
   toasts: [],

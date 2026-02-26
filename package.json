@@ -21,6 +21,7 @@
     "axios-retry": "^4.5.0",
     "framer-motion": "^12.23.24",
     "i18next": "^25.8.13",
+    "jimp": "^1.6.0",
     "lucide-react": "^0.546.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -28,12 +29,14 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.25.5",
     "@eslint/js": "^9.20.0",
     "@tailwindcss/vite": "^4.1.14",
     "@types/node": "^22.19.11",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitejs/plugin-rsc": "^0.5.20",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.20.0",
     "eslint-plugin-react-hooks": "^5.1.0",

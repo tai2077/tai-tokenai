@@ -227,7 +227,23 @@ export const tradeApi = {
 };
 
 export const c2cApi = {
-  getOrders: () => requestData(api.get<C2COrder[]>('/api/c2c/orders')),
+  getOrders: () =>
+    requestWithCache(
+      'c2c:orders',
+      () =>
+        withMockFallback<C2COrder[]>(
+          () => requestData(api.get<C2COrder[]>('/api/c2c/orders')),
+          [
+            { id: "C2C-001", type: "sell", amount: 15000, price: 1.45, fiatAmount: 21750, fiatCurrency: "USD", paymentMethods: ["Bank Transfer"], merchant: { id: "m1", name: "CyberWhale", completedOrders: 450, completionRate: 99.5 }, status: "pending", createdAt: new Date().toISOString() },
+            { id: "C2C-002", type: "buy", amount: 500, price: 1.48, fiatAmount: 5180, fiatCurrency: "CNY", paymentMethods: ["Alipay", "WeChat"], merchant: { id: "m2", name: "QuickPay_AI", completedOrders: 1205, completionRate: 98.2 }, status: "pending", createdAt: new Date().toISOString() },
+            { id: "C2C-003", type: "sell", amount: 80000, price: 1.42, fiatAmount: 113600, fiatCurrency: "USD", paymentMethods: ["Wire"], merchant: { id: "m3", name: "Institution_X", completedOrders: 89, completionRate: 100 }, status: "pending", createdAt: new Date().toISOString() },
+            { id: "C2C-004", type: "buy", amount: 150, price: 1.50, fiatAmount: 225, fiatCurrency: "EUR", paymentMethods: ["SEPA"], merchant: { id: "m4", name: "EuroBot", completedOrders: 3320, completionRate: 97.4 }, status: "pending", createdAt: new Date().toISOString() },
+            { id: "C2C-005", type: "sell", amount: 3500, price: 1.46, fiatAmount: 5110, fiatCurrency: "USD", paymentMethods: ["Bank Transfer"], merchant: { id: "m5", name: "NeonTrader", completedOrders: 12, completionRate: 85.0 }, status: "pending", createdAt: new Date().toISOString() }
+          ],
+          'GET /api/c2c/orders'
+        ),
+      15000
+    ),
   createOrder: (data: C2COrderCreatePayload) =>
     requestData(api.post('/api/c2c/order/create', data)),
   matchOrder: (orderId: string) =>
@@ -275,10 +291,10 @@ export const coreApi = {
         withMockFallback<VestingStatus>(
           () => requestData(api.get<VestingStatus>('/vesting/status')),
           {
-            totalVested: 500000,
-            claimed: 100000,
-            locked: 400000,
-            nextUnlock: '2026-06-01',
+            totalVested: 50000000,
+            claimed: 12500000,
+            locked: 37500000,
+            nextUnlock: '2026-11-01',
           },
           'GET /vesting/status',
         ),

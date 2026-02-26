@@ -12,12 +12,14 @@ import {
   TerminalSquare,
   Heart
 } from "lucide-react";
-import { useStore } from "../store/useStore";
+import { useStore, type AgentRole } from "../store/useStore";
 import { SkeletonCard } from "../components/Skeleton";
 import PullToRefresh from "../components/PullToRefresh";
 import { PageHeader } from "../components/PageHeader";
 import { X } from "lucide-react";
 import { formatNumber } from "../lib/number";
+
+import { AIAvatar } from "../components/AIAvatar";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -161,7 +163,7 @@ export default function Dashboard() {
                 className="border border-[#333] rounded p-2 flex items-center justify-between"
               >
                 <div className="flex gap-2 items-center">
-                  <img src={ai.avatar} alt={ai.name} className="w-8 h-8 rounded shrink-0 bg-[#0a0a0c] border border-[#333]" />
+                  <AIAvatar avatar={ai.avatar} role={ai.role} status={ai.status} size="sm" className="rounded" />
                   <div>
                     <p className="font-pixel text-[8px] mb-1">{ai.name}</p>
                     <p className="text-xs text-gray-500">{ai.role}</p>

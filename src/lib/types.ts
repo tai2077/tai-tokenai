@@ -25,12 +25,20 @@ export interface WalletBalances {
 
 export interface C2COrder {
   id: string;
-  seller: string;
-  price: number;
+  type: 'buy' | 'sell';
   amount: number;
-  methods: string[];
-  rating: number;
+  price: number;
+  fiatAmount: number;
+  fiatCurrency: string;
+  paymentMethods: string[];
+  merchant: {
+    id: string;
+    name: string;
+    completedOrders: number;
+    completionRate: number;
+  };
   status: 'pending' | 'matched' | 'paid' | 'completed';
+  createdAt: string;
 }
 
 export interface CorePrices {

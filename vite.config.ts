@@ -1,23 +1,16 @@
 import { defineConfig } from "vite";
 import vinext from "vinext";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [vinext()],
+  plugins: [vinext(), tailwindcss()],
   optimizeDeps: {
-    // Vinext introduces some imports through shims/virtual entries (next/* etc.).
-    // Pre-bundle them to avoid cold-start "optimized dependencies changed" reloads.
     include: [
-      "next/link",
-      "next/navigation",
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
       "react/jsx-dev-runtime",
-      "lucide-react",
-      "@tonconnect/ui-react",
-      "react-i18next",
-      "framer-motion",
-      "i18next",
-      "zustand",
-      "axios",
-      "axios-retry",
-    ],
-  },
+      "react-server-dom-webpack/client.edge",
+    ]
+  }
 });
