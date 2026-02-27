@@ -79,18 +79,23 @@ export const createMockHostAdapter = (
 
     postInboundMessage({ type: "settingsLoaded", soundEnabled: false });
 
-    if (Array.isArray(preloadedData.characters)) {
+    if (
+      Array.isArray(preloadedData.characters) &&
+      preloadedData.characters.length > 0
+    ) {
       postInboundMessage({ type: "characterSpritesLoaded", characters: preloadedData.characters });
     }
-    if (Array.isArray(preloadedData.floors)) {
+    if (Array.isArray(preloadedData.floors) && preloadedData.floors.length > 0) {
       postInboundMessage({ type: "floorTilesLoaded", sprites: preloadedData.floors });
     }
-    if (Array.isArray(preloadedData.walls)) {
+    if (Array.isArray(preloadedData.walls) && preloadedData.walls.length > 0) {
       postInboundMessage({ type: "wallTilesLoaded", sprites: preloadedData.walls });
     }
     if (
       Array.isArray(preloadedData.furnitureCatalog) &&
-      isRecord(preloadedData.furnitureSprites)
+      preloadedData.furnitureCatalog.length > 0 &&
+      isRecord(preloadedData.furnitureSprites) &&
+      Object.keys(preloadedData.furnitureSprites).length > 0
     ) {
       postInboundMessage({
         type: "furnitureAssetsLoaded",
