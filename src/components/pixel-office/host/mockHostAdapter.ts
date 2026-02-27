@@ -8,6 +8,11 @@ import {
   createDefaultLayout,
   deserializeLayout,
 } from "../office/layout/layoutSerializer";
+import {
+  remapLegacyFurnitureTypes,
+  resolvePreloadedAssets,
+  type PreloadedAssetsPayload,
+} from "./preloadedAssetLoader";
 
 interface MockHostAdapterOptions {
   preloadedPath?: string | undefined;
@@ -19,14 +24,6 @@ interface MockHostAdapterOptions {
 interface PixelHostAdapter {
   start: () => void;
   stop: () => void;
-}
-
-interface PreloadedAssetsPayload {
-  characters?: unknown;
-  floors?: unknown;
-  walls?: unknown;
-  furnitureCatalog?: unknown;
-  furnitureSprites?: unknown;
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -41,6 +38,48 @@ const toParsedLayout = (value: unknown): OfficeLayout | null => {
   } catch {
     return null;
   }
+};
+
+const remapLayoutFurnitureTypes = (
+  layout: OfficeLayout,
+  catalogEntries: unknown,
+): OfficeLayout => {
+  if (!Array.isArray(catalogEntries) || catalogEntries.length === 0) {
+    return layout;
+  }
+  const knownTypes = new Set(
+    catalogEntries
+      .filter((entry): entry is { id: string } => isRecord(entry) && typeof entry.id === "string")
+      .map((entry) => entry.id),
+  );
+
+  if (knownTypes.size === 0) {
+    return layout;
+  }
+
+  let changed = false;
+  const furniture = layout.furniture.map((item) => {
+    if (knownTypes.has(item.type)) {
+      return item;
+    }
+    const mappedType = remapLegacyFurnitureTypes(item.type);
+    if (mappedType !== item.type && knownTypes.has(mappedType)) {
+      changed = true;
+      return {
+        ...item,
+        type: mappedType,
+      };
+    }
+    return item;
+  });
+
+  if (!changed) {
+    return layout;
+  }
+  return {
+    ...layout,
+    furniture,
+  };
 };
 
 const readLayoutFromStorage = (layoutStorageKey: string): OfficeLayout => {
@@ -77,6 +116,8 @@ export const createMockHostAdapter = (
       preloadedData = (await response.json().catch(() => ({}))) as PreloadedAssetsPayload;
     }
 
+    preloadedData = await resolvePreloadedAssets(preloadedData);
+
     postInboundMessage({ type: "settingsLoaded", soundEnabled: false });
 
     if (
@@ -104,7 +145,10 @@ export const createMockHostAdapter = (
       });
     }
 
-    const layout = readLayoutFromStorage(layoutStorageKey);
+    const layout = remapLayoutFurnitureTypes(
+      readLayoutFromStorage(layoutStorageKey),
+      preloadedData.furnitureCatalog,
+    );
     postInboundMessage({ type: "layoutLoaded", layout });
 
     // Also load seats if any

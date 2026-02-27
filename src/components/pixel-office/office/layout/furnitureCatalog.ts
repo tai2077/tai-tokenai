@@ -81,7 +81,7 @@ let dynamicCategories: FurnitureCategory[] | null = null
 /**
  * Build catalog from loaded assets. Returns true if successful.
  * Once built, all getCatalog* functions use the dynamic catalog.
- * Uses ONLY custom assets (excludes hardcoded furniture when assets are loaded).
+ * Custom assets are merged with fallback entries to keep legacy layout compatibility.
  */
 export function buildDynamicCatalog(assets: LoadedAssetData): boolean {
   if (!assets?.catalog || !assets?.sprites) return false
@@ -210,11 +210,24 @@ export function buildDynamicCatalog(assets: LoadedAssetData): boolean {
     if (asset.state === 'on') onStateIds.add(asset.id)
   }
 
-  // Store full internal catalog (all variants — for getCatalogEntry lookups)
-  internalCatalog = allEntries
+  const fallbackByType = new Map(FURNITURE_CATALOG.map((entry) => [entry.type, entry]))
+  const mergedEntries = [...allEntries]
+  for (const fallback of FURNITURE_CATALOG) {
+    if (!mergedEntries.some((entry) => entry.type === fallback.type)) {
+      mergedEntries.push(fallback)
+    }
+  }
+  // Store full internal catalog (all variants + legacy fallback entries)
+  internalCatalog = mergedEntries
 
   // Visible catalog: exclude non-front variants and "on" state variants
-  const visibleEntries = allEntries.filter((e) => !nonFrontIds.has(e.type) && !onStateIds.has(e.type))
+  const visibleEntries = mergedEntries.filter((e) => {
+    // Keep fallback entries visible by default.
+    if (fallbackByType.has(e.type)) {
+      return true
+    }
+    return !nonFrontIds.has(e.type) && !onStateIds.has(e.type)
+  })
 
   // Strip orientation/state suffix from labels for grouped variants
   for (const entry of visibleEntries) {
