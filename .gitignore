@@ -9,3 +9,12 @@ coverage/
 tsconfig.tsbuildinfo
 .env*
 !.env.example
+
+# Local temporary artifacts from migration/asset extraction
+.tmp_pixel_agents_src/
+PIXEL_AGENTS_TASKS_FOR_GEMINI.md
+public/assets/
+public/Screenshot.jpg
+public/characters.png
+test-glob.js
+test-router.js
