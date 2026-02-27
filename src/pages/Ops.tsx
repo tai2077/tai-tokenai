@@ -17,9 +17,31 @@ import { PageHeader } from "../components/PageHeader";
 import { EmptyState } from "../components/EmptyState";
 
 import { AIAvatar } from "../components/AIAvatar";
+import PixelOfficeApp from "../components/pixel-office/App";
+import "../components/pixel-office/index.css";
+import { MockHost } from "../../app/c2c/office/MockHost";
+
+// Feature Flag: Toggle Pixel Agents 1:1 Experience
+const PIXEL_OPS_ENABLED = true;
 
 export default function Ops() {
   const { createdTokens, aiAgents, updateAgentStrategy } = useStore();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  if (PIXEL_OPS_ENABLED) {
+    return (
+      <div style={{ width: '100%', height: 'calc(100vh - 100px)', margin: 0, padding: 0, overflow: 'hidden', position: 'relative' }}>
+        <MockHost />
+        <PixelOfficeApp />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8 pb-20">

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "agent1",
+    "category": "character",
+    "file": "pixel-agents/characters/agent1.png"
+  },
+  {
+    "id": "agent2",
+    "category": "character",
+    "file": "pixel-agents/characters/agent2.png"
+  },
+  {
+    "id": "agent3",
+    "category": "character",
+    "file": "pixel-agents/characters/agent3.png"
+  },
+  {
+    "id": "boss",
+    "category": "character",
+    "file": "pixel-agents/characters/boss.png"
+  },
+  {
+    "id": "subagent",
+    "category": "character",
+    "file": "pixel-agents/characters/subagent.png"
+  }
+]

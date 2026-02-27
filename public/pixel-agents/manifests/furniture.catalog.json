@@ -1,0 +1,977 @@
+[
+  {
+    "id": "obj_furniture_1",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_1.png"
+  },
+  {
+    "id": "obj_furniture_2",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_2.png"
+  },
+  {
+    "id": "obj_furniture_3",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_3.png"
+  },
+  {
+    "id": "obj_furniture_4",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_4.png"
+  },
+  {
+    "id": "obj_furniture_5",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_5.png"
+  },
+  {
+    "id": "obj_furniture_6",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_6.png"
+  },
+  {
+    "id": "obj_furniture_7",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_7.png"
+  },
+  {
+    "id": "obj_furniture_8",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_8.png"
+  },
+  {
+    "id": "obj_furniture_9",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_9.png"
+  },
+  {
+    "id": "obj_furniture_10",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_10.png"
+  },
+  {
+    "id": "obj_furniture_11",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_11.png"
+  },
+  {
+    "id": "obj_furniture_12",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_12.png"
+  },
+  {
+    "id": "obj_furniture_13",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_13.png"
+  },
+  {
+    "id": "obj_furniture_14",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_14.png"
+  },
+  {
+    "id": "obj_furniture_15",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_15.png"
+  },
+  {
+    "id": "obj_furniture_16",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_16.png"
+  },
+  {
+    "id": "obj_furniture_17",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_17.png"
+  },
+  {
+    "id": "obj_furniture_18",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_18.png"
+  },
+  {
+    "id": "obj_furniture_19",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_19.png"
+  },
+  {
+    "id": "obj_furniture_20",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_20.png"
+  },
+  {
+    "id": "obj_furniture_21",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_21.png"
+  },
+  {
+    "id": "obj_furniture_22",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_22.png"
+  },
+  {
+    "id": "obj_furniture_23",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_23.png"
+  },
+  {
+    "id": "obj_furniture_24",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_24.png"
+  },
+  {
+    "id": "obj_furniture_25",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_25.png"
+  },
+  {
+    "id": "obj_furniture_26",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_26.png"
+  },
+  {
+    "id": "obj_furniture_27",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_27.png"
+  },
+  {
+    "id": "obj_furniture_28",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_28.png"
+  },
+  {
+    "id": "obj_furniture_29",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_29.png"
+  },
+  {
+    "id": "obj_furniture_30",
+    "category": "furniture",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/furniture/obj_furniture_30.png"
+  },
+  {
+    "id": "obj_electronics_1",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_1.png"
+  },
+  {
+    "id": "obj_electronics_2",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_2.png"
+  },
+  {
+    "id": "obj_electronics_3",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_3.png"
+  },
+  {
+    "id": "obj_electronics_4",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_4.png"
+  },
+  {
+    "id": "obj_electronics_5",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_5.png"
+  },
+  {
+    "id": "obj_electronics_6",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_6.png"
+  },
+  {
+    "id": "obj_electronics_7",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_7.png"
+  },
+  {
+    "id": "obj_electronics_8",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_8.png"
+  },
+  {
+    "id": "obj_electronics_9",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_9.png"
+  },
+  {
+    "id": "obj_electronics_10",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_10.png"
+  },
+  {
+    "id": "obj_electronics_11",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_11.png"
+  },
+  {
+    "id": "obj_electronics_12",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_12.png"
+  },
+  {
+    "id": "obj_electronics_13",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_13.png"
+  },
+  {
+    "id": "obj_electronics_14",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_14.png"
+  },
+  {
+    "id": "obj_electronics_15",
+    "category": "electronics",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/electronics/obj_electronics_15.png"
+  },
+  {
+    "id": "obj_decor_1",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_1.png"
+  },
+  {
+    "id": "obj_decor_2",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_2.png"
+  },
+  {
+    "id": "obj_decor_3",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_3.png"
+  },
+  {
+    "id": "obj_decor_4",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_4.png"
+  },
+  {
+    "id": "obj_decor_5",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_5.png"
+  },
+  {
+    "id": "obj_decor_6",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_6.png"
+  },
+  {
+    "id": "obj_decor_7",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_7.png"
+  },
+  {
+    "id": "obj_decor_8",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_8.png"
+  },
+  {
+    "id": "obj_decor_9",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_9.png"
+  },
+  {
+    "id": "obj_decor_10",
+    "category": "decor",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/decor/obj_decor_10.png"
+  },
+  {
+    "id": "obj_doors_1",
+    "category": "doors",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/doors/obj_doors_1.png"
+  },
+  {
+    "id": "obj_doors_2",
+    "category": "doors",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/doors/obj_doors_2.png"
+  },
+  {
+    "id": "obj_doors_3",
+    "category": "doors",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/doors/obj_doors_3.png"
+  },
+  {
+    "id": "obj_doors_4",
+    "category": "doors",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/doors/obj_doors_4.png"
+  },
+  {
+    "id": "obj_doors_5",
+    "category": "doors",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/doors/obj_doors_5.png"
+  },
+  {
+    "id": "obj_windows_1",
+    "category": "windows",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/windows/obj_windows_1.png"
+  },
+  {
+    "id": "obj_windows_2",
+    "category": "windows",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/windows/obj_windows_2.png"
+  },
+  {
+    "id": "obj_windows_3",
+    "category": "windows",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/windows/obj_windows_3.png"
+  },
+  {
+    "id": "obj_windows_4",
+    "category": "windows",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/windows/obj_windows_4.png"
+  },
+  {
+    "id": "obj_windows_5",
+    "category": "windows",
+    "state": "default",
+    "orientation": "north",
+    "footprint": [
+      1,
+      1
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "file": "pixel-agents/objects/windows/obj_windows_5.png"
+  }
+]

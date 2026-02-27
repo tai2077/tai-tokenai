@@ -1,0 +1,32 @@
+[
+  {
+    "id": "bubble_wait",
+    "category": "ui",
+    "file": "pixel-agents/ui/bubble_wait.png"
+  },
+  {
+    "id": "bubble_done",
+    "category": "ui",
+    "file": "pixel-agents/ui/bubble_done.png"
+  },
+  {
+    "id": "icon_warn",
+    "category": "ui",
+    "file": "pixel-agents/ui/icon_warn.png"
+  },
+  {
+    "id": "icon_cross",
+    "category": "ui",
+    "file": "pixel-agents/ui/icon_cross.png"
+  },
+  {
+    "id": "cursor_select",
+    "category": "ui",
+    "file": "pixel-agents/ui/cursor_select.png"
+  },
+  {
+    "id": "cursor_erase",
+    "category": "ui",
+    "file": "pixel-agents/ui/cursor_erase.png"
+  }
+]
