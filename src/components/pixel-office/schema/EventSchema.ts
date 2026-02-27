@@ -1,170 +1,268 @@
 import { z } from "zod";
 
-// Base Message
-export const BaseMessageSchema = z.object({
+const NumericIdSchema = z.number();
+
+const LayoutSchema = z
+  .object({
+    version: z.number(),
+    cols: z.number(),
+    rows: z.number(),
+    tiles: z.array(z.number()),
+    furniture: z.array(z.any()),
+    tileColors: z.array(z.any()).optional(),
+  })
+  .passthrough();
+
+const AgentSeatSchema = z.object({
+  palette: z.number(),
+  hueShift: z.number(),
+  seatId: z.union([z.string(), z.null()]),
+});
+
+export const BaseMessageSchema = z
+  .object({
     type: z.string(),
-}).passthrough();
+  })
+  .passthrough();
 
-// 1. layoutLoaded
 export const LayoutLoadedSchema = z.object({
-    type: z.literal("layoutLoaded"),
-    layout: z.object({
-        version: z.number().optional(),
-        cols: z.number(),
-        rows: z.number(),
-        tileColors: z.array(z.string()).optional(),
-        floorTiles: z.array(z.number()),
-        wallTiles: z.array(z.number()),
-        furniture: z.array(z.any()),
-    }),
+  type: z.literal("layoutLoaded"),
+  layout: z.union([LayoutSchema, z.null()]),
 });
 
-// 2. existingAgents
 export const ExistingAgentsSchema = z.object({
-    type: z.literal("existingAgents"),
-    agents: z.array(z.any()),
+  type: z.literal("existingAgents"),
+  agents: z.array(NumericIdSchema),
+  agentMeta: z
+    .record(
+      z.string(),
+      z.object({
+        palette: z.number().optional(),
+        hueShift: z.number().optional(),
+        seatId: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
-// 3. agentCreated
 export const AgentCreatedSchema = z.object({
-    type: z.literal("agentCreated"),
-    id: z.union([z.string(), z.number()]),
+  type: z.literal("agentCreated"),
+  id: NumericIdSchema,
 });
 
-// 4. agentClosed
 export const AgentClosedSchema = z.object({
-    type: z.literal("agentClosed"),
-    id: z.union([z.string(), z.number()]),
+  type: z.literal("agentClosed"),
+  id: NumericIdSchema,
 });
 
-// 5. agentSelected
 export const AgentSelectedSchema = z.object({
-    type: z.literal("agentSelected"),
-    id: z.union([z.string(), z.number()]),
+  type: z.literal("agentSelected"),
+  id: NumericIdSchema,
 });
 
-// 6. agentStatus
 export const AgentStatusSchema = z.object({
-    type: z.literal("agentStatus"),
-    id: z.union([z.string(), z.number()]),
-    status: z.string(),
+  type: z.literal("agentStatus"),
+  id: NumericIdSchema,
+  status: z.string(),
 });
 
-// 7. agentToolStart
 export const AgentToolStartSchema = z.object({
-    type: z.literal("agentToolStart"),
-    id: z.union([z.string(), z.number()]),
-    toolId: z.string(),
-    status: z.string().optional(),
+  type: z.literal("agentToolStart"),
+  id: NumericIdSchema,
+  toolId: z.string(),
+  status: z.string(),
 });
 
-// 8. agentToolDone
 export const AgentToolDoneSchema = z.object({
-    type: z.literal("agentToolDone"),
-    id: z.union([z.string(), z.number()]),
-    toolId: z.string(),
-    result: z.any().optional(),
+  type: z.literal("agentToolDone"),
+  id: NumericIdSchema,
+  toolId: z.string(),
 });
 
-// 9. agentToolPermission
 export const AgentToolPermissionSchema = z.object({
-    type: z.literal("agentToolPermission"),
-    id: z.union([z.string(), z.number()]),
-    toolId: z.string(),
-    message: z.string().optional(),
+  type: z.literal("agentToolPermission"),
+  id: NumericIdSchema,
+  toolId: z.string().optional(),
+  message: z.string().optional(),
 });
 
-// 10. agentToolPermissionClear
 export const AgentToolPermissionClearSchema = z.object({
-    type: z.literal("agentToolPermissionClear"),
-    id: z.union([z.string(), z.number()]),
-    toolId: z.string(),
+  type: z.literal("agentToolPermissionClear"),
+  id: NumericIdSchema,
+  toolId: z.string().optional(),
 });
 
-// 11. subagentToolStart
+export const SubagentToolPermissionSchema = z.object({
+  type: z.literal("subagentToolPermission"),
+  id: NumericIdSchema,
+  parentToolId: z.string(),
+});
+
 export const SubagentToolStartSchema = z.object({
-    type: z.literal("subagentToolStart"),
-    id: z.union([z.string(), z.number()]),
-    parentId: z.union([z.string(), z.number()]),
-    toolId: z.string(),
-    status: z.string().optional(),
+  type: z.literal("subagentToolStart"),
+  id: NumericIdSchema,
+  parentToolId: z.string(),
+  toolId: z.string(),
+  status: z.string(),
 });
 
-// 12. subagentToolDone
 export const SubagentToolDoneSchema = z.object({
-    type: z.literal("subagentToolDone"),
-    id: z.union([z.string(), z.number()]),
-    parentId: z.union([z.string(), z.number()]),
-    toolId: z.string(),
-    result: z.any().optional(),
+  type: z.literal("subagentToolDone"),
+  id: NumericIdSchema,
+  parentToolId: z.string(),
+  toolId: z.string(),
 });
 
-// 13. subagentClear
 export const SubagentClearSchema = z.object({
-    type: z.literal("subagentClear"),
-    id: z.union([z.string(), z.number()]),
+  type: z.literal("subagentClear"),
+  id: NumericIdSchema,
+  parentToolId: z.string(),
 });
 
-// 14. saveLayout
+export const AgentToolsClearSchema = z.object({
+  type: z.literal("agentToolsClear"),
+  id: NumericIdSchema,
+});
+
+export const SettingsLoadedSchema = z.object({
+  type: z.literal("settingsLoaded"),
+  soundEnabled: z.boolean(),
+});
+
+export const CharacterSpritesLoadedSchema = z.object({
+  type: z.literal("characterSpritesLoaded"),
+  characters: z.array(z.any()),
+});
+
+export const FloorTilesLoadedSchema = z.object({
+  type: z.literal("floorTilesLoaded"),
+  sprites: z.array(z.any()),
+});
+
+export const WallTilesLoadedSchema = z.object({
+  type: z.literal("wallTilesLoaded"),
+  sprites: z.array(z.any()),
+});
+
+export const FurnitureAssetsLoadedSchema = z.object({
+  type: z.literal("furnitureAssetsLoaded"),
+  catalog: z.array(z.any()),
+  sprites: z.record(z.string(), z.any()),
+});
+
+export const WebviewReadySchema = z.object({
+  type: z.literal("webviewReady"),
+});
+
 export const SaveLayoutSchema = z.object({
-    type: z.literal("saveLayout"),
-    layout: z.any(),
+  type: z.literal("saveLayout"),
+  layout: LayoutSchema.or(z.record(z.string(), z.any())),
 });
 
-// 15. saveAgentSeats
 export const SaveAgentSeatsSchema = z.object({
-    type: z.literal("saveAgentSeats"),
-    seats: z.record(z.string(), z.number()),
+  type: z.literal("saveAgentSeats"),
+  seats: z.record(z.string(), AgentSeatSchema),
 });
 
-export const PixelAgentsEventSchema = z.discriminatedUnion("type", [
-    LayoutLoadedSchema,
-    ExistingAgentsSchema,
-    AgentCreatedSchema,
-    AgentClosedSchema,
-    AgentSelectedSchema,
-    AgentStatusSchema,
-    AgentToolStartSchema,
-    AgentToolDoneSchema,
-    AgentToolPermissionSchema,
-    AgentToolPermissionClearSchema,
-    SubagentToolStartSchema,
-    SubagentToolDoneSchema,
-    SubagentClearSchema,
-    SaveLayoutSchema,
-    SaveAgentSeatsSchema,
-]);
+export const FocusAgentSchema = z.object({
+  type: z.literal("focusAgent"),
+  id: NumericIdSchema,
+});
 
-// Keep this type inference for backward compatibility
+export const CloseAgentSchema = z.object({
+  type: z.literal("closeAgent"),
+  id: NumericIdSchema,
+});
+
+export const OpenClaudeSchema = z.object({
+  type: z.literal("openClaude"),
+});
+
+export const OpenSessionsFolderSchema = z.object({
+  type: z.literal("openSessionsFolder"),
+});
+
+export const ExportLayoutSchema = z.object({
+  type: z.literal("exportLayout"),
+});
+
+export const ImportLayoutSchema = z.object({
+  type: z.literal("importLayout"),
+});
+
+export const SetSoundEnabledSchema = z.object({
+  type: z.literal("setSoundEnabled"),
+  enabled: z.boolean(),
+});
+
+const EVENT_SCHEMA_BY_TYPE = {
+  layoutLoaded: LayoutLoadedSchema,
+  existingAgents: ExistingAgentsSchema,
+  agentCreated: AgentCreatedSchema,
+  agentClosed: AgentClosedSchema,
+  agentSelected: AgentSelectedSchema,
+  agentStatus: AgentStatusSchema,
+  agentToolStart: AgentToolStartSchema,
+  agentToolDone: AgentToolDoneSchema,
+  agentToolPermission: AgentToolPermissionSchema,
+  agentToolPermissionClear: AgentToolPermissionClearSchema,
+  agentToolsClear: AgentToolsClearSchema,
+  subagentToolPermission: SubagentToolPermissionSchema,
+  subagentToolStart: SubagentToolStartSchema,
+  subagentToolDone: SubagentToolDoneSchema,
+  subagentClear: SubagentClearSchema,
+  settingsLoaded: SettingsLoadedSchema,
+  characterSpritesLoaded: CharacterSpritesLoadedSchema,
+  floorTilesLoaded: FloorTilesLoadedSchema,
+  wallTilesLoaded: WallTilesLoadedSchema,
+  furnitureAssetsLoaded: FurnitureAssetsLoadedSchema,
+  webviewReady: WebviewReadySchema,
+  saveLayout: SaveLayoutSchema,
+  saveAgentSeats: SaveAgentSeatsSchema,
+  focusAgent: FocusAgentSchema,
+  closeAgent: CloseAgentSchema,
+  openClaude: OpenClaudeSchema,
+  openSessionsFolder: OpenSessionsFolderSchema,
+  exportLayout: ExportLayoutSchema,
+  importLayout: ImportLayoutSchema,
+  setSoundEnabled: SetSoundEnabledSchema,
+} as const;
+
+const KNOWN_SCHEMAS = Object.values(EVENT_SCHEMA_BY_TYPE);
+
+export const PixelAgentsEventSchema = z.discriminatedUnion(
+  "type",
+  KNOWN_SCHEMAS as [
+    (typeof KNOWN_SCHEMAS)[number],
+    (typeof KNOWN_SCHEMAS)[number],
+    ...(typeof KNOWN_SCHEMAS)[number][],
+  ],
+);
+
 export type PixelAgentsMessage = z.infer<typeof BaseMessageSchema>;
 export type PixelAgentsKnownEvent = z.infer<typeof PixelAgentsEventSchema>;
 
-/**
- * Validates any incoming raw object against the known schema event types.
- * Returns true if the event has passed validation, false if invalid, or undefined if it's an unhandled but generally okay type (fallback passthrough)
- */
 export const validateEventPayload = (payload: unknown): boolean => {
-    const baseParsing = BaseMessageSchema.safeParse(payload);
-    if (!baseParsing.success) {
-        console.warn("[PixelAgents] Received payload without 'type' field:", payload);
-        return false;
-    }
+  const parsed = BaseMessageSchema.safeParse(payload);
+  if (!parsed.success) {
+    console.warn("[PixelAgents] Message missing required type field", payload);
+    return false;
+  }
 
-    const { type } = baseParsing.data;
-    const knownTypes = [
-        "layoutLoaded", "existingAgents", "agentCreated", "agentClosed", "agentSelected",
-        "agentStatus", "agentToolStart", "agentToolDone", "agentToolPermission",
-        "agentToolPermissionClear", "subagentToolStart", "subagentToolDone", "subagentClear",
-        "saveLayout", "saveAgentSeats"
-    ];
-
-    if (knownTypes.includes(type)) {
-        const parseResult = PixelAgentsEventSchema.safeParse(payload);
-        if (!parseResult.success) {
-            console.warn(`[PixelAgents] Discarding invalid payload for event type '${type}':`, parseResult.error.format());
-            return false;
-        }
-    }
-
+  const schema = EVENT_SCHEMA_BY_TYPE[parsed.data.type as keyof typeof EVENT_SCHEMA_BY_TYPE];
+  if (!schema) {
+    // Unknown message types are allowed for forward-compatibility.
     return true;
+  }
+
+  const validated = schema.safeParse(payload);
+  if (!validated.success) {
+    console.warn(
+      `[PixelAgents] Discarding invalid payload for type "${parsed.data.type}"`,
+      validated.error.format(),
+    );
+    return false;
+  }
+
+  return true;
 };

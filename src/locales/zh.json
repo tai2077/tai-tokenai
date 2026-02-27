@@ -4,6 +4,8 @@
         "launch": "发币",
         "trade": "交易",
         "market": "市场",
+        "builder": "构建",
+        "store": "应用中心",
         "profile": "我的"
     },
     "layout": {

@@ -65,6 +65,39 @@ export interface LiveFeedItem {
   avatar?: string;
 }
 
+export interface AppItem {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  url: string;
+  creator: { id: string; name: string };
+  token?: { id: string; symbol: string; price: number };
+  stats: { users: number; dau: number; revenue: number };
+  rating: number;
+  ratingCount: number;
+  reviews: {
+    id?: string;
+    userId?: string;
+    rating: number;
+    comment: string;
+    date?: string;
+  }[];
+  createdAt: string;
+  icon?: string;
+}
+
+export interface CreateAppData {
+  name: string;
+  description: string;
+  category: "lottery" | "vote" | "game" | "tool" | "display" | "other";
+  code: string;
+  subdomain: string;
+  domainType?: "free" | "premium";
+  tokenId?: string;
+  icon?: string;
+}
+
 export interface GlobalData {
   prices: CorePrices;
   addresses: CoreAddresses | null;
@@ -100,6 +133,11 @@ interface StoreState {
   liveFeed: LiveFeedItem[];
   toasts: ToastMessage[];
 
+  // Apps
+  apps: AppItem[];
+  myApps: AppItem[];
+  favoriteApps: string[];
+
   // Global API Data
   globalData: GlobalData;
 
@@ -118,6 +156,14 @@ interface StoreState {
   addToast: (message: string, type?: "success" | "error" | "info") => void;
   removeToast: (id: string) => void;
   addFeedEvent: (text: string, type: LiveFeedType) => void;
+
+  // App Actions
+  fetchApps: (params?: { category?: string; sort?: string; page?: number; limit?: number }) => Promise<void>;
+  searchApps: (query: string) => Promise<AppItem[]>;
+  fetchAppDetail: (id: string) => Promise<AppItem | null>;
+  createApp: (data: CreateAppData) => Promise<AppItem>;
+  favoriteApp: (id: string) => void;
+  unfavoriteApp: (id: string) => void;
 }
 
 const initialMarketTokens: Token[] = [
@@ -326,6 +372,25 @@ const normalizeVestingStatus = (value: unknown): VestingStatus | null => {
   };
 };
 
+const buildQuery = (params: Record<string, string | number | undefined>): string => {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === "") return;
+    query.set(key, String(value));
+  });
+  const encoded = query.toString();
+  return encoded ? `?${encoded}` : "";
+};
+
+const requestJson = async <T>(url: string, init?: RequestInit): Promise<T> => {
+  const response = await fetch(url, init);
+  const payload = (await response.json().catch(() => ({}))) as T & { error?: string };
+  if (!response.ok) {
+    throw new Error(payload?.error || `Request failed: ${response.status}`);
+  }
+  return payload;
+};
+
 export const useStore = create<StoreState>((set, get) => ({
   mainWallet: {
     address: null,
@@ -421,6 +486,9 @@ export const useStore = create<StoreState>((set, get) => ({
     },
   ],
   toasts: [],
+  apps: [],
+  myApps: [],
+  favoriteApps: [],
 
   globalData: {
     prices: { tai: 1.45, btc: 64230, eth: 3450 },
@@ -603,4 +671,83 @@ export const useStore = create<StoreState>((set, get) => ({
       ),
     }));
   },
+
+  fetchApps: async (params) => {
+    try {
+      const query = buildQuery({
+        category: params?.category || "all",
+        sort: params?.sort || "hot",
+        page: params?.page || 1,
+        limit: params?.limit || 20,
+      });
+      const payload = await requestJson<{ apps: AppItem[] }>(`/api/apps${query}`);
+      const apps = payload.apps || [];
+      set({
+        apps,
+        myApps: apps.filter((app) => app.creator.id === "me" || app.creator.id === "CURRENT_USER"),
+      });
+    } catch (error) {
+      console.error("fetchApps failed", error);
+      get().addToast("应用列表加载失败", "error");
+    }
+  },
+
+  searchApps: async (query) => {
+    if (!query.trim()) return get().apps;
+    try {
+      const payload = await requestJson<{ apps: AppItem[] }>(
+        `/api/apps/search${buildQuery({ q: query.trim() })}`,
+      );
+      return payload.apps || [];
+    } catch (error) {
+      console.error("searchApps failed", error);
+      get().addToast("搜索失败", "error");
+      return [];
+    }
+  },
+
+  fetchAppDetail: async (id) => {
+    try {
+      const app = await requestJson<AppItem>(`/api/app/${encodeURIComponent(id)}`);
+      set((state) => {
+        const others = state.apps.filter((item) => item.id !== app.id);
+        return { apps: [app, ...others] };
+      });
+      return app;
+    } catch (error) {
+      console.error("fetchAppDetail failed", error);
+      return null;
+    }
+  },
+
+  createApp: async (data) => {
+    const payload = await requestJson<{
+      appId: string;
+      url: string;
+      app?: AppItem;
+    }>("/api/app/publish", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const created = payload.app || (await get().fetchAppDetail(payload.appId));
+    if (!created) {
+      throw new Error("发布成功，但无法读取应用详情");
+    }
+
+    set((state) => {
+      const apps = [created, ...state.apps.filter((item) => item.id !== created.id)];
+      const myApps = [created, ...state.myApps.filter((item) => item.id !== created.id)];
+      return { apps, myApps };
+    });
+    get().addToast("应用发布成功！", "success");
+    return created;
+  },
+
+  favoriteApp: (id) =>
+    set((state) => ({ favoriteApps: [...new Set([...state.favoriteApps, id])] })),
+
+  unfavoriteApp: (id) =>
+    set((state) => ({ favoriteApps: state.favoriteApps.filter((fid) => fid !== id) })),
 }));

@@ -15,7 +15,7 @@ Evaluate the `/ops` module replacement and verify UI/UX 1:1 parity with the Pixe
 
 ### Routing & Next.js Host Integration
 *   **Result:** PASSED
-*   **Notes:** Ensured standard React lifecycle `isMounted` triggers and that NextJS SSR (Server-Side Rendering) does not panic. The `Ops.tsx` encapsulates the `MockHost` and `PixelOfficeApp` purely via client boundaries.
+*   **Notes:** Ensured standard React lifecycle `isMounted` triggers and that NextJS SSR (Server-Side Rendering) does not panic. `/ops` is controlled by `PIXEL_OPS_ENABLED` in `app/ops/page.tsx` and safely redirects to `/c2c/office` when enabled, while retaining the legacy Ops UI when disabled.
 
 ### Features
 *   [x] Furniture Placement Validity (Wall Mounts vs Floor)

@@ -3,6 +3,11 @@ import {
   subscribeOutboundMessages,
   type PixelAgentsMessage,
 } from "./events";
+import type { OfficeLayout } from "../office/types";
+import {
+  createDefaultLayout,
+  deserializeLayout,
+} from "../office/layout/layoutSerializer";
 
 interface MockHostAdapterOptions {
   preloadedPath?: string | undefined;
@@ -16,19 +21,43 @@ interface PixelHostAdapter {
   stop: () => void;
 }
 
-const DEFAULT_LAYOUT = {
-  version: 1,
-  cols: 20,
-  rows: 20,
-  tiles: Array(20 * 20).fill(0),
-  tileColors: Array(20 * 20).fill(null),
-  furniture: [],
+interface PreloadedAssetsPayload {
+  characters?: unknown;
+  floors?: unknown;
+  walls?: unknown;
+  furnitureCatalog?: unknown;
+  furnitureSprites?: unknown;
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null;
+
+const toParsedLayout = (value: unknown): OfficeLayout | null => {
+  if (!isRecord(value)) {
+    return null;
+  }
+  try {
+    return deserializeLayout(JSON.stringify(value));
+  } catch {
+    return null;
+  }
+};
+
+const readLayoutFromStorage = (layoutStorageKey: string): OfficeLayout => {
+  const saved = window.localStorage.getItem(layoutStorageKey);
+  if (!saved) {
+    return createDefaultLayout();
+  }
+
+  const parsed = deserializeLayout(saved);
+  return parsed ?? createDefaultLayout();
 };
 
 export const createMockHostAdapter = (
   options: MockHostAdapterOptions = {},
 ): PixelHostAdapter => {
-  const preloadedPath = options.preloadedPath ?? "/pixel-agents/preloaded.json";
+  const preloadedPath =
+    options.preloadedPath ?? "/pixel-agents/preloaded/preloaded.json";
   const layoutStorageKey = options.layoutStorageKey ?? "pixel-agents-layout";
   const seatsStorageKey = options.seatsStorageKey ?? "pixel-agents-seats";
   const bootstrapDemoAgent = options.bootstrapDemoAgent ?? true;
@@ -38,24 +67,39 @@ export const createMockHostAdapter = (
   let channel: BroadcastChannel | null = null;
 
   const boot = async (): Promise<void> => {
-    const response = await fetch(preloadedPath);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${preloadedPath}`);
+    let preloadedData: PreloadedAssetsPayload = {};
+    const response = await fetch(preloadedPath).catch(() => null);
+    if (!response?.ok) {
+      console.warn(
+        `[MockHostAdapter] Unable to load preloaded payload from ${preloadedPath}, using defaults.`,
+      );
+    } else {
+      preloadedData = (await response.json().catch(() => ({}))) as PreloadedAssetsPayload;
     }
 
-    const data = await response.json();
     postInboundMessage({ type: "settingsLoaded", soundEnabled: false });
-    postInboundMessage({ type: "characterSpritesLoaded", characters: data.characters });
-    postInboundMessage({ type: "floorTilesLoaded", sprites: data.floors });
-    postInboundMessage({ type: "wallTilesLoaded", sprites: data.walls });
-    postInboundMessage({
-      type: "furnitureAssetsLoaded",
-      catalog: data.furnitureCatalog,
-      sprites: data.furnitureSprites,
-    });
 
-    const saved = window.localStorage.getItem(layoutStorageKey);
-    const layout = saved ? JSON.parse(saved) : DEFAULT_LAYOUT;
+    if (Array.isArray(preloadedData.characters)) {
+      postInboundMessage({ type: "characterSpritesLoaded", characters: preloadedData.characters });
+    }
+    if (Array.isArray(preloadedData.floors)) {
+      postInboundMessage({ type: "floorTilesLoaded", sprites: preloadedData.floors });
+    }
+    if (Array.isArray(preloadedData.walls)) {
+      postInboundMessage({ type: "wallTilesLoaded", sprites: preloadedData.walls });
+    }
+    if (
+      Array.isArray(preloadedData.furnitureCatalog) &&
+      isRecord(preloadedData.furnitureSprites)
+    ) {
+      postInboundMessage({
+        type: "furnitureAssetsLoaded",
+        catalog: preloadedData.furnitureCatalog,
+        sprites: preloadedData.furnitureSprites,
+      });
+    }
+
+    const layout = readLayoutFromStorage(layoutStorageKey);
     postInboundMessage({ type: "layoutLoaded", layout });
 
     // Also load seats if any
@@ -125,7 +169,11 @@ export const createMockHostAdapter = (
       channel = new BroadcastChannel("pixel-agents-sync");
       channel.onmessage = (event) => {
         if (event.data?.type === "layoutUpdated" && event.data?.layout) {
-          postInboundMessage({ type: "layoutLoaded", layout: event.data.layout });
+          const parsedLayout = toParsedLayout(event.data.layout);
+          postInboundMessage({
+            type: "layoutLoaded",
+            layout: parsedLayout ?? createDefaultLayout(),
+          });
         }
       };
 

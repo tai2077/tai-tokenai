@@ -4,6 +4,8 @@
         "launch": "LAUNCH",
         "trade": "TRADE",
         "market": "MARKET",
+        "builder": "BUILD",
+        "store": "STORE",
         "profile": "PROFILE"
     },
     "layout": {

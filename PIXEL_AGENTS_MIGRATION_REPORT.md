@@ -30,7 +30,7 @@ This report documents the 1:1 migration and upgrade of the combat module (`/ops`
 - Upgraded layout serialization/deserialization to be both forward and backward compatible with Legacy JSON layouts (converting old IDs to properly colored tiles).
 
 ### 6. Persistence & Feature Flags
-- `PIXEL_OPS_ENABLED` toggle was injected into `src/pages/Ops.tsx` allowing zero-downtime, safe phased rollouts. The old system is maintained alongside the new until a full cutover is confirmed.
+- `PIXEL_OPS_ENABLED` toggle is enforced at `app/ops/page.tsx`: when enabled, `/ops` redirects to `/c2c/office`; when disabled, `/ops` serves the legacy Ops dashboard.
 - Replaced non-existent `vscode` APIs with real `localStorage` saving implementations and added a `BroadcastChannel` to automatically sync layout and seating changes across multiple active browser tabs.
 
 ## Conclusion

@@ -12,6 +12,8 @@ import {
   Globe,
   Wifi,
   WifiOff,
+  Wand2,
+  Store,
 } from "lucide-react";
 import ToastContainer from "./Toast";
 import WalletButton from "./WalletButton";
@@ -56,13 +58,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { path: "/market", label: t("nav.market"), icon: <LineChart className="w-5 h-5" /> },
+    { path: "/builder", label: t("nav.builder"), icon: <Wand2 className="w-5 h-5" /> },
+    { path: "/store", label: t("nav.store"), icon: <Store className="w-5 h-5" /> },
     { path: "/ops", label: t("nav.dashboard"), icon: <Terminal className="w-5 h-5" /> },
     { path: "/launch", label: t("nav.launch"), icon: <Rocket className="w-5 h-5" /> },
     { path: "/trade", label: t("nav.trade"), icon: <Bot className="w-5 h-5" /> },
     { path: "/profile", label: t("nav.profile"), icon: <User className="w-5 h-5" /> },
   ];
 
-  const canonicalPathname = pathname === "/ops-center" ? "/ops" : pathname;
+  const canonicalPathname =
+    pathname === "/ops-center" || pathname.startsWith("/c2c/office")
+      ? "/ops"
+      : pathname;
 
   return (
     <div className="min-h-screen bg-[color:var(--color-bg)] bg-grid-pattern text-[color:var(--color-text-primary)] font-vt crt relative selection:bg-[#00FF41] selection:text-black pb-20">
